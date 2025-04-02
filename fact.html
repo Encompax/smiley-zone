@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head><title>Historical Fact</title></head>
+<body style="background-color: #e0e0e0; font-family: monospace; text-align: center;">
+  <h2>Random Historical Fact</h2>
+  <script>
+    const facts = [
+      "The Great Fire of London occurred in 1666.",
+      "The first email was sent in 1971.",
+      "Julius Caesar was assassinated in 44 BCE.",
+      "The Berlin Wall fell in 1989.",
+      "Cleopatra lived closer in time to the moon landing than to the construction of the pyramids."
+    ];
+    const randomFact = facts[Math.floor(Math.random() * facts.length)];
+    document.write('<p>' + randomFact + '</p>');
+  </script>
+</body>
+</html>
