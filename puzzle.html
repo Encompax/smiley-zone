@@ -1,164 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Smiley Zone Puzzle</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Puzzle Challenge</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
   <style>
-    body {
-      background-color: #fff8f0;
-      font-family: Arial, sans-serif;
+    .puzzle-container {
+      background: var(--card);
+      padding: 2rem;
+      border-radius: 2rem;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      max-width: 600px;
+      margin: 2rem auto;
       text-align: center;
     }
-    h1 {
-      margin-top: 20px;
+    .puzzle-container h2 {
+      margin-bottom: 1rem;
+      color: var(--primary);
     }
-    .controls {
-      margin-bottom: 10px;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(4, 100px);
-      grid-gap: 10px;
-      justify-content: center;
-      margin: 20px auto;
-    }
-    .card {
-      width: 100px;
-      height: 100px;
-      background-color: #ccc;
+    .puzzle-box {
       display: flex;
-      align-items: center;
       justify-content: center;
-      cursor: pointer;
-      font-size: 14px;
-      padding: 5px;
-      text-align: center;
+      align-items: center;
+      margin: 1rem auto;
+      font-size: 2rem;
+      background: #f4f4f4;
+      border-radius: 1rem;
+      padding: 1rem;
     }
-    .matched {
-      background-color: #aaffaa;
-      cursor: default;
+    button {
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      background-color: var(--primary);
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background-color: #0099e6;
     }
   </style>
 </head>
 <body>
-  <h1>TV Trivia Memory Puzzle</h1>
-  <div class="controls">
-    <label for="packSelector">Choose a Show:</label>
-    <select id="packSelector">
-      <option value="sunny">It's Always Sunny</option>
-      <option value="itysl">I Think You Should Leave</option>
-      <option value="30rock">30 Rock</option>
-      <option value="kimmy">Unbreakable Kimmy Schmidt</option>
-      <option value="nathan">Nathan For You</option>
-    </select>
-    <button onclick="startGame()">Start Game</button>
-    <p><a href="index.html">🏠 Home</a></p>
+  <h1>🧩 Puzzle Challenge</h1>
+  <div class="puzzle-container">
+    <h2>Solve Me If You Can!</h2>
+    <div class="puzzle-box" id="puzzleBox">_ _ _ _</div>
+    <button onclick="revealAnswer()">Reveal Answer</button>
   </div>
-  <div class="grid" id="gameGrid"></div>
 
   <script>
-    const triviaPacks = {
-      sunny: [
-        ["Who is the Golden God?", "Dennis"],
-        ["What does Charlie use to write music?", "A keyboard with no electricity"],
-        ["What's Frank's favorite activity?", "Rum Ham"],
-        ["Mac's real name?", "Ronald McDonald"]
-      ],
-      itysl: [
-        ["What sketch features a hot dog suit?", "Crashed car scene"],
-        ["What's the TC Tuggers slogan?", "Not a joke, it's a lifestyle"],
-        ["Why can't he skip lunch?", "He'll rip his shirt"],
-        ["Who eats the receipt?", "Dan Vega"]
-      ],
-      "30rock": [
-        ["What's Liz Lemon's favorite food?", "Cheese"],
-        ["Who is Jack Donaghy?", "GE executive"],
-        ["What does Tracy Jordan always say?", "Live every week like it's Shark Week"],
-        ["Kenneth's secret?", "He's immortal"]
-      ],
-      kimmy: [
-        ["Where was Kimmy kept?", "Underground bunker"],
-        ["Who is Titus?", "Her flamboyant roommate"],
-        ["What is the Reverend's fake name?", "Richard Wayne Gary Wayne"],
-        ["Kimmy's catchphrase?", "Hashbrown no filter"]
-      ],
-      nathan: [
-        ["What's Nathan's business idea style?", "Over-the-top"],
-        ["What show uses \"Dumb Starbucks\"?", "Nathan For You"],
-        ["Nathan's personality on-screen?", "Awkward and serious"],
-        ["Who is Brian Wolfe?", "Private investigator"]
-      ]
-    };
-
-    let firstCard = null;
-    let secondCard = null;
-    let lockBoard = false;
-
-    function shuffle(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-    }
-
-    function startGame() {
-      const packName = document.getElementById('packSelector').value;
-      let data = triviaPacks[packName];
-      const cards = [];
-
-      data.forEach(([q, a], i) => {
-        cards.push({ id: i, text: q });
-        cards.push({ id: i, text: a });
-      });
-
-      shuffle(cards);
-
-      const grid = document.getElementById('gameGrid');
-      grid.innerHTML = '';
-
-      cards.forEach((card, index) => {
-        const div = document.createElement('div');
-        div.className = 'card';
-        div.dataset.id = card.id;
-        div.dataset.index = index;
-        div.innerText = '';
-        div.onclick = () => flipCard(div, card.text);
-        grid.appendChild(div);
-      });
-    }
-
-    function flipCard(cardElement, text) {
-      if (lockBoard || cardElement.classList.contains('matched')) return;
-
-      cardElement.innerText = text;
-      cardElement.style.backgroundColor = '#ffeeaa';
-
-      if (!firstCard) {
-        firstCard = cardElement;
-        return;
-      }
-
-      secondCard = cardElement;
-      lockBoard = true;
-
-      if (firstCard.dataset.id === secondCard.dataset.id && firstCard !== secondCard) {
-        firstCard.classList.add('matched');
-        secondCard.classList.add('matched');
-        resetBoard();
-      } else {
-        setTimeout(() => {
-          firstCard.innerText = '';
-          secondCard.innerText = '';
-          firstCard.style.backgroundColor = '#ccc';
-          secondCard.style.backgroundColor = '#ccc';
-          resetBoard();
-        }, 1000);
-      }
-    }
-
-    function resetBoard() {
-      [firstCard, secondCard] = [null, null];
-      lockBoard = false;
+    function revealAnswer() {
+      document.getElementById('puzzleBox').innerText = 'L I F E';
     }
   </script>
 </body>
