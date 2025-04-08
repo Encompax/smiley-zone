@@ -1,19 +1,18 @@
 <!DOCTYPE html>
-<html>
-<head><title>Historical Fact</title></head>
-<body style="background-color: #e0e0e0; font-family: monospace; text-align: center;">
-  <p><a href="index.html">🏠 Home</a></p>
-  <h2>Random Historical Fact</h2>
-  <script>
-    const facts = [
-      "The Great Fire of London occurred in 1666.",
-      "The first email was sent in 1971.",
-      "Julius Caesar was assassinated in 44 BCE.",
-      "The Berlin Wall fell in 1989.",
-      "Cleopatra lived closer in time to the moon landing than to the construction of the pyramids."
-    ];
-    const randomFact = facts[Math.floor(Math.random() * facts.length)];
-    document.write('<p>' + randomFact + '</p>');
-  </script>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Random Historical Fact</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body style="font-family: Arial; text-align: center; padding: 2rem;">
+
+  <h1>🕰️ Random Historical Fact Generator</h1>
+
+  <img id="fact-image" src="" alt="Historical visual" style="max-width: 600px; width: 100%; border-radius: 8px; margin-top: 20px;">
+  <p id="fact-text" style="font-size: 1.2rem; padding: 1rem;"></p>
+  <button onclick="displayRandomFact()">Show Me a Fact</button>
+
+  <script src="script.js"></script>
 </body>
 </html>
