@@ -60,7 +60,7 @@
 
     function initGame() {
       snake = [{ x: 200, y: 200 }];
-      direction = { x: 0, y: 0 };
+      direction = { x: tileSize, y: 0 }; // <-- Set initial movement to the right
       score = 0;
       spawnFood();
       document.getElementById('scoreboard').innerText = `Score: ${score}`;
