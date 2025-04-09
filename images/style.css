@@ -75,9 +75,59 @@
   .game-card a:hover {
     background: #0099e6;
   }
+  button {
+    font-size: 1rem;
+    padding: 0.5rem 1.2rem;
+    border: 2px solid royalblue;
+    border-radius: 0.5rem;
+    background-color: var(--primary);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease, border 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #0099e6;
+    border-color: #0033cc;
+  }
+  input[type="text"] {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--primary);
+    border-radius: 0.5rem;
+    outline: none;
+    font-family: 'Baloo 2', cursive;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #ffffff;
+    color: var(--text);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  input[type="text"]:focus {
+    border-color: royalblue;
+    box-shadow: 0 0 8px rgba(65, 105, 225, 0.5);
+  }
+  input::placeholder {
+    color: #aaa;
+    font-style: italic;
+  }
+  input[type="text"].error {
+    border-color: red;
+    box-shadow: 0 0 6px rgba(255, 0, 0, 0.5);
+    animation: shake 0.3s ease;
+  }    
   
   footer {
     margin-top: 3rem;
     font-size: 0.9rem;
     color: #888;
   }
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+  }
+  
