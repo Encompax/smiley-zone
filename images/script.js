@@ -44,7 +44,10 @@ const facts = [
          },
     // Add more here
   ];
-  
+  const canvas = document.getElementById('gameCanvas');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
   function displayRandomFact() {
     const randomFactIndex = Math.floor(Math.random() * facts.length);
     const selectedFact = facts[randomFactIndex];
@@ -54,5 +57,10 @@ const facts = [
     document.getElementById('fact-text').textContent = selectedFact.fact;
     document.getElementById('fact-image').src = selectedFact.images[imageIndex];
   }
+  // Optional but reinforces locking behavior
+document.body.addEventListener('touchmove', function(e) {
+  e.preventDefault();
+}, { passive: false });
+
   
   
