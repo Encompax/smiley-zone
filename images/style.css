@@ -128,8 +128,8 @@
     display: block;
     margin: 0 auto;
     background-color: black;
-    width: 100vw;
-    height: 50vh;
+    width: 75vw;
+    height: 75vh;
     touch-action: none;
   }
   
