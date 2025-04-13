@@ -1,21 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Random Historical Fact</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smiley-Zone Arcade – Puzzle & Facts</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(to bottom, #fefbd8, #d9faff);
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: red;
+      text-shadow: 2px 2px lightblue;
+    }
+
+    .nav-button {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #ffcc00;
+      color: #000;
+      border: 3px solid #0099cc;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .nav-button:hover {
+      background-color: #fff176;
+      transform: scale(1.1);
+    }
+
+    .game-section {
+      display: none;
+      margin-top: 30px;
+    }
+
+    #factDisplay {
+      font-size: 22px;
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #fff9c4;
+      border: 2px solid #ffd54f;
+      border-radius: 10px;
+      display: inline-block;
+      max-width: 90%;
+    }
+
+    .puzzle-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 80px);
+      gap: 5px;
+      justify-content: center;
+    }
+
+    .puzzle-piece {
+      width: 80px;
+      height: 80px;
+      background-color: #90caf9;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #0d47a1;
+      cursor: pointer;
+    }
+  </style>
 </head>
-<body style="font-family: Arial; text-align: center; padding: 2rem;">
+<body>
 
-  <h1>🕰️ Random Historical Fact Generator</h1>
-  <p><a href="index.html">🏠 Home</a></p>
-  <img id="fact-image" src="" alt="Historical visual" style="max-width: 600px; width: 100%; border-radius: 8px; margin-top: 20px;">
-  <p id="fact-text" style="font-size: 1.2rem; padding: 1rem;"></p>
-  <button onclick="displayRandomFact()">Show Me a Fact</button>
-<link rel="stylesheet" href="images/style.css">
+  <h1>Smiley-Zone Arcade</h1>
+  <a href="index.html" class="nav-button">Return to Home</a>
 
-  <link rel="stylesheet" href="images/style.css"> 
-  <script src="images/script.js"></script>
+  <!-- Puzzle Game Section -->
+  <div id="puzzleSection" class="game-section">
+    <h2>Puzzle Game</h2>
+    <div class="puzzle-grid" id="puzzleGrid"></div>
+  </div>
+
+  <!-- Historical Fact Section -->
+  <div id="factSection" class="game-section">
+    <h2>Random Historical Fact</h2>
+    <button class="nav-button" onclick="generateFact()">Get a New Fact</button>
+    <div id="factDisplay">Press the button to reveal a historical fact!</div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("puzzle") === "true") {
+        document.getElementById("puzzleSection").style.display = "block";
+        loadPuzzle();
+      } else if (params.get("fact") === "true") {
+        document.getElementById("factSection").style.display = "block";
+      }
+    });
+
+    // Random Fact Logic
+    const facts = [
+      "Winston Churchill was once hit by a car in New York and apologized to the driver.",
+      "Ancient Egyptians used slabs of stone as pillows.",
+      "Napoleon was once attacked by a horde of bunnies during a hunting trip.",
+      "The Terracotta Army was discovered by farmers digging a well in 1974.",
+      "During the Victorian era, people used to take photos with their deceased relatives.",
+      "The Eiffel Tower can grow up to 6 inches taller in summer due to metal expansion."
+    ];
+
+    function generateFact() {
+      const randomIndex = Math.floor(Math.random() * facts.length);
+      document.getElementById("factDisplay").textContent = facts[randomIndex];
+    }
+
+    // Puzzle Game Logic (Basic Sliding Puzzle)
+    function loadPuzzle() {
+      const puzzleGrid = document.getElementById("puzzleGrid");
+      puzzleGrid.innerHTML = "";
+      const pieces = [1, 2, 3, 4, 5, 6, 7, 8, ""];
+      pieces.sort(() => Math.random() - 0.5);
+
+      pieces.forEach((value, index) => {
+        const div = document.createElement("div");
+        div.classList.add("puzzle-piece");
+        div.textContent = value;
+        div.dataset.index = index;
+        div.addEventListener("click", () => handleMove(index));
+        puzzleGrid.appendChild(div);
+      });
+    }
+
+    function handleMove(index) {
+      const puzzleGrid = document.getElementById("puzzleGrid");
+      const pieces = Array.from(puzzleGrid.children);
+      const emptyIndex = pieces.findIndex(piece => piece.textContent === "");
+
+      const validMoves = [
+        emptyIndex - 1, emptyIndex + 1,
+        emptyIndex - 3, emptyIndex + 3
+      ];
+
+      if (validMoves.includes(index)) {
+        const temp = pieces[emptyIndex].textContent;
+        pieces[emptyIndex].textContent = pieces[index].textContent;
+        pieces[index].textContent = temp;
+      }
+    }
+  </script>
 
 </body>
 </html>
+
