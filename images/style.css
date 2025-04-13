@@ -128,7 +128,7 @@
     display: block;
     margin: 0 auto;
     background-color: black;
-    width: 50vw;
+    width: 100vw;
     height: 50vh;
     touch-action: none;
   }
