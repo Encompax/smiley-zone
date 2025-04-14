@@ -22,14 +22,23 @@ function routeChangeHandler() {
   }
 }
 
-function loadGame(gameName) {
-  fetch(`games/${gameName}.html`)
+window.addEventListener("hashchange", loadGame);
+
+function loadGame() {
+  const page = window.location.hash.substring(1);  // gets the name after #
+  fetch(`games/${page}.html`)
     .then(response => response.text())
     .then(html => {
       document.getElementById("gameContainer").innerHTML = html;
-      const script = document.createElement('script');
-      script.src = `scripts/games/${gameName}.js`;
-      script.defer = true;
-      document.body.appendChild(script);
+      if (page !== "index") {
+        loadScript(`scripts/games/${page}.js`);
+      }
     });
+}
+
+function loadScript(url) {
+  const script = document.createElement("script");
+  script.src = url;
+  document.body.appendChild(script);
+
 }
