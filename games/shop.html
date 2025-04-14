@@ -1,0 +1,27 @@
+
+<h2>Arcade Shop</h2>
+<p style="text-align:center;">Spend your tokens to unlock new content and customize your arcade experience!</p>
+<div style="max-width: 600px; margin: 0 auto;">
+  <p><strong>Your Tokens:</strong> <span id="shopTokenBalance">0</span></p>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px;">
+    <div style="border: 2px solid #0099cc; border-radius: 10px; padding: 10px; text-align: center;">
+      <h4>Bonus Theme</h4>
+      <p>Unlock a special arcade theme.</p>
+      <button onclick="purchaseItem('theme', 30)">Unlock (30 Tokens)</button>
+      <p id="itemStatus-theme"></p>
+    </div>
+    <div style="border: 2px solid #0099cc; border-radius: 10px; padding: 10px; text-align: center;">
+      <h4>Golden Snake Mode</h4>
+      <p>Unlock bonus snake variant.</p>
+      <button onclick="purchaseItem('snake', 50)">Unlock (50 Tokens)</button>
+      <p id="itemStatus-snake"></p>
+    </div>
+    <div style="border: 2px solid #0099cc; border-radius: 10px; padding: 10px; text-align: center;">
+      <h4>Custom Avatar</h4>
+      <p>Upload a custom profile picture.</p>
+      <button onclick="purchaseItem('avatar', 20)">Unlock (20 Tokens)</button>
+      <p id="itemStatus-avatar"></p>
+    </div>
+  </div>
+</div>

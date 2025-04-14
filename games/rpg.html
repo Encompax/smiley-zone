@@ -1,0 +1,24 @@
+
+<h2>Mini RPG: Escape from Nevada</h2>
+<p style="max-width: 600px; margin: 0 auto;">
+You are Zarnok, a peaceful interdimensional researcher from the Virellian System.
+While on a survey mission, your ship crash-landed in Nevada. Hostile government agents have surrounded your crash site. 
+Fight your way out before they capture your technology!
+</p>
+<div id="rpgBattlefield" style="display: flex; justify-content: center; gap: 40px; margin-top: 30px;">
+  <div id="alienStatus" style="text-align: center;">
+    <img src="images/alien-hero.png" alt="Alien Hero" width="120" /><br>
+    <strong>Zarnok</strong><br>
+    HP: <span id="alienHP">100</span>
+  </div>
+  <div id="agentStatus" style="text-align: center;">
+    <img src="images/agent-villain.png" alt="Agent" width="120" /><br>
+    <strong>Agent Ross</strong><br>
+    HP: <span id="agentHP">100</span>
+  </div>
+</div>
+<div style="text-align: center; margin-top: 30px;">
+  <button onclick="attackAgent()" style="padding: 10px 20px;">Plasma Pulse</button>
+  <button onclick="healAlien()" style="padding: 10px 20px;">Quantum Recalibration</button>
+</div>
+<p id="battleLog" style="text-align: center; margin-top: 20px; font-size: 18px;"></p>

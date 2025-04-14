@@ -1,46 +1,84 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smiley-Zone Arcade!</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smiley-Zone Arcade</title>
   <style>
     body {
       font-family: 'Comic Sans MS', cursive, sans-serif;
       background: linear-gradient(to bottom, #e6f7ff, #b3e5fc);
       text-align: center;
-      padding-top: 50px;
+      padding: 30px 10px;
       margin: 0;
     }
+
     h1 {
-      font-size: 36px;
       color: red;
       text-shadow: 2px 2px lightblue;
+      margin-bottom: 30px;
     }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
     .nav-button {
       display: inline-block;
-      margin: 15px;
-      padding: 15px 25px;
-      font-size: 20px;
+      padding: 15px;
+      font-size: 18px;
       background-color: #ffcc00;
       color: #000;
       border: 3px solid #0099cc;
-      border-radius: 15px;
+      border-radius: 12px;
       text-decoration: none;
       transition: all 0.3s ease-in-out;
     }
+
     .nav-button:hover {
       background-color: #fff176;
-      transform: scale(1.1);
+      transform: scale(1.05);
+    }
+
+    #gameContainer {
+      margin-top: 30px;
     }
   </style>
 </head>
 <body>
   <h1>Smiley-Zone Arcade!</h1>
+  <div class="grid">
+    <a href="#admin" class="nav-button">Admin Dashboard</a>
+    <a href="#user" class="nav-button">User Profile & Leaderboard</a>
+    <a href="#snake" class="nav-button">Snake</a>
+    <a href="#puzzle" class="nav-button">Puzzle</a>
+    <a href="#fact" class="nav-button">Random Fact</a>
+    <a href="#memory" class="nav-button">Memory Flip</a>
+    <a href="#rps" class="nav-button">Rock, Paper, Scissors</a>
+    <a href="#whack" class="nav-button">Whack-a-Mole</a>
+    <a href="#breakout" class="nav-button">Breakout</a>
+    <a href="#2048" class="nav-button">2048</a>
+    <a href="#minesweeper" class="nav-button">Minesweeper</a>
+    <a href="#simon" class="nav-button">Simon Says</a>
+    <a href="#jumper" class="nav-button">Platform Jumper</a>
+    <a href="#chess" class="nav-button">Chess</a>
+    <a href="#tetris" class="nav-button">Tetris</a>
+    <a href="#rpg" class="nav-button">RPG Battle</a>
+    <a href="#maze" class="nav-button">Arcade Maze</a>
+    <a href="#tictactoe" class="nav-button">Tic-Tac-Toe</a>
+  </div>
 
-  <a class="nav-button" href="snake.html">Play Snake Game</a>
-  <a class="nav-button" href="puzzle.html">Play Puzzle Game</a>
-  <a class="nav-button" href="fact.html">Random Historical Fact Generator</a>
+  <div id="gameContainer">
+    <h2>Welcome to Smiley-Zone Arcade!</h2>
+    <p>Select a game above to begin.</p>
+  </div>
 
+  <script src="scripts/router.js"></script>
 </body>
 </html>
+
