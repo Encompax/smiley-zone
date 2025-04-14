@@ -16,6 +16,33 @@ canvas.addEventListener("touchmove", moveTouch, false);
 
 let xStart = null;
 let yStart = null;
+let game = null; // Declare this at the top globally
+
+function startGame() {
+  document.getElementById("startBtn").style.display = "none";
+  resetGame();
+  game = setInterval(draw, 100);  // Restart the game loop
+}
+
+function resetGame() {
+  snake = [{ x: 9 * box, y: 10 * box }]; // Reset snake to initial state
+  direction = "RIGHT";
+  food = {
+    x: Math.floor(Math.random() * 19 + 1) * box,
+    y: Math.floor(Math.random() * 19 + 1) * box
+  };
+}
+
+function gameOver() {
+  clearInterval(game);
+  alert("Game Over!");
+  showStartButton();
+}
+
+function showStartButton() {
+  document.getElementById("startBtn").style.display = "inline-block";
+}
+
 
 function startTouch(e) {
   xStart = e.touches[0].clientX;
@@ -80,15 +107,10 @@ function draw() {
 
   const newHead = { x: headX, y: headY };
 
-  if (
-    headX < 0 || headX >= canvas.width ||
-    headY < 0 || headY >= canvas.height ||
-    collision(newHead, snake)
-  ) {
-    clearInterval(game);
-    alert("Game Over!");
-    location.reload();
+  if (headX < 0 || headX >= canvas.width || headY < 0 || headY >= canvas.height || collision(newHead, snake)) {
+    gameOver();
   }
+  
 
   snake.unshift(newHead);
 }
