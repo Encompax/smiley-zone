@@ -1,13 +1,13 @@
 
 // puzzle.js
 
-let currentLevel = 3; // Start with 3x3 puzzle
-let board = [];
+let puzzleBoard = [];
+let puzzleCurrentLevel = 3;
 
 // Initialize the game
 function startNewGame(size) {
-    board = generateBoard(size);
-    renderBoard(board, size);
+    puzzleBoard = generateBoard(size);
+    renderBoard(puzzleBoard, size);
     renderLeaderboard();
 }
 
@@ -24,13 +24,13 @@ function generateBoard(size) {
     return numbers;
 }
 
-function renderBoard(board, size) {
+function renderBoard(puzzleBoard, size) {
     const gameArea = document.getElementById('game-area');
     gameArea.innerHTML = '';
 
     gameArea.style.gridTemplateColumns = `repeat(${size}, 50px)`;
 
-    board.forEach((num, idx) => {
+    puzzleBoard.forEach((num, idx) => {
         const tile = document.createElement('div');
         tile.classList.add('tile');
         tile.textContent = num || '';
@@ -40,8 +40,8 @@ function renderBoard(board, size) {
 }
 
 function moveTile(index) {
-    const size = Math.sqrt(board.length);
-    const emptyIndex = board.indexOf(null);
+    const size = Math.sqrt(puzzleBoard.length);
+    const emptyIndex = puzzleBoard.indexOf(null);
 
     const validMoves = [
         emptyIndex - size, // up
@@ -51,21 +51,21 @@ function moveTile(index) {
     ];
 
     if (validMoves.includes(index)) {
-        [board[index], board[emptyIndex]] = [board[emptyIndex], board[index]];
-        renderBoard(board, size);
+        [puzzleBoard[index], puzzleBoard[emptyIndex]] = [puzzleBoard[emptyIndex], puzzleBoard[index]];
+        renderBoard(puzzleBoard, size);
 
-        if (isPuzzleComplete(board)) {
+        if (isPuzzleComplete(puzzleBoard)) {
             let playerName = prompt("Congratulations! Enter your name:");
-            updateLeaderboard(playerName, currentLevel - 2);
-            currentLevel++;
-            startNewGame(currentLevel);
+            updateLeaderboard(playerName, puzzleCurrentLevel - 2);
+            puzzleCurrentLevel++;
+            startNewGame(puzzleCurrentLevel);
         }
     }
 }
 
-function isPuzzleComplete(board) {
-    const solution = Array.from({ length: board.length - 1 }, (_, i) => i + 1).concat(null);
-    return board.every((val, idx) => val === solution[idx]);
+function isPuzzleComplete(puzzleBoard) {
+    const solution = Array.from({ length: puzzleBoard.length - 1 }, (_, i) => i + 1).concat(null);
+    return puzzleBoard.every((val, idx) => val === solution[idx]);
 }
 
 // Leaderboard functions (localStorage per game page)
@@ -88,15 +88,15 @@ function updateLeaderboard(playerName, levelReached) {
 }
 
 function renderLeaderboard() {
-    const board = document.getElementById('leaderboard');
-    board.innerHTML = '<h2>Leaderboard - Highest Levels</h2>';
+    const leaderboardElement = document.getElementById('leaderboard');
+    leaderboardElement.innerHTML = '<h2>Leaderboard - Highest Levels</h2>';
 
     leaderboard.forEach((player, index) => {
-        board.innerHTML += `<p>${index + 1}. ${player.name} - Level ${player.level}</p>`;
+        leaderboardElement.innerHTML += `<p>${index + 1}. ${player.name} - Level ${player.level}</p>`;
     });
 }
 
 // Initialize game on page load
 window.onload = () => {
-    startNewGame(currentLevel);
+    startNewGame(puzzleCurrentLevel);
 };
