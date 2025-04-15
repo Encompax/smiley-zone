@@ -4,7 +4,7 @@ window.addEventListener("hashchange", loadGame);
 window.addEventListener("DOMContentLoaded", loadGame);
 
 function loadGame() {
-    const page = window.location.hash.substring(1) || "index";
+    const page = window.location.hash.substring(1) || "home";
 
     // Load the HTML content dynamically from root directory
     fetch(`${page}.html`)
@@ -19,7 +19,7 @@ function loadGame() {
             }
 
             // Load game-specific JavaScript if not index
-            if (page !== "index") {
+            if (page !== "home") {
                 const script = document.createElement("script");
                 script.src = `scripts/games/${page}.js`;
                 script.id = "dynamicScript";
