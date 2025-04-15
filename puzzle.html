@@ -46,18 +46,16 @@
     }
   </style>
 </head>
-<body>
-  <h1>🧩 Puzzle Challenge</h1>
-  <div class="puzzle-container">
-    <h2>Solve Me If You Can!</h2>
-    <div class="puzzle-box" id="puzzleBox">_ _ _ _</div>
-    <button onclick="revealAnswer()">Reveal Answer</button>
-  </div>
 
-  <script>
-    function revealAnswer() {
-      document.getElementById('puzzleBox').innerText = 'D O R K';
-    }
-  </script>
+<body>
+
+  <h1>✨🧩 Number puzzle-box✨</h1>
+
+  <div id="game-area" style="display: grid; gap: 5px; margin-top: 20px;"></div>
+  <div id="leaderboard" style="margin-top: 20px;"></div>
+
+  <script src="../scripts/games/puzzle.js"></script>
+
 </body>
+
 </html>
