@@ -1,59 +1,26 @@
+// router.js
 
-<!DOCTYPE html>
+window.addEventListener("hashchange", loadGame);
+window.addEventListener("DOMContentLoaded", loadGame);
+
+function loadGame() {
+    const page = window.location.hash.substring(1) || "index";
+
+    <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smiley-Zone Arcade</title>
-  <style>
-    body {
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      background: linear-gradient(to bottom, #e6f7ff, #b3e5fc);
-      text-align: center;
-      padding: 30px 10px;
-      margin: 0;
-    }
-
-    h1 {
-      color: red;
-      text-shadow: 2px 2px lightblue;
-      margin-bottom: 30px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 15px;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .nav-button {
-      display: inline-block;
-      padding: 15px;
-      font-size: 18px;
-      background-color: #ffcc00;
-      color: #000;
-      border: 3px solid #0099cc;
-      border-radius: 12px;
-      text-decoration: none;
-      transition: all 0.3s ease-in-out;
-    }
-
-    .nav-button:hover {
-      background-color: #fff176;
-      transform: scale(1.05);
-    }
-
-    #gameContainer {
-      margin-top: 30px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
   <h1>Smiley-Zone Arcade!</h1>
+
   <div class="grid">
-    <a href="#admin" class="nav-button">Admin Dashboard</a>
     <a href="#user" class="nav-button">User Profile & Leaderboard</a>
     <a href="#snake" class="nav-button">Snake</a>
     <a href="#puzzle" class="nav-button">Puzzle</a>
@@ -73,12 +40,14 @@
     <a href="#tictactoe" class="nav-button">Tic-Tac-Toe</a>
   </div>
 
-  <div id="gameContainer">
-    <h2>Welcome to Smiley-Zone Arcade!</h2>
-    <p>Select a game above to begin.</p>
-  </div>
+  <!-- Empty container for dynamic game content -->
+  <div id="gameContainer"></div>
 
   <script src="scripts/router.js"></script>
+
 </body>
+
 </html>
+
+
 
