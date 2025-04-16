@@ -19,7 +19,7 @@ function loadGame() {
             }
 
             // Load game-specific JavaScript if not index
-            if (page !== "index") {
+            if (page !== "home") {
                 const script = document.createElement("script");
                 script.src = `scripts/games/${page}.js`;
                 script.id = "dynamicScript";
