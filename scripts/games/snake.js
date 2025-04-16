@@ -1,3 +1,11 @@
+// ✅ Expose to global scope for inline onclick to work
+window.startGame = () => {
+  const btn = document.getElementById("startBtn");
+  if (btn) btn.style.display = "none";
+  resetGame();
+  game = setInterval(draw, 100);
+};
+
 window.onload = () => {
   const canvas = document.getElementById("gameCanvas");
   const ctx = canvas.getContext("2d");
@@ -87,13 +95,7 @@ window.onload = () => {
     return array.some(segment => head.x === segment.x && head.y === segment.y);
   }
 
-  // ✅ Expose to global scope for inline onclick to work
-  window.startGame = () => {
-    const btn = document.getElementById("startBtn");
-    if (btn) btn.style.display = "none";
-    resetGame();
-    game = setInterval(draw, 100);
-  };
+  
 };
 
 
