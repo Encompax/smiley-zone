@@ -7,7 +7,7 @@ function loadGame() {
     const page = window.location.hash.substring(1) || "home";
 
     // Load the HTML content dynamically from root directory
-    fetch(`${page}.html`)
+    fetch(`games/${page}.html`)
         .then(response => response.text())
         .then(html => {
             document.getElementById("gameContainer").innerHTML = html;
@@ -18,7 +18,7 @@ function loadGame() {
                 oldScript.remove();
             }
 
-            // Load game-specific JavaScript if not index
+            // Load game-specific JavaScript if not home
             if (page !== "home") {
                 const script = document.createElement("script");
                 script.src = `scripts/games/${page}.js`;
