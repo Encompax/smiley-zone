@@ -1,160 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<img id="factImage" style="display:none; margin-top: 20px; max-width: 90%; border: 2px solid #aaa; border-radius: 10px;" />
+<style>
+  body {
+    background: linear-gradient(to bottom, #fef4e8, #ffe0b2);
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    color: #4e342e;
+    text-align: center;
+    padding: 2rem;
+  }
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Smiley-Zone Arcade – Puzzle & Facts</title>
-  <style>
-    body {
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      background: linear-gradient(to bottom, #3d4cec, #108cae);
-      text-align: center;
-      margin: 0;
-      padding: 20px;
-    }
+  h2 {
+    font-size: 2.5rem;
+    color: #d84315;
+    text-shadow: 1px 1px #ffccbc;
+  }
 
-    h1 {
-      color: red;
-      text-shadow: 2px 2px lightblue;
-    }
+  button {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    background-color: #ffcc80;
+    border: 2px solid #fb8c00;
+    border-radius: 12px;
+    cursor: pointer;
+    color: #5d4037;
+    font-weight: bold;
+    margin-top: 1rem;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  }
 
-    .nav-button {
-      display: inline-block;
-      margin: 10px;
-      padding: 10px 20px;
-      font-size: 18px;
-      background-color: #287cdb;
-      color: #2b0987;
-      border: 3px solid #c9141a;
-      border-radius: 10px;
-      text-decoration: none;
-      transition: all 0.3s ease-in-out;
-    }
+  button:hover {
+    background-color: #ffb74d;
+  }
+</style>
 
-    .nav-button:hover {
-      background-color: #fff176;
-      transform: scale(1.1);
-    }
-
-    .game-section {
-      display: none;
-      margin-top: 30px;
-    }
-
-    #factDisplay {
-      font-size: 22px;
-      margin-top: 20px;
-      padding: 10px;
-      background-color: #fff9c4;
-      border: 2px solid #ffd54f;
-      border-radius: 10px;
-      display: inline-block;
-      max-width: 90%;
-    }
-
-    .puzzle-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 80px);
-      gap: 5px;
-      justify-content: center;
-    }
-
-    .puzzle-piece {
-      width: 80px;
-      height: 80px;
-      background-color: #90caf9;
-      font-size: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid #0d47a1;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-
-  <h1>Smiley-Zone Arcade</h1>
-  <a href="index.html" class="nav-button">Return to Home</a>
-
-  <!-- Puzzle Game Section -->
-  <div id="puzzleSection" class="game-section">
-    <h2>Puzzle Game</h2>
-    <div class="puzzle-grid" id="puzzleGrid"></div>
-  </div>
-
-  <!-- Historical Fact Section -->
-<div id="factSection" class="game-section">
-  <h2>Random Historical Fact</h2>
-  <button class="nav-button" onclick="displayRandomFact()">Get a New Fact</button>
-  <div id="factDisplay">Press the button to reveal a historical fact!</div>
-  <img id="factImage" style="display: none; margin-top: 20px; max-width: 90%; border: 2px solid #aaa; border-radius: 10px;" alt="Fact Image">
-</div>
-
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get("puzzle") === "true") {
-        document.getElementById("puzzleSection").style.display = "block";
-        loadPuzzle();
-      } else if (params.get("fact") === "true") {
-        document.getElementById("factSection").style.display = "block";
-      }
-    });
-
-    // Random Fact Logic
-    const facts = [
-      "Winston Churchill was once hit by a car in New York and apologized to the driver.",
-      "Ancient Egyptians used slabs of stone as pillows.",
-      "Napoleon was once attacked by a horde of bunnies during a hunting trip.",
-      "The Terracotta Army was discovered by farmers digging a well in 1974.",
-      "During the Victorian era, people used to take photos with their deceased relatives.",
-      "The Eiffel Tower can grow up to 6 inches taller in summer due to metal expansion."
-    ];
-
-    function generateFact() {
-      const randomIndex = Math.floor(Math.random() * facts.length);
-      document.getElementById("factDisplay").textContent = facts[randomIndex];
-    }
-
-    // Puzzle Game Logic (Basic Sliding Puzzle)
-    function loadPuzzle() {
-      const puzzleGrid = document.getElementById("puzzleGrid");
-      puzzleGrid.innerHTML = "";
-      const pieces = [1, 2, 3, 4, 5, 6, 7, 8, ""];
-      pieces.sort(() => Math.random() - 0.5);
-
-      pieces.forEach((value, index) => {
-        const div = document.createElement("div");
-        div.classList.add("puzzle-piece");
-        div.textContent = value;
-        div.dataset.index = index;
-        div.addEventListener("click", () => handleMove(index));
-        puzzleGrid.appendChild(div);
-      });
-    }
-
-    function handleMove(index) {
-      const puzzleGrid = document.getElementById("puzzleGrid");
-      const pieces = Array.from(puzzleGrid.children);
-      const emptyIndex = pieces.findIndex(piece => piece.textContent === "");
-
-      const validMoves = [
-        emptyIndex - 1, emptyIndex + 1,
-        emptyIndex - 3, emptyIndex + 3
-      ];
-
-      if (validMoves.includes(index)) {
-        const temp = pieces[emptyIndex].textContent;
-        pieces[emptyIndex].textContent = pieces[index].textContent;
-        pieces[index].textContent = temp;
-      }
-    }
-  </script>
-
-</body>
-</html>
+<h2>🧠 Random Historical Fact</h2>
+<p id="factDisplay" style="margin: 1rem 0;"></p>
+<img id="factImage" src="" alt="" style="display:none; border-radius: 8px; max-width: 600px; width: 100%; height: auto; margin: 20px auto; display: block; box-shadow: 4px 4px 12px rgba(0,0,0,0.2);" />
+<button onclick="generateFact()">Generate Fact</button>
 

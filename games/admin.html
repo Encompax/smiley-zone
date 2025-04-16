@@ -1,76 +1,152 @@
+(() => {
+  let unlocks = JSON.parse(localStorage.getItem("unlocks") || "{}");
+  let user = JSON.parse(localStorage.getItem("user") || "{}");
+  let blockedUsers = JSON.parse(localStorage.getItem("blockedUsers") || "[]");
+  let auditLog = JSON.parse(localStorage.getItem("auditLog") || "[]");
+  let moderationSettings = JSON.parse(localStorage.getItem("moderationSettings") || JSON.stringify({
+    enabled: true,
+    tokenLimit: 100,
+    unlockLimit: 5,
+    loginFailLimit: 3
+  }));
 
-<h2>Admin Dashboard</h2>
-<p style="text-align:center;">Welcome, Admin. Monitor platform activity and control all arcade systems.</p>
+  const shopItems = {
+    theme: { label: "Bonus Theme", cost: 30 },
+    snake: { label: "Golden Snake Mode", cost: 50 },
+    avatar: { label: "Custom Avatar", cost: 20 }
+  };
 
-<section style="max-width: 800px; margin: 0 auto; text-align: left;">
-  <h3>Shop Manager</h3>
-  <div id="shopEditor"></div>
-</section>
-
-<hr style="margin: 30px 0;">
-
-<section style="max-width: 800px; margin: 0 auto; text-align: left;">
-  <h3>User Monitor</h3>
-  <div id="userManager"></div>
-</section>
-
-<hr style="margin: 30px 0;">
-
-<section style="max-width: 800px; margin: 0 auto; text-align: left;">
-  <h3>Platform Stats</h3>
-  <canvas id="tokenChart" width="400" height="200"></canvas>
-  <canvas id="unlockChart" width="400" height="200"></canvas>
-</section>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<div id="adminLoginOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000000cc; display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:9999;">
-  <div style="background:white; padding:20px; border-radius:10px; text-align:center;">
-    <h3>Admin Login</h3>
-    <input type="password" id="adminPasscode" placeholder="Enter passcode" style="padding:8px;" />
-    <br><br>
-    <button onclick="validateAdmin()">Enter</button>
-    <p id="adminLoginError" style="color:red; display:none;">Invalid passcode.</p>
-  </div>
-</div>
-
-<script>
-function validateAdmin() {
-  const input = document.getElementById("adminPasscode").value;
-  if (input === "Faster123@") {
-    document.getElementById("adminLoginOverlay").style.display = "none";
-  } else {
-    document.getElementById("adminLoginError").style.display = "block";
+  function renderShopEditor() {
+    const editor = document.getElementById("shopEditor");
+    editor.innerHTML = "";
+    Object.keys(shopItems).forEach(item => {
+      const { label, cost } = shopItems[item];
+      const locked = !unlocks[item];
+      editor.innerHTML += `
+        <div class="shop-item">
+          <strong>${label}</strong><br>
+          Cost: <input type="number" id="price-${item}" value="${cost}" class="input-number" />
+          <button class="btn-toggle" onclick="toggleItem('${item}')">${locked ? "Unlock" : "Lock"}</button>
+          <span class="item-status" id="status-${item}">${locked ? "Locked" : "Unlocked"}</span>
+        </div>
+      `;
+    });
   }
-}
-</script>
 
-<hr style="margin: 30px 0;">
+  function toggleItem(item) {
+    unlocks[item] = !unlocks[item];
+    localStorage.setItem("unlocks", JSON.stringify(unlocks));
+    document.getElementById("status-" + item).textContent = unlocks[item] ? "Unlocked" : "Locked";
+  }
 
-<section style="max-width: 900px; margin: 0 auto; text-align: left;">
-  <h3>Audit Log</h3>
-  <table border="1" cellpadding="6" cellspacing="0" width="100%" style="text-align:center;">
-    <thead>
-      <tr><th>Time</th><th>Category</th><th>Action</th><th>User</th></tr>
-    </thead>
-    <tbody id="auditLogTable"></tbody>
-  </table>
-</section>
+  function renderUserManager() {
+    const container = document.getElementById("userManager");
+    container.innerHTML = `
+      <p><strong>User:</strong> ${user.name || "N/A"}<br>
+      <strong>Status:</strong> <span id="userStatus">${blockedUsers.includes(user.name) ? "Blocked" : "Active"}</span><br>
+      <button class="btn-toggle" onclick="toggleBlock('${user.name}')">
+        ${blockedUsers.includes(user.name) ? "Unblock" : "Block"} User
+      </button></p>
+    `;
+  }
 
-<hr style="margin: 30px 0;">
-<section style="max-width: 800px; margin: 0 auto; text-align: left;">
-  <h3>Automation Controls</h3>
-  <label><input type="checkbox" id="autoModerationToggle"> Enable Auto Moderation</label><br><br>
+  function toggleBlock(username) {
+    if (!username) return;
+    const index = blockedUsers.indexOf(username);
+    const action = index > -1 ? "Unblocked user" : "Blocked user";
+    if (index > -1) blockedUsers.splice(index, 1);
+    else blockedUsers.push(username);
+    localStorage.setItem("blockedUsers", JSON.stringify(blockedUsers));
+    renderUserManager();
+    logAuditEvent("security", action, username);
+  }
 
-  <label>Max tokens per minute:</label>
-  <input type="number" id="tokenLimit" value="100" /><br><br>
+  function drawCharts() {
+    const ctx1 = document.getElementById("tokenChart").getContext("2d");
+    const ctx2 = document.getElementById("unlockChart").getContext("2d");
 
-  <label>Max shop unlocks per 5 minutes:</label>
-  <input type="number" id="unlockLimit" value="5" /><br><br>
+    new Chart(ctx1, {
+      type: 'bar',
+      data: {
+        labels: ['Your Tokens'],
+        datasets: [{
+          label: 'Token Balance',
+          data: [user.tokens || 0],
+          backgroundColor: ['#42a5f5']
+        }]
+      },
+      options: { responsive: true }
+    });
 
-  <label>Invalid login attempts before lock:</label>
-  <input type="number" id="loginFailLimit" value="3" /><br><br>
+    new Chart(ctx2, {
+      type: 'pie',
+      data: {
+        labels: Object.keys(shopItems),
+        datasets: [{
+          label: 'Unlocked Items',
+          data: Object.keys(shopItems).map(key => unlocks[key] ? 1 : 0),
+          backgroundColor: ['#66bb6a', '#ffa726', '#ab47bc']
+        }]
+      },
+      options: { responsive: true }
+    });
+  }
 
-  <button onclick="saveModerationSettings()">Save Settings</button>
-  <p id="moderationStatus" style="color:green; font-weight:bold;"></p>
-</section>
+  function logAuditEvent(category, action, user = "N/A") {
+    const entry = {
+      timestamp: new Date().toISOString(),
+      category,
+      action,
+      user
+    };
+    auditLog.push(entry);
+    localStorage.setItem("auditLog", JSON.stringify(auditLog));
+    renderAuditLog();
+  }
+
+  function renderAuditLog() {
+    const table = document.getElementById("auditLogTable");
+    if (!table) return;
+    table.innerHTML = "";
+    auditLog.slice().reverse().forEach(entry => {
+      const row = `<tr>
+        <td>${new Date(entry.timestamp).toLocaleString()}</td>
+        <td>${entry.category}</td>
+        <td>${entry.action}</td>
+        <td>${entry.user}</td>
+      </tr>`;
+      table.innerHTML += row;
+    });
+  }
+
+  function loadModerationSettings() {
+    document.getElementById("autoModerationToggle").checked = moderationSettings.enabled;
+    document.getElementById("tokenLimit").value = moderationSettings.tokenLimit;
+    document.getElementById("unlockLimit").value = moderationSettings.unlockLimit;
+    document.getElementById("loginFailLimit").value = moderationSettings.loginFailLimit;
+  }
+
+  function saveModerationSettings() {
+    moderationSettings.enabled = document.getElementById("autoModerationToggle").checked;
+    moderationSettings.tokenLimit = parseInt(document.getElementById("tokenLimit").value);
+    moderationSettings.unlockLimit = parseInt(document.getElementById("unlockLimit").value);
+    moderationSettings.loginFailLimit = parseInt(document.getElementById("loginFailLimit").value);
+    localStorage.setItem("moderationSettings", JSON.stringify(moderationSettings));
+    document.getElementById("moderationStatus").textContent = "Moderation settings saved.";
+  }
+
+  function initializeAdmin() {
+    renderShopEditor();
+    renderUserManager();
+    drawCharts();
+    renderAuditLog();
+    loadModerationSettings();
+  }
+
+  document.addEventListener("DOMContentLoaded", initializeAdmin);
+
+  window.toggleBlock = toggleBlock;
+  window.toggleItem = toggleItem;
+  window.saveModerationSettings = saveModerationSettings;
+})();
+

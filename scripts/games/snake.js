@@ -87,12 +87,13 @@
     return array.some(segment => head.x === segment.x && head.y === segment.y);
   }
 
-  function startGame() {
+  // ✅ Exposed globally for inline onclick use
+  window.startGame = function () {
     const btn = document.getElementById("startBtn");
     if (btn) btn.style.display = "none";
     resetGame();
     game = setInterval(draw, 100);
-  }
+  };
 
   document.addEventListener("DOMContentLoaded", () => {
     canvas = document.getElementById("gameCanvas");
@@ -100,10 +101,12 @@
 
     document.addEventListener("keydown", changeDirection);
 
+    // Redundant for inline, but helpful for non-inline as fallback
     const btn = document.getElementById("startBtn");
     if (btn) btn.addEventListener("click", startGame);
   });
 })();
+
 
 
 

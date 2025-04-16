@@ -1,5 +1,37 @@
 
 <h2>2048 Game</h2>
-<p>Use arrow keys to combine like tiles and reach 2048!</p>
-<div id="grid2048" style="display: grid; grid-template-columns: repeat(4, 80px); gap: 5px; justify-content: center; margin-top: 20px;"></div>
-<p id="score2048" style="font-size: 18px; margin-top: 20px;">Score: 0</p>
+<p>🧩 How It Works
+    You start with a 4x4 grid and two tiles, usually 2 or 4.
+    Every time you press an arrow key, all tiles slide in that direction.
+    If two tiles with the same number touch, they merge into one and double in value.
+    Example: 2 + 2 → 4, then 4 + 4 → 8, and so on.
+    After every move, a new tile appears (usually a 2 or a 4).
+    
+    💥 Winning
+    The game is "won" when you create a tile with the number 2048.
+    
+    ☠️ Losing
+    You lose when the grid is full and no more merges are possible in any direction.</p>
+
+<div id="grid2048"
+     style="
+       display: grid;
+       grid-template-columns: repeat(4, 80px);
+       gap: 5px;
+       justify-content: center;
+       margin: 20px auto;
+       max-width: 340px;
+     ">
+</div>
+
+<p id="score2048"
+   style="
+     font-size: 18px;
+     margin-top: 20px;
+     text-align: center;
+     font-weight: bold;
+     color: #6d4c41;
+   ">
+   Score: 0
+</p>
+

@@ -2,14 +2,19 @@
 <h2>Leaderboard & User Profile</h2>
 <div style="max-width: 600px; margin: 0 auto; text-align: left;">
   <h3>Create / Update Profile</h3>
+
   <label>Name:</label><br>
   <input type="text" id="userName" placeholder="Enter your name" /><br><br>
+
   <label>Bio:</label><br>
   <textarea id="userBio" placeholder="Short bio..." rows="3" style="width: 100%;"></textarea><br><br>
+
   <p><strong>Token Balance:</strong> <span id="tokenBalance">0</span></p>
-  <button onclick="earnTokens(10)">Earn 10 Tokens</button>
-  <button onclick="spendTokens(20)">Spend 20 Tokens</button><br><br>
-  <button onclick="saveUser()">Save Profile</button>
+
+  <button onclick="arcadeUser.earnTokens(10)">Earn 10 Tokens</button>
+  <button onclick="arcadeUser.spendTokens(20)">Spend 20 Tokens</button><br><br>
+
+  <button onclick="arcadeUser.saveUser()">Save Profile</button>
 </div>
 
 <hr style="margin: 30px 0;">
@@ -23,3 +28,4 @@
     <tbody id="leaderboardTable"></tbody>
   </table>
 </div>
+

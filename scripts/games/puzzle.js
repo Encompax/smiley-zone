@@ -2,6 +2,7 @@
 (() => {
     let puzzleBoard = [];
     let puzzleCurrentLevel = 3;
+    const leaderboard = JSON.parse(localStorage.getItem('slidingPuzzleLeaderboard')) || [];
   
     function generateBoard(size) {
       let numbers = Array.from({ length: size * size - 1 }, (_, i) => i + 1);
@@ -15,12 +16,14 @@
       return numbers;
     }
   
-    function renderBoard(puzzleBoard, size) {
+    function renderBoard(board, size) {
       const gameArea = document.getElementById('game-area');
+      if (!gameArea) return;
+  
       gameArea.innerHTML = '';
       gameArea.style.gridTemplateColumns = `repeat(${size}, 50px)`;
   
-      puzzleBoard.forEach((num, idx) => {
+      board.forEach((num, idx) => {
         const tile = document.createElement('div');
         tile.classList.add('tile');
         tile.textContent = num || '';
@@ -45,7 +48,7 @@
         renderBoard(puzzleBoard, size);
   
         if (isPuzzleComplete(puzzleBoard)) {
-          let playerName = prompt("🎉 Puzzle Complete! Enter your name:");
+          const playerName = prompt("🎉 Puzzle Complete! Enter your name:");
           updateLeaderboard(playerName, puzzleCurrentLevel - 2);
           puzzleCurrentLevel++;
           startGame(puzzleCurrentLevel);
@@ -53,22 +56,18 @@
       }
     }
   
-    function isPuzzleComplete(puzzleBoard) {
-      const solution = Array.from({ length: puzzleBoard.length - 1 }, (_, i) => i + 1).concat(null);
-      return puzzleBoard.every((val, idx) => val === solution[idx]);
+    function isPuzzleComplete(board) {
+      const solution = Array.from({ length: board.length - 1 }, (_, i) => i + 1).concat(null);
+      return board.every((val, idx) => val === solution[idx]);
     }
   
-    const leaderboard = JSON.parse(localStorage.getItem('slidingPuzzleLeaderboard')) || [];
+    function updateLeaderboard(name, level) {
+      const existing = leaderboard.find(p => p.name === name);
   
-    function updateLeaderboard(playerName, levelReached) {
-      const existingPlayer = leaderboard.find(player => player.name === playerName);
-  
-      if (existingPlayer) {
-        if (levelReached > existingPlayer.level) {
-          existingPlayer.level = levelReached;
-        }
+      if (existing) {
+        if (level > existing.level) existing.level = level;
       } else {
-        leaderboard.push({ name: playerName, level: levelReached });
+        leaderboard.push({ name, level });
       }
   
       leaderboard.sort((a, b) => b.level - a.level);
@@ -76,21 +75,23 @@
     }
   
     function renderLeaderboard() {
-      const leaderboardElement = document.getElementById('leaderboard');
-      leaderboardElement.innerHTML = '<h2>Leaderboard - Highest Levels</h2>';
-      leaderboard.forEach((player, index) => {
-        leaderboardElement.innerHTML += `<p>${index + 1}. ${player.name} - Level ${player.level}</p>`;
+      const board = document.getElementById('leaderboard');
+      if (!board) return;
+  
+      board.innerHTML = '<h2>Leaderboard - Highest Levels</h2>';
+      leaderboard.forEach((p, i) => {
+        board.innerHTML += `<p>${i + 1}. ${p.name} - Level ${p.level}</p>`;
       });
     }
   
-    // ✅ Global access for HTML buttons like onclick="startGame()"
+    // ✅ Globally exposed for inline button use
     window.startGame = function (size = puzzleCurrentLevel) {
       puzzleBoard = generateBoard(size);
       renderBoard(puzzleBoard, size);
       renderLeaderboard();
     };
   
-    // ✅ Initialize on DOM ready
+    // ✅ Auto-load when page is ready
     document.addEventListener("DOMContentLoaded", () => {
       startGame(puzzleCurrentLevel);
     });

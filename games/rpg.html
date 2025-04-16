@@ -1,10 +1,11 @@
 
 <h2>Mini RPG: Escape from Nevada</h2>
 <p style="max-width: 600px; margin: 0 auto;">
-You are Zarnok, a peaceful interdimensional researcher from the Virellian System.
-While on a survey mission, your ship crash-landed in Nevada. Hostile government agents have surrounded your crash site. 
-Fight your way out before they capture your technology!
+  You are Zarnok, a peaceful interdimensional researcher from the Virellian System.
+  While on a survey mission, your ship crash-landed in Nevada. Hostile government agents have surrounded your crash site. 
+  Fight your way out before they capture your technology!
 </p>
+
 <div id="rpgBattlefield" style="display: flex; justify-content: center; gap: 40px; margin-top: 30px;">
   <div id="alienStatus" style="text-align: center;">
     <img src="images/alien-hero.png" alt="Alien Hero" width="120" /><br>
@@ -17,8 +18,13 @@ Fight your way out before they capture your technology!
     HP: <span id="agentHP">100</span>
   </div>
 </div>
+
+<!-- ✅ Replace inline onclicks with button IDs -->
 <div style="text-align: center; margin-top: 30px;">
-  <button onclick="attackAgent()" style="padding: 10px 20px;">Plasma Pulse</button>
-  <button onclick="healAlien()" style="padding: 10px 20px;">Quantum Recalibration</button>
+  <button id="attackBtn" style="padding: 10px 20px;">Plasma Pulse</button>
+  <button id="healBtn" style="padding: 10px 20px;">Quantum Recalibration</button>
 </div>
+
+<!-- Message log -->
 <p id="battleLog" style="text-align: center; margin-top: 20px; font-size: 18px;"></p>
+
