@@ -26,6 +26,15 @@ function loadGame() {
                 script.defer = true;
                 document.body.appendChild(script);
             }
+
+            //load specific css if not home
+            if (page !== "home") {
+                const cssLink = document.createElement("link");
+                cssLink.rel = "stylesheet";
+                cssLink.href = "style.css";
+                document.head.appendChild(cssLink);
+              }
+              
         })
         .catch(() => {
             document.getElementById("gameContainer").innerHTML = "<h2 class='error'>404</h2><p>File not found</p>";
