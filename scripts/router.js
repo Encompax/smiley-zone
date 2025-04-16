@@ -35,6 +35,6 @@ function loadGame() {
       })
       .catch(() => {
         document.getElementById("gameContainer").innerHTML =
-          "<h2 class='error'>404</h2><p>File not found</p>";
+          "<h2 class='error'>!!!404!!!</h2><p>----File not found!!!!!!!!!!!</p>";
       });
   }
