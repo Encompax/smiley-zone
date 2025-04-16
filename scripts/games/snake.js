@@ -13,12 +13,6 @@ window.onload = () => {
 
   document.addEventListener("keydown", changeDirection);
 
-  window.startGame = () => {
-    document.getElementById("startBtn").style.display = "none";
-    resetGame();
-    game = setInterval(draw, 100);
-  };
-
   function resetGame() {
     snake = [{ x: 9 * box, y: 10 * box }];
     direction = "RIGHT";
@@ -31,7 +25,8 @@ window.onload = () => {
   function gameOver() {
     clearInterval(game);
     alert("Game Over!");
-    document.getElementById("startBtn").style.display = "inline-block";
+    const btn = document.getElementById("startBtn");
+    if (btn) btn.style.display = "inline-block";
   }
 
   function changeDirection(event) {
@@ -84,12 +79,22 @@ window.onload = () => {
     const newHead = { x: headX, y: headY };
     snake.unshift(newHead);
 
-    document.getElementById("scoreboard").textContent = "Score: " + (snake.length - 1);
+    const scoreDisplay = document.getElementById("scoreboard");
+    if (scoreDisplay) scoreDisplay.textContent = "Score: " + (snake.length - 1);
   }
 
   function collision(head, array) {
     return array.some(segment => head.x === segment.x && head.y === segment.y);
   }
+
+  // ✅ Expose to global scope for inline onclick to work
+  window.startGame = () => {
+    const btn = document.getElementById("startBtn");
+    if (btn) btn.style.display = "none";
+    resetGame();
+    game = setInterval(draw, 100);
+  };
 };
+
 
 
