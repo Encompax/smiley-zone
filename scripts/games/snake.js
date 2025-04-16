@@ -1,26 +1,12 @@
-let canvas, ctx;
-let snake, direction, food, game;
+let canvas = null;
+let ctx = null;
 const box = 20;
+let snake = [];
+let direction = "RIGHT";
+let food = {};
+let game = null;
 
-// Ensure canvas and context are globally scoped
-window.onload = () => {
-  canvas = document.getElementById("gameCanvas");
-  ctx = canvas.getContext("2d");
-
-  document.addEventListener("keydown", changeDirection);
-  const btn = document.getElementById("startBtn");
-  if (btn) btn.addEventListener("click", startGame);
-};
-
-// Expose startGame for inline use
-window.startGame = () => {
-  const btn = document.getElementById("startBtn");
-  if (btn) btn.style.display = "none";
-  resetGame();
-  game = setInterval(draw, 100);
-};
-
-window.resetGame = () => {
+window.resetGame = function () {
   snake = [{ x: 9 * box, y: 10 * box }];
   direction = "RIGHT";
   food = {
@@ -29,7 +15,16 @@ window.resetGame = () => {
   };
 };
 
-window.draw = () => {
+window.startGame = function () {
+  const btn = document.getElementById("startBtn");
+  if (btn) btn.style.display = "none";
+  window.resetGame();
+  game = setInterval(window.draw, 100);
+};
+
+window.draw = function () {
+  if (!ctx) return;
+
   ctx.fillStyle = "lightyellow";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -56,7 +51,7 @@ window.draw = () => {
     headY < 0 || headY >= canvas.height ||
     collision({ x: headX, y: headY }, snake)
   ) {
-    gameOver();
+    window.gameOver();
     return;
   }
 
@@ -78,23 +73,35 @@ window.draw = () => {
   }
 };
 
-window.gameOver = () => {
-  clearInterval(game);
-  alert("Game Over!");
-  const btn = document.getElementById("startBtn");
-  if (btn) btn.style.display = "inline-block";
-};
-
-window.changeDirection = (event) => {
+window.changeDirection = function (event) {
   if (event.keyCode === 37 && direction !== "RIGHT") direction = "LEFT";
   else if (event.keyCode === 38 && direction !== "DOWN") direction = "UP";
   else if (event.keyCode === 39 && direction !== "LEFT") direction = "RIGHT";
   else if (event.keyCode === 40 && direction !== "UP") direction = "DOWN";
 };
 
+window.gameOver = function () {
+  clearInterval(game);
+  alert("Game Over!");
+  const btn = document.getElementById("startBtn");
+  if (btn) btn.style.display = "inline-block";
+};
+
 function collision(head, array) {
   return array.some(segment => head.x === segment.x && head.y === segment.y);
 }
+
+// Ensure DOM is ready and set canvas/ctx
+document.addEventListener("DOMContentLoaded", () => {
+  canvas = document.getElementById("gameCanvas");
+  ctx = canvas.getContext("2d");
+
+  document.addEventListener("keydown", window.changeDirection);
+
+  const btn = document.getElementById("startBtn");
+  if (btn) btn.addEventListener("click", window.startGame);
+});
+
 
 
 
