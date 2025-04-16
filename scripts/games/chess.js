@@ -1,57 +1,75 @@
 
-const boardElement = document.getElementById("chessBoard");
-const statusEl = document.getElementById("chessStatus");
+// chess.js
 
 let board = null;
-let game = new Chess();
+let game = null;
+let statusEl = null;
 
-function onDragStart(source, piece, position, orientation) {
-  if (game.game_over() || 
-      (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
-      (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
-    return false;
-  }
-}
+// GLOBAL: Initialize the chess game
+window.initChess = function () {
+  const boardElement = document.getElementById("chessBoard");
+  statusEl = document.getElementById("chessStatus");
 
-function onDrop(source, target) {
-  let move = game.move({
-    from: source,
-    to: target,
-    promotion: 'q'
+  if (!boardElement || !statusEl) return;
+
+  game = new Chess();
+
+  board = Chessboard("chessBoard", {
+    draggable: true,
+    position: "start",
+    onDragStart: window.onDragStart,
+    onDrop: window.onDrop,
+    onSnapEnd: window.onSnapEnd,
   });
 
-  if (move === null) return 'snapback';
-  updateStatus();
-}
+  window.updateChessStatus();
+};
 
-function onSnapEnd() {
+// GLOBAL: Block illegal moves
+window.onDragStart = function (source, piece, position, orientation) {
+  if (
+    game.game_over() ||
+    (game.turn() === "w" && piece.search(/^b/) !== -1) ||
+    (game.turn() === "b" && piece.search(/^w/) !== -1)
+  ) {
+    return false;
+  }
+};
+
+// GLOBAL: Handle a move
+window.onDrop = function (source, target) {
+  const move = game.move({
+    from: source,
+    to: target,
+    promotion: "q",
+  });
+
+  if (move === null) return "snapback";
+
+  window.updateChessStatus();
+};
+
+// GLOBAL: Re-render board after valid move
+window.onSnapEnd = function () {
   board.position(game.fen());
-}
+};
 
-function updateStatus() {
-  let status = '';
-  let moveColor = game.turn() === 'w' ? 'White' : 'Black';
+// GLOBAL: Update status message
+window.updateChessStatus = function () {
+  let status = "";
+  const moveColor = game.turn() === "w" ? "White" : "Black";
 
   if (game.in_checkmate()) {
-    status = 'Game over, ' + moveColor + ' is in checkmate.';
+    status = "Game over, " + moveColor + " is in checkmate.";
   } else if (game.in_draw()) {
-    status = 'Game over, drawn position';
+    status = "Game over, drawn position.";
   } else {
-    status = moveColor + ' to move';
+    status = moveColor + " to move";
     if (game.in_check()) {
-      status += ', ' + moveColor + ' is in check';
+      status += ", " + moveColor + " is in check.";
     }
   }
 
   statusEl.innerHTML = status;
-}
+};
 
-board = Chessboard('chessBoard', {
-  draggable: true,
-  position: 'start',
-  onDragStart: onDragStart,
-  onDrop: onDrop,
-  onSnapEnd: onSnapEnd
-});
-
-updateStatus();

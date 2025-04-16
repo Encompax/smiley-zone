@@ -1,45 +1,60 @@
 
 // puzzle.js
 
-let puzzleBoard = [];
-let puzzleCurrentLevel = 3;
+window.puzzleBoard = [];
+window.puzzleCurrentLevel = 3;
 
-// Initialize the game
-function startNewGame(size) {
-    puzzleBoard = generateBoard(size);
-    renderBoard(puzzleBoard, size);
-    renderLeaderboard();
-}
+// GLOBAL: Start a new game
+window.startNewGame = function (size) {
+    puzzleBoard = window.generateBoard(size);
+    window.renderBoard(puzzleBoard, size);
+    window.renderLeaderboard();
+};
 
-function generateBoard(size) {
+// GLOBAL: Generate a randomized puzzle board
+window.generateBoard = function (size) {
     let numbers = Array.from({ length: size * size - 1 }, (_, i) => i + 1);
     numbers.push(null); // Empty space
 
-    // Simple shuffle (can enhance later)
+    // Simple shuffle
     for (let i = numbers.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
     }
 
     return numbers;
-}
+};
 
-function renderBoard(puzzleBoard, size) {
+// GLOBAL: Render the puzzle board in the game container
+window.renderBoard = function (puzzleBoard, size) {
     const gameArea = document.getElementById('game-area');
-    gameArea.innerHTML = '';
+    if (!gameArea) return;
 
+    gameArea.innerHTML = '';
+    gameArea.style.display = 'grid';
     gameArea.style.gridTemplateColumns = `repeat(${size}, 50px)`;
+    gameArea.style.gap = '5px';
 
     puzzleBoard.forEach((num, idx) => {
         const tile = document.createElement('div');
         tile.classList.add('tile');
         tile.textContent = num || '';
-        tile.addEventListener('click', () => moveTile(idx));
+        tile.style.border = '1px solid #ccc';
+        tile.style.background = num ? '#fff' : '#f0f0f0';
+        tile.style.display = 'flex';
+        tile.style.justifyContent = 'center';
+        tile.style.alignItems = 'center';
+        tile.style.height = '50px';
+        tile.style.fontSize = '18px';
+        tile.style.cursor = 'pointer';
+
+        tile.addEventListener('click', () => window.moveTile(idx));
         gameArea.appendChild(tile);
     });
-}
+};
 
-function moveTile(index) {
+// GLOBAL: Move a tile if it’s adjacent to the empty space
+window.moveTile = function (index) {
     const size = Math.sqrt(puzzleBoard.length);
     const emptyIndex = puzzleBoard.indexOf(null);
 
@@ -52,26 +67,28 @@ function moveTile(index) {
 
     if (validMoves.includes(index)) {
         [puzzleBoard[index], puzzleBoard[emptyIndex]] = [puzzleBoard[emptyIndex], puzzleBoard[index]];
-        renderBoard(puzzleBoard, size);
+        window.renderBoard(puzzleBoard, size);
 
-        if (isPuzzleComplete(puzzleBoard)) {
-            let playerName = prompt("Congratulations! Enter your name:");
-            updateLeaderboard(playerName, puzzleCurrentLevel - 2);
+        if (window.isPuzzleComplete(puzzleBoard)) {
+            let playerName = prompt("🎉 Congratulations! Enter your name:");
+            window.updateLeaderboard(playerName, puzzleCurrentLevel - 2);
             puzzleCurrentLevel++;
-            startNewGame(puzzleCurrentLevel);
+            window.startNewGame(puzzleCurrentLevel);
         }
     }
-}
+};
 
-function isPuzzleComplete(puzzleBoard) {
+// GLOBAL: Check if the puzzle is solved
+window.isPuzzleComplete = function (puzzleBoard) {
     const solution = Array.from({ length: puzzleBoard.length - 1 }, (_, i) => i + 1).concat(null);
     return puzzleBoard.every((val, idx) => val === solution[idx]);
-}
+};
 
-// Leaderboard functions (localStorage per game page)
-let leaderboard = JSON.parse(localStorage.getItem('slidingPuzzleLeaderboard')) || [];
+// Leaderboard array loaded from localStorage
+window.leaderboard = JSON.parse(localStorage.getItem('slidingPuzzleLeaderboard')) || [];
 
-function updateLeaderboard(playerName, levelReached) {
+// GLOBAL: Update leaderboard in localStorage
+window.updateLeaderboard = function (playerName, levelReached) {
     const existingPlayer = leaderboard.find(player => player.name === playerName);
 
     if (existingPlayer) {
@@ -85,18 +102,21 @@ function updateLeaderboard(playerName, levelReached) {
     leaderboard.sort((a, b) => b.level - a.level);
 
     localStorage.setItem('slidingPuzzleLeaderboard', JSON.stringify(leaderboard));
-}
+};
 
-function renderLeaderboard() {
+// GLOBAL: Render leaderboard to DOM
+window.renderLeaderboard = function () {
     const leaderboardElement = document.getElementById('leaderboard');
+    if (!leaderboardElement) return;
+
     leaderboardElement.innerHTML = '<h2>Leaderboard - Highest Levels</h2>';
 
     leaderboard.forEach((player, index) => {
         leaderboardElement.innerHTML += `<p>${index + 1}. ${player.name} - Level ${player.level}</p>`;
     });
-}
+};
 
-// Initialize game on page load
-window.onload = () => {
-    startNewGame(puzzleCurrentLevel);
+// GLOBAL: Initialize the puzzle game after script load (SPA-safe call-in point)
+window.initPuzzle = function () {
+    window.startNewGame(window.puzzleCurrentLevel);
 };
