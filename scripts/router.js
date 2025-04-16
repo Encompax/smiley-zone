@@ -25,7 +25,7 @@ function loadGame() {
         // Chess-only: Load external libraries
         if (page === "chess") {
           const chessJS = document.createElement("script");
-          chessJS.src = "https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js";
+          chessJS.src = "https://cdn.jsdelivr.net/npm/chess.js@0.13.4/chess.min.js";
           chessJS.defer = true;
           chessJS.id = "chess-lib";
           document.body.appendChild(chessJS);
