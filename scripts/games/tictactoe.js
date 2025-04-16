@@ -1,11 +1,12 @@
-
 const tttBoard = document.getElementById("tttBoard");
 const tttStatus = document.getElementById("tttStatus");
 let board = Array(9).fill("");
 let currentPlayer = "X";
 let gameActive = true;
 
-function drawTicTacToe() {
+// ⬇️ GLOBAL FUNCTIONS BELOW
+
+window.drawTicTacToe = function () {
   tttBoard.innerHTML = "";
   board.forEach((val, i) => {
     const cell = document.createElement("div");
@@ -18,16 +19,17 @@ function drawTicTacToe() {
     cell.style.fontSize = "36px";
     cell.style.border = "2px solid #000";
     cell.style.cursor = val === "" && gameActive ? "pointer" : "default";
-    cell.addEventListener("click", () => handleMove(i));
+    cell.addEventListener("click", () => window.handleMove(i));
     tttBoard.appendChild(cell);
   });
-}
+};
 
-function handleMove(index) {
+window.handleMove = function (index) {
   if (!gameActive || board[index] !== "") return;
   board[index] = currentPlayer;
-  drawTicTacToe();
-  if (checkWinner()) {
+  window.drawTicTacToe();
+
+  if (window.checkWinner()) {
     tttStatus.textContent = `Player ${currentPlayer} wins!`;
     gameActive = false;
   } else if (!board.includes("")) {
@@ -37,9 +39,9 @@ function handleMove(index) {
     currentPlayer = currentPlayer === "X" ? "O" : "X";
     tttStatus.textContent = `Current Player: ${currentPlayer}`;
   }
-}
+};
 
-function checkWinner() {
+window.checkWinner = function () {
   const wins = [
     [0,1,2], [3,4,5], [6,7,8],
     [0,3,6], [1,4,7], [2,5,8],
@@ -50,14 +52,15 @@ function checkWinner() {
     board[combo[1]] === currentPlayer &&
     board[combo[2]] === currentPlayer
   );
-}
+};
 
-function resetTicTacToe() {
+window.resetTicTacToe = function () {
   board = Array(9).fill("");
   currentPlayer = "X";
   gameActive = true;
   tttStatus.textContent = `Current Player: ${currentPlayer}`;
-  drawTicTacToe();
-}
+  window.drawTicTacToe();
+};
 
-drawTicTacToe();
+// Initialize game immediately after script load
+window.drawTicTacToe();
