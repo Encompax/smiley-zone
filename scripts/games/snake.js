@@ -1,8 +1,26 @@
-let canvas, ctx, box = 20;
-let snake, direction, food, game = null;
+let canvas, ctx;
+let snake, direction, food, game;
+const box = 20;
 
-// ✅ Reset game state
-window.resetGame = function () {
+// Ensure canvas and context are globally scoped
+window.onload = () => {
+  canvas = document.getElementById("gameCanvas");
+  ctx = canvas.getContext("2d");
+
+  document.addEventListener("keydown", changeDirection);
+  const btn = document.getElementById("startBtn");
+  if (btn) btn.addEventListener("click", startGame);
+};
+
+// Expose startGame for inline use
+window.startGame = () => {
+  const btn = document.getElementById("startBtn");
+  if (btn) btn.style.display = "none";
+  resetGame();
+  game = setInterval(draw, 100);
+};
+
+window.resetGame = () => {
   snake = [{ x: 9 * box, y: 10 * box }];
   direction = "RIGHT";
   food = {
@@ -11,12 +29,10 @@ window.resetGame = function () {
   };
 };
 
-// ✅ Main game loop
-window.draw = function () {
+window.draw = () => {
   ctx.fillStyle = "lightyellow";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Draw snake
   for (let i = 0; i < snake.length; i++) {
     ctx.fillStyle = i === 0 ? "green" : "white";
     ctx.fillRect(snake[i].x, snake[i].y, box, box);
@@ -24,7 +40,6 @@ window.draw = function () {
     ctx.strokeRect(snake[i].x, snake[i].y, box, box);
   }
 
-  // Draw food
   ctx.fillStyle = "red";
   ctx.fillRect(food.x, food.y, box, box);
 
@@ -58,50 +73,29 @@ window.draw = function () {
   snake.unshift(newHead);
 
   const scoreDisplay = document.getElementById("scoreboard");
-  if (scoreDisplay) scoreDisplay.textContent = "Score: " + (snake.length - 1);
+  if (scoreDisplay) {
+    scoreDisplay.textContent = "Score: " + (snake.length - 1);
+  }
 };
 
-// ✅ Collision detection
-function collision(head, array) {
-  return array.some(segment => head.x === segment.x && head.y === segment.y);
-}
-
-// ✅ Handle direction change
-window.changeDirection = function (event) {
-  if (event.keyCode === 37 && direction !== "RIGHT") direction = "LEFT";
-  else if (event.keyCode === 38 && direction !== "DOWN") direction = "UP";
-  else if (event.keyCode === 39 && direction !== "LEFT") direction = "RIGHT";
-  else if (event.keyCode === 40 && direction !== "UP") direction = "DOWN";
-};
-
-// ✅ Game over logic
-window.gameOver = function () {
+window.gameOver = () => {
   clearInterval(game);
   alert("Game Over!");
   const btn = document.getElementById("startBtn");
   if (btn) btn.style.display = "inline-block";
 };
 
-// ✅ Start game
-window.startGame = function () {
-  const btn = document.getElementById("startBtn");
-  if (btn) btn.style.display = "none";
-  resetGame();
-  game = setInterval(draw, 100);
+window.changeDirection = (event) => {
+  if (event.keyCode === 37 && direction !== "RIGHT") direction = "LEFT";
+  else if (event.keyCode === 38 && direction !== "DOWN") direction = "UP";
+  else if (event.keyCode === 39 && direction !== "LEFT") direction = "RIGHT";
+  else if (event.keyCode === 40 && direction !== "UP") direction = "DOWN";
 };
 
-// ✅ Initialize canvas and game on full page load
-window.onload = function () {
-  canvas = document.getElementById("gameCanvas");
-  ctx = canvas.getContext("2d");
+function collision(head, array) {
+  return array.some(segment => head.x === segment.x && head.y === segment.y);
+}
 
-  resetGame();
-
-  document.addEventListener("keydown", changeDirection);
-
-  const btn = document.getElementById("startBtn");
-  if (btn) btn.addEventListener("click", startGame);
-};
 
 
 
