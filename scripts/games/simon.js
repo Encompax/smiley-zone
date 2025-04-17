@@ -1,33 +1,27 @@
 
-(() => {
-  const colors = ["green", "red", "yellow", "blue"];
+// 5. simon.js
+window.initGame = function () {
+  const colors = ["red", "green", "blue", "yellow"];
   let sequence = [];
   let playerSequence = [];
-  let simonStatus = null;
+  let index = 0;
 
-  function flashButton(color) {
-    const button = document.getElementById(color);
-    if (button) {
-      button.style.opacity = 0.3;
-      setTimeout(() => button.style.opacity = 1, 300);
-    }
+  function flash(button) {
+    button.classList.add("active");
+    setTimeout(() => button.classList.remove("active"), 500);
   }
 
   function playSequence() {
+    playerSequence = [];
     let i = 0;
-    simonStatus.textContent = "Watch the pattern...";
     const interval = setInterval(() => {
-      flashButton(sequence[i]);
+      flash(document.getElementById(sequence[i]));
       i++;
-      if (i >= sequence.length) {
-        clearInterval(interval);
-        simonStatus.textContent = "Now it's your turn!";
-      }
-    }, 600);
+      if (i >= sequence.length) clearInterval(interval);
+    }, 700);
   }
 
   function nextRound() {
-    playerSequence = [];
     const nextColor = colors[Math.floor(Math.random() * colors.length)];
     sequence.push(nextColor);
     playSequence();
@@ -35,35 +29,24 @@
 
   function checkInput(color) {
     playerSequence.push(color);
-    flashButton(color);
-    const index = playerSequence.length - 1;
-    if (playerSequence[index] !== sequence[index]) {
-      simonStatus.textContent = "Wrong! Game Over.";
+    const currentIndex = playerSequence.length - 1;
+    if (playerSequence[currentIndex] !== sequence[currentIndex]) {
+      alert("Game Over!");
       sequence = [];
-      setTimeout(nextRound, 2000);
+      nextRound();
       return;
     }
     if (playerSequence.length === sequence.length) {
-      simonStatus.textContent = "Good job! Next round...";
       setTimeout(nextRound, 1000);
     }
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
-    simonStatus = document.getElementById("simonStatus");
-
-    document.querySelectorAll(".simonBtn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        if (sequence.length > 0 && simonStatus.textContent.includes("your turn")) {
-          checkInput(btn.id);
-        }
-      });
-    });
-
-    nextRound();
+  colors.forEach(color => {
+    const btn = document.getElementById(color);
+    if (btn) {
+      btn.onclick = () => checkInput(color);
+    }
   });
 
-  // Optional: Expose nextRound globally for future admin or debug triggers
-  window.startSimonGame = nextRound;
-})();
-
+  nextRound();
+};

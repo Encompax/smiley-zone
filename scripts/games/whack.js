@@ -1,58 +1,40 @@
-
-(() => {
-  let grid = null;
-  let scoreDisplay = null;
+// 11. whack.js
+window.initGame = function () {
+  const grid = document.getElementById("whackGrid");
+  const scoreDisplay = document.getElementById("whackScore");
   let score = 0;
-  let currentMole = null;
+  let activeIndex = null;
+  let holes = [];
 
-  function createGrid() {
+  function setup() {
+    grid.innerHTML = "";
+    holes = [];
     for (let i = 0; i < 9; i++) {
-      const hole = document.createElement("div");
-      hole.className = "hole";
-      hole.style.width = "100px";
-      hole.style.height = "100px";
-      hole.style.background = "#a1887f";
-      hole.style.border = "2px solid #5d4037";
-      hole.style.display = "flex";
-      hole.style.alignItems = "center";
-      hole.style.justifyContent = "center";
-      hole.style.cursor = "pointer";
-      hole.dataset.index = i;
-      hole.addEventListener("click", () => whack(i));
-      grid.appendChild(hole);
+      const div = document.createElement("div");
+      div.className = "whack-hole";
+      div.onclick = () => hitMole(i);
+      grid.appendChild(div);
+      holes.push(div);
     }
+    spawnMole();
   }
 
-  function showMole() {
-    if (currentMole !== null) {
-      grid.children[currentMole].textContent = "";
-    }
-    const index = Math.floor(Math.random() * 9);
-    grid.children[index].textContent = "🐹";
-    currentMole = index;
+  function spawnMole() {
+    if (activeIndex !== null) holes[activeIndex].classList.remove("active");
+    activeIndex = Math.floor(Math.random() * holes.length);
+    holes[activeIndex].classList.add("active");
+    setTimeout(spawnMole, 1000);
   }
 
-  function whack(index) {
-    if (index === currentMole) {
+  function hitMole(index) {
+    if (index === activeIndex) {
       score++;
-      scoreDisplay.textContent = "Score: " + score;
-      grid.children[currentMole].textContent = "";
-      currentMole = null;
+      scoreDisplay.textContent = `Score: ${score}`;
+      holes[index].classList.remove("active");
+      activeIndex = null;
     }
   }
 
-  // ✅ Initialize the game once DOM is ready
-  document.addEventListener("DOMContentLoaded", () => {
-    grid = document.getElementById("whackGrid");
-    scoreDisplay = document.getElementById("whackScore");
-    score = 0;
-    currentMole = null;
-
-    if (grid && scoreDisplay) {
-      createGrid();
-      scoreDisplay.textContent = "Score: 0";
-      setInterval(showMole, 1000);
-    }
-  });
-})();
+  setup();
+};
 

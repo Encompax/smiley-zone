@@ -1,7 +1,9 @@
 
-(() => {
-  let canvas, ctx;
-  let player;
+// 8. jumper.js
+window.initGame = function () {
+  let canvas = document.getElementById("jumperCanvas");
+  let ctx = canvas.getContext("2d");
+  let player = { x: 200, y: 400, width: 30, height: 30, dx: 0, dy: 0 };
   const gravity = 0.5;
   const jumpStrength = -10;
   let platforms = [];
@@ -9,13 +11,12 @@
   function createPlatforms() {
     platforms = [];
     for (let i = 0; i < 6; i++) {
-      let plat = {
+      platforms.push({
         x: Math.random() * (canvas.width - 80),
         y: i * 100,
         width: 80,
         height: 10
-      };
-      platforms.push(plat);
+      });
     }
   }
 
@@ -26,9 +27,7 @@
 
   function drawPlatforms() {
     ctx.fillStyle = "#8BC34A";
-    platforms.forEach(p => {
-      ctx.fillRect(p.x, p.y, p.width, p.height);
-    });
+    platforms.forEach(p => ctx.fillRect(p.x, p.y, p.width, p.height));
   }
 
   function movePlayer() {
@@ -38,7 +37,6 @@
 
     if (player.x < 0) player.x = 0;
     if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
-
     if (player.y < 250) {
       let delta = 250 - player.y;
       player.y = 250;
@@ -59,7 +57,7 @@
 
     if (player.y > canvas.height) {
       alert("💀 Game Over!");
-      window.initPlatformJumper(); // restart
+      window.initGame();
     }
   }
 
@@ -71,39 +69,16 @@
     requestAnimationFrame(draw);
   }
 
-  function handleKeyDown(e) {
+  document.addEventListener("keydown", e => {
     if (e.key === "ArrowLeft") player.dx = -5;
     if (e.key === "ArrowRight") player.dx = 5;
-  }
-
-  function handleKeyUp(e) {
-    if (e.key === "ArrowLeft" || e.key === "ArrowRight") player.dx = 0;
-  }
-
-  // ✅ Expose only the start method globally
-  window.initPlatformJumper = function () {
-    canvas = document.getElementById("jumperCanvas");
-    if (!canvas) return;
-
-    ctx = canvas.getContext("2d");
-    player = { x: 200, y: 400, width: 30, height: 30, dx: 0, dy: 0 };
-
-    createPlatforms();
-
-    document.removeEventListener("keydown", handleKeyDown);
-    document.removeEventListener("keyup", handleKeyUp);
-    document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("keyup", handleKeyUp);
-
-    requestAnimationFrame(draw);
-  };
-
-  // ✅ Auto-launch if routed directly
-  document.addEventListener("DOMContentLoaded", () => {
-    if (document.getElementById("jumperCanvas")) {
-      window.initPlatformJumper();
-    }
   });
-})();
+  document.addEventListener("keyup", e => {
+    if (e.key === "ArrowLeft" || e.key === "ArrowRight") player.dx = 0;
+  });
+
+  createPlatforms();
+  requestAnimationFrame(draw);
+};
 
 

@@ -1,52 +1,28 @@
+// 3. rps.js
+window.initGame = function () {
+  const result = document.getElementById("rpsResult");
+  const choices = ["rock", "paper", "scissors"];
 
-(() => {
-  function play(userChoice) {
-    const choices = ['rock', 'paper', 'scissors'];
-    const computerChoice = choices[Math.floor(Math.random() * choices.length)];
-    let result = "";
-
-    if (userChoice === computerChoice) {
-      result = "It's a tie!";
-    } else if (
-      (userChoice === "rock" && computerChoice === "scissors") ||
-      (userChoice === "paper" && computerChoice === "rock") ||
-      (userChoice === "scissors" && computerChoice === "paper")
-    ) {
-      result = "You win!";
-    } else {
-      result = "Computer wins!";
-    }
-
-    const resultDisplay = document.getElementById("rpsResult");
-    if (resultDisplay) {
-      resultDisplay.innerHTML = `
-        You chose: <strong>${userChoice}</strong><br>
-        Computer chose: <strong>${computerChoice}</strong><br>
-        <strong>${result}</strong>
-      `;
-    }
+  function computerChoice() {
+    return choices[Math.floor(Math.random() * 3)];
   }
 
-  // ✅ Expose only one global entry point
-  window.initRPS = function () {
-    const rockBtn = document.getElementById("rockBtn");
-    const paperBtn = document.getElementById("paperBtn");
-    const scissorsBtn = document.getElementById("scissorsBtn");
+  function play(user) {
+    const comp = computerChoice();
+    let outcome = "";
+    if (user === comp) outcome = "It's a tie!";
+    else if (
+      (user === "rock" && comp === "scissors") ||
+      (user === "scissors" && comp === "paper") ||
+      (user === "paper" && comp === "rock")
+    ) outcome = `You win! ${user} beats ${comp}`;
+    else outcome = `You lose! ${comp} beats ${user}`;
 
-    if (rockBtn) rockBtn.onclick = () => play("rock");
-    if (paperBtn) paperBtn.onclick = () => play("paper");
-    if (scissorsBtn) scissorsBtn.onclick = () => play("scissors");
+    result.textContent = outcome;
+  }
 
-    // Optional: clear result on init
-    const resultDisplay = document.getElementById("rpsResult");
-    if (resultDisplay) resultDisplay.innerHTML = "Make your move!";
-  };
-
-  // ✅ Auto-init if DOM is ready and page loaded directly
-  document.addEventListener("DOMContentLoaded", () => {
-    if (document.getElementById("rockBtn")) {
-      window.initRPS();
-    }
-  });
-})();
+  document.getElementById("rockBtn").onclick = () => play("rock");
+  document.getElementById("paperBtn").onclick = () => play("paper");
+  document.getElementById("scissorsBtn").onclick = () => play("scissors");
+};
 

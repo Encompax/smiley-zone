@@ -1,12 +1,13 @@
-
-(() => {
+// 10. 2048.js
+window.initGame = function () {
   let tiles = Array(16).fill(0);
   let score2048 = 0;
-  let grid2048, scoreDisplay2048;
+  let grid2048 = document.getElementById("grid2048");
+  let scoreDisplay2048 = document.getElementById("score2048");
 
   function createGrid2048() {
     grid2048.innerHTML = "";
-    tiles.forEach((val, i) => {
+    tiles.forEach(val => {
       const tile = document.createElement("div");
       tile.textContent = val > 0 ? val : "";
       tile.style.width = "80px";
@@ -42,48 +43,19 @@
     return arr.filter(val => val).concat(Array(4 - arr.filter(val => val).length).fill(0));
   }
 
-  function moveLeft() {
+  function move(dir) {
     for (let i = 0; i < 4; i++) {
-      const row = tiles.slice(i * 4, i * 4 + 4);
-      const newRow = slide(row);
-      for (let j = 0; j < 4; j++) {
-        tiles[i * 4 + j] = newRow[j];
-      }
-    }
-    generateTile2048();
-    updateScore2048();
-  }
+      let line;
+      if (dir === "left") line = tiles.slice(i * 4, i * 4 + 4);
+      else if (dir === "right") line = tiles.slice(i * 4, i * 4 + 4).reverse();
+      else line = [tiles[i], tiles[i + 4], tiles[i + 8], tiles[i + 12]];
 
-  function moveRight() {
-    for (let i = 0; i < 4; i++) {
-      const row = tiles.slice(i * 4, i * 4 + 4).reverse();
-      const newRow = slide(row).reverse();
-      for (let j = 0; j < 4; j++) {
-        tiles[i * 4 + j] = newRow[j];
-      }
-    }
-    generateTile2048();
-    updateScore2048();
-  }
+      let newLine = slide(line);
+      if (dir === "right") newLine = newLine.reverse();
 
-  function moveUp() {
-    for (let i = 0; i < 4; i++) {
-      const col = [tiles[i], tiles[i + 4], tiles[i + 8], tiles[i + 12]];
-      const newCol = slide(col);
       for (let j = 0; j < 4; j++) {
-        tiles[i + j * 4] = newCol[j];
-      }
-    }
-    generateTile2048();
-    updateScore2048();
-  }
-
-  function moveDown() {
-    for (let i = 0; i < 4; i++) {
-      const col = [tiles[i + 12], tiles[i + 8], tiles[i + 4], tiles[i]];
-      const newCol = slide(col).reverse();
-      for (let j = 0; j < 4; j++) {
-        tiles[i + j * 4] = newCol[j];
+        if (dir === "left" || dir === "right") tiles[i * 4 + j] = newLine[j];
+        else tiles[i + j * 4] = newLine[j];
       }
     }
     generateTile2048();
@@ -95,22 +67,18 @@
     createGrid2048();
   }
 
-  document.addEventListener("keydown", (e) => {
+  document.addEventListener("keydown", e => {
     switch (e.key) {
-      case "ArrowLeft": moveLeft(); break;
-      case "ArrowRight": moveRight(); break;
-      case "ArrowUp": moveUp(); break;
-      case "ArrowDown": moveDown(); break;
+      case "ArrowLeft": move("left"); break;
+      case "ArrowRight": move("right"); break;
+      case "ArrowUp": move("up"); break;
+      case "ArrowDown": move("down"); break;
     }
   });
 
-  document.addEventListener("DOMContentLoaded", () => {
-    grid2048 = document.getElementById("grid2048");
-    scoreDisplay2048 = document.getElementById("score2048");
-    createGrid2048();
-    generateTile2048();
-    generateTile2048();
-    updateScore2048();
-  });
-})();
+  createGrid2048();
+  generateTile2048();
+  generateTile2048();
+  updateScore2048();
+};
 
