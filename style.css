@@ -1,147 +1,177 @@
+
 /* Cartoon Arcade Style */
 
 :root {
-    --primary: #4db8ff;
-    --secondary: #ffd966;
-    --background: #e0f7fa;
-    --card: #ffffff;
-    --text: #333;
-  }
-  
-  body {
-    margin: 0;
-    font-family: 'Baloo 2', cursive;
-    background: linear-gradient(to bottom, var(--background), #ffffff);
-    color: var(--text);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-  
-  h1 {
-    font-size: 3rem;
-    margin-top: 1rem;
-    color: var(--primary);
-  }
-  
-  .arcade-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 2rem;
-    margin-top: 2rem;
-  }
-  
-  .game-card {
-    background: var(--card);
-    border-radius: 2rem;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    width: 250px;
-    padding: 2rem;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .game-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 30px rgba(0,0,0,0.15);
-  }
-  
-  .game-card img {
-    width: 100px;
-    height: 100px;
-    margin-bottom: 1rem;
-  }
-  
-  .game-card h2 {
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-  }
-  
-  .game-card a {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    border-radius: 1rem;
-    background: var(--primary);
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background 0.3s ease;
-  }
-  
-  .game-card a:hover {
-    background: #0099e6;
-  }
-  button {
-    font-size: 1rem;
-    padding: 0.5rem 1.2rem;
-    border: 2px solid royalblue;
-    border-radius: 0.5rem;
-    background-color: var(--primary);
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s ease, border 0.3s ease;
-  }
-  
-  button:hover {
-    background-color: #0099e6;
-    border-color: #0033cc;
-  }
-  input[type="text"] {
-    font-size: 1rem;
-    padding: 0.5rem 1rem;
-    border: 2px solid var(--primary);
-    border-radius: 0.5rem;
-    outline: none;
-    font-family: 'Baloo 2', cursive;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    background-color: #ffffff;
-    color: var(--text);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  input[type="text"]:focus {
-    border-color: royalblue;
-    box-shadow: 0 0 8px rgba(65, 105, 225, 0.5);
-  }
-  input::placeholder {
-    color: #aaa;
-    font-style: italic;
-  }
-  input[type="text"].error {
-    border-color: red;
-    box-shadow: 0 0 6px rgba(255, 0, 0, 0.5);
-    animation: shake 0.3s ease;
-  }    
-  body, html {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    height: 100%;
-    touch-action: none; /* Prevent touch gestures like scrolling */
-  }
-  #gameCanvas {
-    display: block;
-    margin: 0 auto;
-    background-color: black;
-    width: 50vw;
-    height: 50vh;
-    touch-action: none;
-  }
-  
-  footer {
-    margin-top: 3rem;
-    font-size: 0.9rem;
-    color: #888;
-  }
-  @keyframes shake {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    50% { transform: translateX(5px); }
-    75% { transform: translateX(-5px); }
-    100% { transform: translateX(0); }
-  }
+  --primary: #4db8ff;
+  --secondary: #ffd966;
+  --background: #e0f7fa;
+  --card: #ffffff;
+  --text: #333;
+}
+
+body {
+  margin: 0;
+  font-family: 'Baloo 2', cursive;
+  background: linear-gradient(to bottom, var(--background), #ffffff);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+h1 {
+  font-size: 3rem;
+  margin-top: 1rem;
+  color: var(--primary);
+}
+
+.arcade-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.game-card {
+  background: var(--card);
+  border-radius: 2rem;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  width: 250px;
+  padding: 2rem;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.game-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 30px rgba(0,0,0,0.15);
+}
+
+.game-card img {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 1rem;
+}
+
+.game-card h2 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.game-card a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  background: var(--primary);
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.game-card a:hover {
+  background: #0099e6;
+}
+
+button {
+  font-size: 1rem;
+  padding: 0.5rem 1.2rem;
+  border: 2px solid royalblue;
+  border-radius: 0.5rem;
+  background-color: var(--primary);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, border 0.3s ease;
+}
+
+button:hover {
+  background-color: #0099e6;
+  border-color: #0033cc;
+}
+
+input[type="text"] {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--primary);
+  border-radius: 0.5rem;
+  outline: none;
+  font-family: 'Baloo 2', cursive;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: #ffffff;
+  color: var(--text);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"]:focus {
+  border-color: royalblue;
+  box-shadow: 0 0 8px rgba(65, 105, 225, 0.5);
+}
+
+input::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+input[type="text"].error {
+  border-color: red;
+  box-shadow: 0 0 6px rgba(255, 0, 0, 0.5);
+  animation: shake 0.3s ease;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
+  touch-action: none;
+}
+
+#gameCanvas {
+  display: block;
+  margin: 0 auto;
+  background-color: black;
+  width: 50vw;
+  height: 50vh;
+  touch-action: none;
+}
+
+footer {
+  margin-top: 3rem;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+/* New puzzle tile styling */
+.tile {
+  width: 100px;
+  height: 100px;
+  background-color: #f0f4ff;
+  border-radius: 10px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out, background-color 0.3s ease;
+}
+
+.tile:hover {
+  transform: scale(1.05);
+  background-color: #dbe8ff;
+}
