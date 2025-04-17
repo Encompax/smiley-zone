@@ -96,7 +96,7 @@
   };
 
   document.addEventListener("DOMContentLoaded", () => {
-    canvas = document.getElementById("snakeCanvas");
+    canvas = document.getElementById("gameCanvas");
     ctx = canvas.getContext("2d");
 
     document.addEventListener("keydown", changeDirection);
