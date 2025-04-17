@@ -1,14 +1,36 @@
-<link rel="stylesheet" href="style.css">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sliding Puzzle</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-<p style="margin: 1rem 0;"><a href="home.html">🏠 Return to Home</a></p>
-<hr style="margin-bottom: 1.5rem;">
-<h2>click number tiles to arrange in sequencial order, left to right, in each row</h2>
+  <p style="margin: 1rem 0;"><a href="#home">🏠 Return to Home</a></p>
+  <hr style="margin-bottom: 1.5rem;" />
 
-<!-- New Game Button -->
-<button onclick="startGame()">New Game</button>
+  <h2>🧩 Sliding Puzzle</h2>
+  <p>Click number tiles to arrange them in sequential order, left to right, top to bottom.</p>
 
-<!-- Puzzle Grid Area -->
-<div id="game-area" style="display: grid; grid-template-columns: repeat(3, 100px); gap: 5px; justify-content: center; margin-top: 10px;"></div>
+  <button onclick="startGame()" style="margin: 10px 0; padding: 8px 16px;">New Game</button>
 
-<!-- Leaderboard Area -->
-<div id="leaderboard" style="margin-top: 20px;"></div>
+  <div id="game-area"
+       style="
+         display: grid;
+         grid-template-columns: repeat(3, 100px);
+         gap: 5px;
+         justify-content: center;
+         margin-top: 10px;">
+  </div>
+
+  <div id="leaderboard"
+       style="
+         margin-top: 30px;
+         text-align: center;
+         font-size: 16px;">
+  </div>
+
+</body>
+</html>

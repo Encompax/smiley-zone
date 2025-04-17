@@ -1,8 +1,30 @@
-<link rel="stylesheet" href="style.css">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Snake Game</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
 
-<p style="margin: 1rem 0;"><a href="home.html">🏠 Return to Home</a></p>
-<hr style="margin-bottom: 1.5rem;">
-<canvas id="snakeCanvas" width="400" height="400" style="border:1px solid #000;"></canvas>
-<p>Use arrow keys (desktop) or swipe (mobile) to control the snake!</p>
-<button id="startBtn" onclick="startGame()">Start Game</button>
+  <p style="margin: 1rem 0;"><a href="home.html">🏠 Return to Home</a></p>
+  <hr style="margin-bottom: 1.5rem;" />
+
+  <canvas id="gameCanvas" width="400" height="400" style="border:1px solid #000;"></canvas>
+  <p>Use arrow keys (desktop) or swipe (mobile) to control the snake!</p>
+  <button id="startBtn" onclick="startGame()">Start Game</button>
+
+  <div id="scoreboard">Score: 0</div>
+
+  <div id="leaderboard">
+    <h3>🏆 Leaderboard</h3>
+    <ol id="leaderboardList"></ol>
+  </div>
+
+  <script src="../scripts/games/snake.js"></script>
+
+</body>
+</html>
+
 

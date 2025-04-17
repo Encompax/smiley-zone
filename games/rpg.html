@@ -1,34 +1,44 @@
-<link rel="stylesheet" href="style.css">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini RPG</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-<p style="margin: 1rem 0;"><a href="home.html">🏠 Return to Home</a></p>
-<hr style="margin-bottom: 1.5rem;">
+  <p style="margin: 1rem 0;"><a href="#home">🏠 Return to Home</a></p>
+  <hr style="margin-bottom: 1.5rem;" />
 
-<h2>Mini RPG: Escape from Nevada</h2>
-<p style="max-width: 600px; margin: 0 auto;">
-  You are Zarnok, a peaceful interdimensional researcher from the Virellian System.
-  While on a survey mission, your ship crash-landed in Nevada. Hostile government agents have surrounded your crash site. 
-  Fight your way out before they capture your technology!
-</p>
+  <h2>Mini RPG: Escape from Nevada</h2>
+  <p style="max-width: 600px; margin: 0 auto;">
+    You are Zarnok, a peaceful interdimensional researcher from the Virellian System.
+    While on a survey mission, your ship crash-landed in Nevada. Hostile government agents have surrounded your crash site. 
+    Fight your way out before they capture your technology!
+  </p>
 
-<div id="rpgBattlefield" style="display: flex; justify-content: center; gap: 40px; margin-top: 30px;">
-  <div id="alienStatus" style="text-align: center;">
-    <img src="images/alien-hero.png" alt="Alien Hero" width="120" /><br>
-    <strong>Zarnok</strong><br>
-    HP: <span id="alienHP">100</span>
+  <div id="rpgBattlefield" style="display: flex; justify-content: center; gap: 40px; margin-top: 30px;">
+    <div id="alienStatus" style="text-align: center;">
+      <img src="images/alien-hero.png" alt="Alien Hero" width="120" /><br>
+      <strong>Zarnok</strong><br>
+      HP: <span id="alienHP">100</span>
+    </div>
+    <div id="agentStatus" style="text-align: center;">
+      <img src="images/agent-villain.png" alt="Agent" width="120" /><br>
+      <strong>Agent Ross</strong><br>
+      HP: <span id="agentHP">100</span>
+    </div>
   </div>
-  <div id="agentStatus" style="text-align: center;">
-    <img src="images/agent-villain.png" alt="Agent" width="120" /><br>
-    <strong>Agent Ross</strong><br>
-    HP: <span id="agentHP">100</span>
+
+  <div style="text-align: center; margin-top: 30px;">
+    <button id="attackBtn" style="padding: 10px 20px;">Plasma Pulse</button>
+    <button id="healBtn" style="padding: 10px 20px;">Quantum Recalibration</button>
   </div>
-</div>
 
-<!-- ✅ Replace inline onclicks with button IDs -->
-<div style="text-align: center; margin-top: 30px;">
-  <button id="attackBtn" style="padding: 10px 20px;">Plasma Pulse</button>
-  <button id="healBtn" style="padding: 10px 20px;">Quantum Recalibration</button>
-</div>
+  <p id="battleLog" style="text-align: center; margin-top: 20px; font-size: 18px;"></p>
 
-<!-- Message log -->
-<p id="battleLog" style="text-align: center; margin-top: 20px; font-size: 18px;"></p>
+</body>
+</html>
+
 

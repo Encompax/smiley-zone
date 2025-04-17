@@ -1,8 +1,35 @@
-<link rel="stylesheet" href="style.css">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minesweeper</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
 
-<p style="margin: 1rem 0;"><a href="home.html">🏠 Return to Home</a></p>
-<hr style="margin-bottom: 1.5rem;">
-<h2>Minesweeper</h2>
-<p>Click tiles to reveal them. Avoid the mines!</p>
-<div id="minesweeperGrid" style="display: grid; grid-template-columns: repeat(8, 40px); gap: 2px; justify-content: center; margin-top: 20px;"></div>
-<p id="minesweeperStatus" style="font-size: 18px; margin-top: 10px;"></p>
+  <p style="margin: 1rem 0;"><a href="home.html">🏠 Return to Home</a></p>
+  <hr style="margin-bottom: 1.5rem;" />
+
+  <h2>💣 Minesweeper</h2>
+  <p>Click tiles to reveal them. Avoid the mines!</p>
+
+  <div id="minesweeperGrid"
+       style="
+         display: grid;
+         grid-template-columns: repeat(8, 40px);
+         gap: 2px;
+         justify-content: center;
+         margin-top: 20px;">
+  </div>
+
+  <p id="minesweeperStatus"
+     style="
+       font-size: 18px;
+       margin-top: 10px;
+       text-align: center;
+       font-weight: bold;">
+  </p>
+
+</body>
+</html>
