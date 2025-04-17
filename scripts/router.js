@@ -13,13 +13,7 @@ function loadGame() {
       // 🧹 Remove previous script
       const oldScript = document.getElementById("dynamicScript");
       if (oldScript) oldScript.remove();
-      
-      const script = document.createElement("script");
-      script.src = `scripts/games/${page}.js`;
-      script.id = "dynamicScript";
-      script.defer = true;
-      document.body.appendChild(script);
-      
+
       // ♟️ Special handling for Chess – inject dependencies BEFORE main game script
       if (page === "chess") {
         const chessJS = document.createElement("script");
@@ -38,10 +32,17 @@ function loadGame() {
         chessCSS.rel = "stylesheet";
         chessCSS.href = "https://unpkg.com/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css";
         document.head.appendChild(chessCSS);
-      }
 
-      // 🕹️ Inject page-specific game logic AFTER dependencies (including chess)
-      if (page !== "home") {
+        // ⏳ Wait briefly before injecting chess game logic (ensure dependencies load)
+        setTimeout(() => {
+          const chessScript = document.createElement("script");
+          chessScript.src = `scripts/games/${page}.js`;
+          chessScript.id = "dynamicScript";
+          chessScript.defer = true;
+          document.body.appendChild(chessScript);
+        }, 200);
+      } else if (page !== "home") {
+        // 🕹️ Generic game logic for all other pages
         const script = document.createElement("script");
         script.src = `scripts/games/${page}.js`;
         script.id = "dynamicScript";
@@ -60,6 +61,7 @@ function loadGame() {
         "<h2 class='error'>404 - File Not Found</h2><p>The requested game could not be loaded.</p>";
     });
 }
+
 
 
 
