@@ -1,6 +1,8 @@
-// 1. memory.js
+
 window.initGame = function () {
   const memoryGrid = document.getElementById("memoryGrid");
+  if (!memoryGrid) return;
+
   const icons = ["A", "B", "C", "D", "E", "F", "G", "H"];
   let cards = [...icons, ...icons].sort(() => Math.random() - 0.5);
   let flipped = [];
