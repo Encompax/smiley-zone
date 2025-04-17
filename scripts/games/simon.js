@@ -1,10 +1,10 @@
 
-// 5. simon.js
+// 🟢 FIXED: 5. simon.js — now includes Start button trigger
 window.initGame = function () {
   const colors = ["red", "green", "blue", "yellow"];
   let sequence = [];
   let playerSequence = [];
-  let index = 0;
+  let acceptingInput = false;
 
   function flash(button) {
     button.classList.add("active");
@@ -12,12 +12,16 @@ window.initGame = function () {
   }
 
   function playSequence() {
+    acceptingInput = false;
     playerSequence = [];
     let i = 0;
     const interval = setInterval(() => {
       flash(document.getElementById(sequence[i]));
       i++;
-      if (i >= sequence.length) clearInterval(interval);
+      if (i >= sequence.length) {
+        clearInterval(interval);
+        acceptingInput = true;
+      }
     }, 700);
   }
 
@@ -28,12 +32,12 @@ window.initGame = function () {
   }
 
   function checkInput(color) {
+    if (!acceptingInput) return;
     playerSequence.push(color);
-    const currentIndex = playerSequence.length - 1;
-    if (playerSequence[currentIndex] !== sequence[currentIndex]) {
+    const index = playerSequence.length - 1;
+    if (playerSequence[index] !== sequence[index]) {
       alert("Game Over!");
       sequence = [];
-      nextRound();
       return;
     }
     if (playerSequence.length === sequence.length) {
@@ -48,5 +52,9 @@ window.initGame = function () {
     }
   });
 
-  nextRound();
+  const startBtn = document.getElementById("startSimonBtn");
+  if (startBtn) startBtn.onclick = () => {
+    sequence = [];
+    nextRound();
+  };
 };

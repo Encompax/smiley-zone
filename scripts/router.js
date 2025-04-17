@@ -1,148 +1,5 @@
+// Fixed router.js for Smiley Zone Arcade
 (() => {
-  let unlocks = JSON.parse(localStorage.getItem("unlocks") || "{}");
-  let user = JSON.parse(localStorage.getItem("user") || "{}");
-  let blockedUsers = JSON.parse(localStorage.getItem("blockedUsers") || "[]");
-  let auditLog = JSON.parse(localStorage.getItem("auditLog") || "[]");
-  let moderationSettings = JSON.parse(localStorage.getItem("moderationSettings") || JSON.stringify({
-    enabled: true,
-    tokenLimit: 100,
-    unlockLimit: 5,
-    loginFailLimit: 3
-  }));
-
-  const shopItems = {
-    theme: { label: "Bonus Theme", cost: 30 },
-    snake: { label: "Golden Snake Mode", cost: 50 },
-    avatar: { label: "Custom Avatar", cost: 20 }
-  };
-
-  function renderShopEditor() {
-    const editor = document.getElementById("shopEditor");
-    editor.innerHTML = "";
-    Object.keys(shopItems).forEach(item => {
-      const { label, cost } = shopItems[item];
-      const locked = !unlocks[item];
-      editor.innerHTML += `
-        <div class="shop-item">
-          <strong>${label}</strong><br>
-          Cost: <input type="number" id="price-${item}" value="${cost}" class="input-number" />
-          <button class="btn-toggle" onclick="toggleItem('${item}')">${locked ? "Unlock" : "Lock"}</button>
-          <span class="item-status" id="status-${item}">${locked ? "Locked" : "Unlocked"}</span>
-        </div>
-      `;
-    });
-  }
-
-  function toggleItem(item) {
-    unlocks[item] = !unlocks[item];
-    localStorage.setItem("unlocks", JSON.stringify(unlocks));
-    document.getElementById("status-" + item).textContent = unlocks[item] ? "Unlocked" : "Locked";
-  }
-
-  function renderUserManager() {
-    const container = document.getElementById("userManager");
-    container.innerHTML = `
-      <p><strong>User:</strong> ${user.name || "N/A"}<br>
-      <strong>Status:</strong> <span id="userStatus">${blockedUsers.includes(user.name) ? "Blocked" : "Active"}</span><br>
-      <button class="btn-toggle" onclick="toggleBlock('${user.name}')">
-        ${blockedUsers.includes(user.name) ? "Unblock" : "Block"} User
-      </button></p>
-    `;
-  }
-
-  function toggleBlock(username) {
-    if (!username) return;
-    const index = blockedUsers.indexOf(username);
-    const action = index > -1 ? "Unblocked user" : "Blocked user";
-    if (index > -1) blockedUsers.splice(index, 1);
-    else blockedUsers.push(username);
-    localStorage.setItem("blockedUsers", JSON.stringify(blockedUsers));
-    renderUserManager();
-    logAuditEvent("security", action, username);
-  }
-
-  function drawCharts() {
-    const ctx1 = document.getElementById("tokenChart").getContext("2d");
-    const ctx2 = document.getElementById("unlockChart").getContext("2d");
-
-    new Chart(ctx1, {
-      type: 'bar',
-      data: {
-        labels: ['Your Tokens'],
-        datasets: [{
-          label: 'Token Balance',
-          data: [user.tokens || 0],
-          backgroundColor: ['#42a5f5']
-        }]
-      },
-      options: { responsive: true }
-    });
-
-    new Chart(ctx2, {
-      type: 'pie',
-      data: {
-        labels: Object.keys(shopItems),
-        datasets: [{
-          label: 'Unlocked Items',
-          data: Object.keys(shopItems).map(key => unlocks[key] ? 1 : 0),
-          backgroundColor: ['#66bb6a', '#ffa726', '#ab47bc']
-        }]
-      },
-      options: { responsive: true }
-    });
-  }
-
-  function logAuditEvent(category, action, user = "N/A") {
-    const entry = {
-      timestamp: new Date().toISOString(),
-      category,
-      action,
-      user
-    };
-    auditLog.push(entry);
-    localStorage.setItem("auditLog", JSON.stringify(auditLog));
-    renderAuditLog();
-  }
-
-  function renderAuditLog() {
-    const table = document.getElementById("auditLogTable");
-    if (!table) return;
-    table.innerHTML = "";
-    auditLog.slice().reverse().forEach(entry => {
-      const row = `<tr>
-        <td>${new Date(entry.timestamp).toLocaleString()}</td>
-        <td>${entry.category}</td>
-        <td>${entry.action}</td>
-        <td>${entry.user}</td>
-      </tr>`;
-      table.innerHTML += row;
-    });
-  }
-
-  function loadModerationSettings() {
-    document.getElementById("autoModerationToggle").checked = moderationSettings.enabled;
-    document.getElementById("tokenLimit").value = moderationSettings.tokenLimit;
-    document.getElementById("unlockLimit").value = moderationSettings.unlockLimit;
-    document.getElementById("loginFailLimit").value = moderationSettings.loginFailLimit;
-  }
-
-  function saveModerationSettings() {
-    moderationSettings.enabled = document.getElementById("autoModerationToggle").checked;
-    moderationSettings.tokenLimit = parseInt(document.getElementById("tokenLimit").value);
-    moderationSettings.unlockLimit = parseInt(document.getElementById("unlockLimit").value);
-    moderationSettings.loginFailLimit = parseInt(document.getElementById("loginFailLimit").value);
-    localStorage.setItem("moderationSettings", JSON.stringify(moderationSettings));
-    document.getElementById("moderationStatus").textContent = "Moderation settings saved.";
-  }
-
-  function initializeAdmin() {
-    renderShopEditor();
-    renderUserManager();
-    drawCharts();
-    renderAuditLog();
-    loadModerationSettings();
-  }
-
   function tryInitGame() {
     if (typeof initGame === "function") {
       try {
@@ -155,23 +12,6 @@
       console.warn("⚠️ initGame is not defined or not a function");
     }
   }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    const initialPage = window.location.hash.substring(1) || "home";
-    if (initialPage === "admin") {
-      initializeAdmin();
-    }
-  
-    window.addEventListener("hashchange", () => {
-      const page = window.location.hash.substring(1);
-      if (page === "admin") {
-        initializeAdmin();
-      }
-    });
-  
-    loadGame();
-  });
-  
 
   function loadGame() {
     const page = window.location.hash.substring(1) || "home";
@@ -211,10 +51,13 @@
           document.body.appendChild(script);
         }
 
-        const cssLink = document.createElement("link");
-        cssLink.rel = "stylesheet";
-        cssLink.href = "style.css";
-        document.head.appendChild(cssLink);
+        // Only load CSS if not already present
+        if (!document.querySelector("link[href='style.css']")) {
+          const cssLink = document.createElement("link");
+          cssLink.rel = "stylesheet";
+          cssLink.href = "style.css";
+          document.head.appendChild(cssLink);
+        }
       })
       .catch(() => {
         document.getElementById("gameContainer").innerHTML =
@@ -222,9 +65,30 @@
       });
   }
 
-  window.toggleBlock = toggleBlock;
-  window.toggleItem = toggleItem;
-  window.saveModerationSettings = saveModerationSettings;
+  function initializeAdmin() {
+    if (typeof renderShopEditor === 'function') renderShopEditor();
+    if (typeof renderUserManager === 'function') renderUserManager();
+    if (typeof drawCharts === 'function') drawCharts();
+    if (typeof renderAuditLog === 'function') renderAuditLog();
+    if (typeof loadModerationSettings === 'function') loadModerationSettings();
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const initialPage = window.location.hash.substring(1) || "home";
+    if (initialPage === "admin") {
+      initializeAdmin();
+    }
+    loadGame();
+  });
+
+  window.addEventListener("hashchange", () => {
+    const page = window.location.hash.substring(1);
+    if (page === "admin") {
+      initializeAdmin();
+    } else {
+      loadGame(); // ✅ CRITICAL: add this to handle navigation!
+    }
+  });
 })();
 
 

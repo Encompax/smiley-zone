@@ -5,13 +5,13 @@ window.initGame = function () {
   const scale = 20;
   const rows = canvas.height / scale;
   const columns = canvas.width / scale;
-  let snake, food;
+  let snake, food, gameLoop;
 
   class Snake {
     constructor() {
       this.x = 0;
       this.y = 0;
-      this.xSpeed = scale * 1;
+      this.xSpeed = scale;
       this.ySpeed = 0;
       this.total = 0;
       this.tail = [];
@@ -32,38 +32,13 @@ window.initGame = function () {
       }
       this.x += this.xSpeed;
       this.y += this.ySpeed;
-
-      if (this.x >= canvas.width) this.x = 0;
-      if (this.y >= canvas.height) this.y = 0;
-      if (this.x < 0) this.x = canvas.width - scale;
-      if (this.y < 0) this.y = canvas.height - scale;
     }
     changeDirection(direction) {
       switch (direction) {
-        case "Up":
-          if (this.ySpeed === 0) {
-            this.xSpeed = 0;
-            this.ySpeed = -scale;
-          }
-          break;
-        case "Down":
-          if (this.ySpeed === 0) {
-            this.xSpeed = 0;
-            this.ySpeed = scale;
-          }
-          break;
-        case "Left":
-          if (this.xSpeed === 0) {
-            this.xSpeed = -scale;
-            this.ySpeed = 0;
-          }
-          break;
-        case "Right":
-          if (this.xSpeed === 0) {
-            this.xSpeed = scale;
-            this.ySpeed = 0;
-          }
-          break;
+        case "Up": if (this.ySpeed === 0) { this.xSpeed = 0; this.ySpeed = -scale; } break;
+        case "Down": if (this.ySpeed === 0) { this.xSpeed = 0; this.ySpeed = scale; } break;
+        case "Left": if (this.xSpeed === 0) { this.xSpeed = -scale; this.ySpeed = 0; } break;
+        case "Right": if (this.xSpeed === 0) { this.xSpeed = scale; this.ySpeed = 0; } break;
       }
     }
     eat(food) {
@@ -72,6 +47,14 @@ window.initGame = function () {
         return true;
       }
       return false;
+    }
+    checkCollision() {
+      for (let i = 0; i < this.tail.length; i++) {
+        if (this.x === this.tail[i].x && this.y === this.tail[i].y) return true;
+      }
+      return (
+        this.x < 0 || this.y < 0 || this.x >= canvas.width || this.y >= canvas.height
+      );
     }
   }
 
@@ -90,32 +73,28 @@ window.initGame = function () {
     }
   }
 
-  function setup() {
+  function startGame() {
     snake = new Snake();
     food = new Food();
     food.pickLocation();
+    if (gameLoop) clearInterval(gameLoop);
 
-    window.addEventListener("keydown", e => {
-      const direction = e.key.replace("Arrow", "");
-      snake.changeDirection(direction);
-    });
-
-    const gameLoop = setInterval(() => {
+    gameLoop = setInterval(() => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       food.draw();
       snake.update();
       snake.draw();
       if (snake.eat(food)) food.pickLocation();
-    }, 250);
+      if (snake.checkCollision()) {
+        clearInterval(gameLoop);
+        alert("Game Over");
+      }
+    }, 200);
   }
 
-  setup();
+  document.getElementById("startBtn").onclick = startGame;
+  window.addEventListener("keydown", e => {
+    const direction = e.key.replace("Arrow", "");
+    snake?.changeDirection(direction);
+  });
 };
-
-
-
-
-
-
-
-

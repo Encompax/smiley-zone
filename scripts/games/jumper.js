@@ -1,12 +1,11 @@
 
-// 8. jumper.js
+// 🟦 FIXED: 8. jumper.js — removed infinite restart, added safe restart control
 window.initGame = function () {
   let canvas = document.getElementById("jumperCanvas");
   let ctx = canvas.getContext("2d");
-  let player = { x: 200, y: 400, width: 30, height: 30, dx: 0, dy: 0 };
+  let player, platforms, gameRunning;
   const gravity = 0.5;
   const jumpStrength = -10;
-  let platforms = [];
 
   function createPlatforms() {
     platforms = [];
@@ -56,16 +55,24 @@ window.initGame = function () {
     });
 
     if (player.y > canvas.height) {
+      gameRunning = false;
       alert("💀 Game Over!");
-      window.initGame();
     }
   }
 
   function draw() {
+    if (!gameRunning) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawPlayer();
     drawPlatforms();
     movePlayer();
+    requestAnimationFrame(draw);
+  }
+
+  function startJumperGame() {
+    player = { x: 200, y: 400, width: 30, height: 30, dx: 0, dy: 0 };
+    createPlatforms();
+    gameRunning = true;
     requestAnimationFrame(draw);
   }
 
@@ -77,8 +84,5 @@ window.initGame = function () {
     if (e.key === "ArrowLeft" || e.key === "ArrowRight") player.dx = 0;
   });
 
-  createPlatforms();
-  requestAnimationFrame(draw);
+  startJumperGame();
 };
-
-
