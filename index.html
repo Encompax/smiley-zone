@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<link rel="icon" href="favicon.ico" type="image/x-icon">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smiley-Zone Arcade</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+  <!-- Redirect to #home if no hash is present -->
+  <script>
+    if (!location.hash) {
+      location.replace(location.pathname + "#home");
+    }
+  </script>
 </head>
 
-<script>
-  if (!location.hash) {
-    location.replace(location.pathname + "#home");
-  }
-</script>
-
-
 <body>
-
+  <!-- 🔲 This is where the game pages will be dynamically injected -->
   <div id="gameContainer"></div>
 
-  <script src="scripts/router.js"></script>
-
+  <!-- 🧠 Router handles loading the correct HTML/JS and reattaching dependencies -->
+  <script src="scripts/router.js" defer></script>
 </body>
 </html>
+
 
 
 
