@@ -157,11 +157,21 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
-    initializeAdmin();
-
-    window.addEventListener("hashchange", loadGame);
+    const initialPage = window.location.hash.substring(1) || "home";
+    if (initialPage === "admin") {
+      initializeAdmin();
+    }
+  
+    window.addEventListener("hashchange", () => {
+      const page = window.location.hash.substring(1);
+      if (page === "admin") {
+        initializeAdmin();
+      }
+    });
+  
     loadGame();
   });
+  
 
   function loadGame() {
     const page = window.location.hash.substring(1) || "home";
