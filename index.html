@@ -9,6 +9,13 @@
   <link rel="stylesheet" href="style.css">
 </head>
 
+<script>
+  if (!location.hash) {
+    location.replace(location.pathname + "#home");
+  }
+</script>
+
+
 <body>
 
   <div id="gameContainer"></div>
