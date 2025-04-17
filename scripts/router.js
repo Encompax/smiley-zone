@@ -13,7 +13,13 @@ function loadGame() {
       // 🧹 Remove previous script
       const oldScript = document.getElementById("dynamicScript");
       if (oldScript) oldScript.remove();
-
+      
+      const script = document.createElement("script");
+      script.src = `scripts/games/${page}.js`;
+      script.id = "dynamicScript";
+      script.defer = true;
+      document.body.appendChild(script);
+      
       // ♟️ Special handling for Chess – inject dependencies BEFORE main game script
       if (page === "chess") {
         const chessJS = document.createElement("script");
