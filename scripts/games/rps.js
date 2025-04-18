@@ -1,5 +1,5 @@
 // 3. rps.js
-window.initGame = function () {
+window.initRps = function () {
   const result = document.getElementById("rpsResult");
   const choices = ["rock", "paper", "scissors"];
 

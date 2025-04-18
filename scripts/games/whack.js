@@ -1,5 +1,5 @@
 // 11. whack.js
-window.initGame = function () {
+window.initWhack = function () {
   const grid = document.getElementById("whackGrid");
   const scoreDisplay = document.getElementById("whackScore");
   let score = 0;

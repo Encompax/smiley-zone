@@ -1,5 +1,5 @@
 // 15. maze.js
-window.initGame = function () {
+window.initMaze = function () {
   const tileSize = 40;
   const player = { x: 1, y: 1 };
   const goal = { x: 6, y: 6 };

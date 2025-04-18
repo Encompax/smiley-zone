@@ -1,6 +1,6 @@
 
 // 🟢 FIXED: 5. simon.js — now includes Start button trigger
-window.initGame = function () {
+window.initSimon = function () {
   const colors = ["red", "green", "blue", "yellow"];
   let sequence = [];
   let playerSequence = [];

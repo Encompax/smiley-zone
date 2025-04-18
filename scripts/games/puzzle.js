@@ -1,6 +1,6 @@
 
 // 4. puzzle.js
-window.initGame = function () {
+window.initPuzzle = function () {
   let puzzleBoard = [];
   let puzzleCurrentLevel = 3;
   const leaderboard = JSON.parse(localStorage.getItem('slidingPuzzleLeaderboard')) || [];

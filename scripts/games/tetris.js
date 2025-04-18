@@ -1,12 +1,23 @@
+window.initTetris = function () {
+  let canvas = document.getElementById("tetrisCanvas");
+  let context = canvas?.getContext("2d");
+  let scoreEl = document.getElementById("tetrisScore");
 
-(() => {
-  let canvas, context;
-  let arena, player;
+  if (!canvas || !context || !scoreEl) {
+    console.warn("⚠️ Missing required DOM elements for Tetris.");
+    return;
+  }
+
+  context.scale(20, 20);
+
+  let arena = createMatrix(12, 20);
+  let player = {
+    pos: { x: 0, y: 0 },
+    matrix: null
+  };
+
   let score = 0;
-  let scoreEl = null;
-
   const colors = [null, "#FF0D72", "#0DC2FF", "#0DFF72", "#F538FF", "#FF8E0D", "#FFE138", "#3877FF"];
-
   const dropInterval = 1000;
   let dropCounter = 0;
   let lastTime = 0;
@@ -40,6 +51,13 @@
     });
   }
 
+  function draw() {
+    context.fillStyle = "#000";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    drawMatrix(arena, { x: 0, y: 0 });
+    drawMatrix(player.matrix, player.pos);
+  }
+
   function merge(arena, player) {
     player.matrix.forEach((row, y) => {
       row.forEach((value, x) => {
@@ -53,7 +71,7 @@
     for (let y = 0; y < m.length; ++y) {
       for (let x = 0; x < m[y].length; ++x) {
         if (m[y][x] !== 0 &&
-           (arena[y + o.y] && arena[y + o.y][x + o.x]) !== 0) {
+          (arena[y + o.y] && arena[y + o.y][x + o.x]) !== 0) {
           return true;
         }
       }
@@ -74,7 +92,9 @@
 
   function playerMove(dir) {
     player.pos.x += dir;
-    if (collide(arena, player)) player.pos.x -= dir;
+    if (collide(arena, player)) {
+      player.pos.x -= dir;
+    }
   }
 
   function playerReset() {
@@ -96,9 +116,16 @@
         [m[x][y], m[y][x]] = [m[y][x], m[x][y]];
       }
     }
-    dir > 0 ? m.forEach(row => row.reverse()) : m.reverse();
+
+    if (dir > 0) {
+      m.forEach(row => row.reverse());
+    } else {
+      m.reverse();
+    }
+
     if (collide(arena, player)) {
-      dir > 0 ? m.forEach(row => row.reverse()) : m.reverse();
+      if (dir > 0) m.forEach(row => row.reverse());
+      else m.reverse();
     }
   }
 
@@ -117,14 +144,7 @@
   }
 
   function updateScore() {
-    if (scoreEl) scoreEl.textContent = "Score: " + score;
-  }
-
-  function draw() {
-    context.fillStyle = "#000";
-    context.fillRect(0, 0, canvas.width, canvas.height);
-    drawMatrix(arena, {x: 0, y: 0});
-    drawMatrix(player.matrix, player.pos);
+    scoreEl.textContent = "Score: " + score;
   }
 
   function update(time = 0) {
@@ -138,28 +158,18 @@
     requestAnimationFrame(update);
   }
 
-  // ✅ DOM-Ready Setup
-  document.addEventListener("DOMContentLoaded", () => {
-    canvas = document.getElementById("tetrisCanvas");
-    if (!canvas) return;
+  // Start game
+  playerReset();
+  updateScore();
+  update();
 
-    context = canvas.getContext("2d");
-    context.scale(20, 20);
-    arena = createMatrix(12, 20);
-    player = { pos: {x: 0, y: 0}, matrix: null };
-    scoreEl = document.getElementById("tetrisScore");
-
-    playerReset();
-    updateScore();
-    update();
-
-    document.addEventListener("keydown", e => {
-      if (e.key === "ArrowLeft") playerMove(-1);
-      else if (e.key === "ArrowRight") playerMove(1);
-      else if (e.key === "ArrowDown") playerDrop();
-      else if (e.key === "q") playerRotate(-1);
-      else if (e.key === "w") playerRotate(1);
-    });
+  document.addEventListener("keydown", e => {
+    if (e.key === "ArrowLeft") playerMove(-1);
+    else if (e.key === "ArrowRight") playerMove(1);
+    else if (e.key === "ArrowDown") playerDrop();
+    else if (e.key === "q") playerRotate(-1);
+    else if (e.key === "w") playerRotate(1);
   });
-})();
 
+  console.log("✅ Tetris initialized successfully.");
+};

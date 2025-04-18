@@ -1,5 +1,5 @@
 // 2. minesweeper.js
-window.initGame = function () {
+window.initMinesweeper = function () {
   const gridSize = 8;
   const mineCount = 10;
   const minesweeperGrid = document.getElementById("minesweeperGrid");

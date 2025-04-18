@@ -1,5 +1,5 @@
 // 16. rpg.js
-window.initGame = function () {
+window.initRpg = function () {
   let alienHP = 100;
   let agentHP = 100;
 

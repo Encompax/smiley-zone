@@ -1,5 +1,5 @@
 // 6. tictactoe.js
-window.initGame = function () {
+window.initTictactoe = function () {
   const board = Array(9).fill(null);
   let currentPlayer = "X";
   const cells = document.querySelectorAll(".cell");

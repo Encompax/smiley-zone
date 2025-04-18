@@ -1,5 +1,5 @@
 
-window.initGame = function () {
+window.initMemory = function () {
   const memoryGrid = document.getElementById("memoryGrid");
   if (!memoryGrid) return;
 
