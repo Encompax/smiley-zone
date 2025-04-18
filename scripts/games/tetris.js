@@ -173,3 +173,4 @@ window.initTetris = function () {
 
   console.log("✅ Tetris initialized successfully.");
 };
+
