@@ -1,17 +1,21 @@
 // Fixed router.js for Smiley Zone Arcade
 (() => {
-  function tryInitGame() {
-    if (typeof initGame === "function") {
+  function tryInitGame(page) {
+    const initFunctionName = `init${page.charAt(0).toUpperCase() + page.slice(1)}`;
+    const initFunction = window[initFunctionName];
+  
+    if (typeof initFunction === "function") {
       try {
-        initGame();
-        console.log("✅ initGame() executed successfully");
+        initFunction();
+        console.log(`✅ ${initFunctionName}() executed successfully`);
       } catch (e) {
-        console.error("🚫 initGame() failed to execute", e);
+        console.error(`❌ ${initFunctionName}() failed to execute`, e);
       }
     } else {
-      console.warn("⚠️ initGame is not defined or not a function");
+      console.warn(`⚠️ ${initFunctionName} is not defined or not a function`);
     }
   }
+  
 
   function loadGame() {
     const page = window.location.hash.substring(1) || "home";
@@ -47,7 +51,7 @@
           script.src = `scripts/games/${page}.js`;
           script.id = "dynamicScript";
           script.defer = true;
-          script.onload = tryInitGame;
+          script.onload = () => tryInitGame(page);
           document.body.appendChild(script);
         }
 
