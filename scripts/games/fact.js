@@ -7,20 +7,23 @@ window.initFact = function () {
     { text: "The shortest war in history, between Britain and Zanzibar, lasted just 38 minutes.", image: "shortwar.png" },
     { text: "Cleopatra lived closer in time to the iPhone than to the building of the Great Pyramid.", image: "cleophone.png" },
     { text: "Isaac Newton stuck a needle in his eye socket to study how light and vision worked.", image: "isaacneedle.png" },
-    { text: "Einstein’s brain was removed without permission and stored in jars for research.", image: "einbrain.png" },
+    { text: "Einstein's brain was removed without permission and stored in jars for research.", image: "einbrain.png" },
     { text: "King Gustav III of Sweden was shot at a masquerade ball in 1792.", image: "gustav.png" },
     { text: "The Eiffel Tower can grow up to 6 inches taller in summer due to metal expansion.", image: "eiffelsix.png" }
   ];
 
+  // Get references to required DOM elements
   const display = document.getElementById("factDisplay");
   const img = document.getElementById("factImage");
-  const button = document.querySelector("button[onclick='generateFact()']');
+  const button = document.getElementById("factButton");
 
+  // Validate all necessary elements are present
   if (!display || !img || !button) {
     console.warn("⚠️ Missing DOM elements for fact game.");
     return;
   }
 
+  // Define fact generator logic
   function generateFact() {
     const f = facts[Math.floor(Math.random() * facts.length)];
     display.textContent = f.text;
@@ -29,10 +32,14 @@ window.initFact = function () {
     img.style.display = "block";
   }
 
+  // Expose function globally if needed
   window.generateFact = generateFact;
+
+  // Assign click handler
   button.onclick = generateFact;
 
   console.log("✅ Fact game initialized successfully.");
 };
+
 
 
