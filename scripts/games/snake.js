@@ -1,6 +1,12 @@
-// 7. snake.js
-window.initGame = function () {
+window.initSnake = function () {
   const canvas = document.getElementById("gameCanvas");
+  const startBtn = document.getElementById("startBtn");
+
+  if (!canvas || !startBtn) {
+    console.warn("⚠️ Snake game initialization failed: Missing canvas or start button.");
+    return;
+  }
+
   const ctx = canvas.getContext("2d");
   const scale = 20;
   const rows = canvas.height / scale;
@@ -16,6 +22,7 @@ window.initGame = function () {
       this.total = 0;
       this.tail = [];
     }
+
     draw() {
       ctx.fillStyle = "#4caf50";
       for (let i = 0; i < this.tail.length; i++) {
@@ -23,6 +30,7 @@ window.initGame = function () {
       }
       ctx.fillRect(this.x, this.y, scale, scale);
     }
+
     update() {
       for (let i = 0; i < this.tail.length - 1; i++) {
         this.tail[i] = this.tail[i + 1];
@@ -33,6 +41,7 @@ window.initGame = function () {
       this.x += this.xSpeed;
       this.y += this.ySpeed;
     }
+
     changeDirection(direction) {
       switch (direction) {
         case "Up": if (this.ySpeed === 0) { this.xSpeed = 0; this.ySpeed = -scale; } break;
@@ -41,6 +50,7 @@ window.initGame = function () {
         case "Right": if (this.xSpeed === 0) { this.xSpeed = scale; this.ySpeed = 0; } break;
       }
     }
+
     eat(food) {
       if (this.x === food.x && this.y === food.y) {
         this.total++;
@@ -48,6 +58,7 @@ window.initGame = function () {
       }
       return false;
     }
+
     checkCollision() {
       for (let i = 0; i < this.tail.length; i++) {
         if (this.x === this.tail[i].x && this.y === this.tail[i].y) return true;
@@ -63,10 +74,12 @@ window.initGame = function () {
       this.x;
       this.y;
     }
+
     pickLocation() {
       this.x = Math.floor(Math.random() * columns) * scale;
       this.y = Math.floor(Math.random() * rows) * scale;
     }
+
     draw() {
       ctx.fillStyle = "#ff1744";
       ctx.fillRect(this.x, this.y, scale, scale);
@@ -84,7 +97,11 @@ window.initGame = function () {
       food.draw();
       snake.update();
       snake.draw();
-      if (snake.eat(food)) food.pickLocation();
+
+      if (snake.eat(food)) {
+        food.pickLocation();
+      }
+
       if (snake.checkCollision()) {
         clearInterval(gameLoop);
         alert("Game Over");
@@ -92,9 +109,13 @@ window.initGame = function () {
     }, 200);
   }
 
-  document.getElementById("startBtn").onclick = startGame;
+  // Event listeners
+  startBtn.onclick = startGame;
+
   window.addEventListener("keydown", e => {
     const direction = e.key.replace("Arrow", "");
     snake?.changeDirection(direction);
   });
+
+  console.log("✅ Snake game initialized successfully.");
 };

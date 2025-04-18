@@ -1,11 +1,17 @@
 
-// 🟦 FIXED: 8. jumper.js — removed infinite restart, added safe restart control
-window.initGame = function () {
-  let canvas = document.getElementById("jumperCanvas");
-  let ctx = canvas.getContext("2d");
-  let player, platforms, gameRunning;
+window.initJumper = function () {
+  const canvas = document.getElementById("jumperCanvas");
+
+  if (!canvas) {
+    console.warn("⚠️ Jumper canvas not found.");
+    return;
+  }
+
+  const ctx = canvas.getContext("2d");
   const gravity = 0.5;
   const jumpStrength = -10;
+
+  let player, platforms, gameRunning;
 
   function createPlatforms() {
     platforms = [];
@@ -80,9 +86,19 @@ window.initGame = function () {
     if (e.key === "ArrowLeft") player.dx = -5;
     if (e.key === "ArrowRight") player.dx = 5;
   });
+
   document.addEventListener("keyup", e => {
     if (e.key === "ArrowLeft" || e.key === "ArrowRight") player.dx = 0;
   });
 
-  startJumperGame();
+  // Start game once canvas is ready and user initiates
+  const startButton = document.getElementById("startJumperBtn");
+  if (startButton) {
+    startButton.onclick = startJumperGame;
+  } else {
+    // fallback to auto-start for now if no start button exists
+    startJumperGame();
+  }
+
+  console.log("✅ Jumper initialized successfully.");
 };

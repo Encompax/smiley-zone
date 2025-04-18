@@ -1,9 +1,14 @@
-// 10. 2048.js
-window.initGame = function () {
+window.init2048 = function () {
   let tiles = Array(16).fill(0);
   let score2048 = 0;
-  let grid2048 = document.getElementById("grid2048");
-  let scoreDisplay2048 = document.getElementById("score2048");
+
+  const grid2048 = document.getElementById("grid2048");
+  const scoreDisplay2048 = document.getElementById("score2048");
+
+  if (!grid2048 || !scoreDisplay2048) {
+    console.warn("⚠️ Required DOM elements for 2048 not found.");
+    return;
+  }
 
   function createGrid2048() {
     grid2048.innerHTML = "";
@@ -76,9 +81,11 @@ window.initGame = function () {
     }
   });
 
+  // Initialize game state
   createGrid2048();
   generateTile2048();
   generateTile2048();
   updateScore2048();
-};
 
+  console.log("✅ 2048 initialized successfully.");
+};

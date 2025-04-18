@@ -1,5 +1,4 @@
-// 13. fact.js
-window.initGame = function () {
+window.initFact = function () {
   const facts = [
     { text: "Winston Churchill was once hit by a car in New York and apologized to the driver.", image: "winswreck.png" },
     { text: "Ancient Athens made it illegal to cut down olive trees—even on your own land.", image: "cutdownolive.png" },
@@ -15,7 +14,12 @@ window.initGame = function () {
 
   const display = document.getElementById("factDisplay");
   const img = document.getElementById("factImage");
-  const button = document.querySelector("button[onclick='generateFact()']");
+  const button = document.querySelector("button[onclick='generateFact()']');
+
+  if (!display || !img || !button) {
+    console.warn("⚠️ Missing DOM elements for fact game.");
+    return;
+  }
 
   function generateFact() {
     const f = facts[Math.floor(Math.random() * facts.length)];
@@ -26,6 +30,9 @@ window.initGame = function () {
   }
 
   window.generateFact = generateFact;
-  if (button) button.onclick = generateFact;
+  button.onclick = generateFact;
+
+  console.log("✅ Fact game initialized successfully.");
 };
+
 

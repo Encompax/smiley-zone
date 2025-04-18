@@ -143,7 +143,11 @@
     loadModerationSettings();
   }
 
-  document.addEventListener("DOMContentLoaded", initializeAdmin);
+  window.initAdmin = function () {
+    initializeAdmin();
+    console.log("✅ Admin panel initialized successfully.");
+  };
+  
 
   // Expose minimal globals needed for inline or router.js
   window.toggleBlock = toggleBlock;
