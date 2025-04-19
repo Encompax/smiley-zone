@@ -55,13 +55,17 @@
           document.body.appendChild(script);
         }
 
-        // Only load CSS if not already present
-        if (!document.querySelector("link[href='style.css']")) {
-          const cssLink = document.createElement("link");
-          cssLink.rel = "stylesheet";
-          cssLink.href = "style.css";
-          document.head.appendChild(cssLink);
-        }
+        const cssPath = window.location.pathname.includes("/games/")
+  ? "../style.css"
+  : "style.css";
+
+if (!document.querySelector(`link[href='${cssPath}']`)) {
+  const cssLink = document.createElement("link");
+  cssLink.rel = "stylesheet";
+  cssLink.href = cssPath;
+  document.head.appendChild(cssLink);
+}
+
       })
       .catch(() => {
         document.getElementById("gameContainer").innerHTML =
