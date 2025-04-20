@@ -30,13 +30,15 @@
     </p>
 
     <div style="text-align: center; margin: 10px 0;">
-      <button id="startBtn" class="btn-primary" onclick="startGame()">Start Game</button>
+      <button id="startBtn" class="btn-primary">Start Game</button>
     </div>
 
-    <div id="scoreboard" style="text-align: center; font-size: 18px; margin-bottom: 20px;">
+    <!-- ✅ Score display dynamically updated -->
+    <div id="scoreDisplay" style="text-align: center; font-size: 18px; margin-bottom: 20px;">
       Score: 0
     </div>
 
+    <!-- 🏆 Placeholder for Firebase-based leaderboard -->
     <div id="leaderboard"
          style="
            max-width: 500px;
@@ -50,9 +52,10 @@
     </div>
   </div>
 
-  <!-- Snake game logic expected to be routed or injected dynamically -->
+  <!-- Game logic is expected to be routed or injected via router.js -->
 </body>
 </html>
+
 
 
 

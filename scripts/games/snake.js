@@ -1,6 +1,7 @@
 window.initSnake = function () {
   const canvas = document.getElementById("gameCanvas");
   const startBtn = document.getElementById("startBtn");
+  const scoreDisplay = document.getElementById("scoreDisplay");
 
   if (!canvas || !startBtn) {
     console.warn("⚠️ Snake game initialization failed: Missing canvas or start button.");
@@ -11,7 +12,7 @@ window.initSnake = function () {
   const scale = 20;
   const rows = canvas.height / scale;
   const columns = canvas.width / scale;
-  let snake, food, gameLoop;
+  let snake, food, gameLoop, score = 0;
 
   class Snake {
     constructor() {
@@ -106,10 +107,19 @@ window.initSnake = function () {
     }
   }
 
+  function updateScore() {
+    if (scoreDisplay) {
+      scoreDisplay.textContent = "Score: " + score;
+    }
+  }
+
   function startGame() {
     snake = new Snake();
     food = new Food();
     food.pickLocation();
+    score = 0;
+    updateScore();
+
     if (gameLoop) clearInterval(gameLoop);
 
     gameLoop = setInterval(() => {
@@ -120,11 +130,14 @@ window.initSnake = function () {
 
       if (snake.eat(food)) {
         food.pickLocation();
+        score++;
+        updateScore();
       }
 
       if (snake.checkCollision()) {
         clearInterval(gameLoop);
         alert("Game Over");
+        // Future: saveScoreToFirebase(score);
       }
     }, 200);
   }
@@ -132,7 +145,6 @@ window.initSnake = function () {
   // Event listeners
   startBtn.onclick = startGame;
 
-  // Direction control
   window.addEventListener("keydown", e => {
     const direction = e.key.replace("Arrow", "");
     snake?.changeDirection(direction);
@@ -148,4 +160,5 @@ window.initSnake = function () {
 
   console.log("✅ Snake game initialized successfully.");
 };
+
 
