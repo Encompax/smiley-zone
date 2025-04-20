@@ -61,7 +61,9 @@
 
 if (!document.querySelector(`link[href='${cssPath}']`)) {
   const cssLink = document.createElement("link");
-  cssLink.rel = "stylesheet";
+  cssLink.href = "./style.css";
+
+
   cssLink.href = cssPath;
   document.head.appendChild(cssLink);
 }
