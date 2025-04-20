@@ -44,10 +44,30 @@ window.initSnake = function () {
 
     changeDirection(direction) {
       switch (direction) {
-        case "Up": if (this.ySpeed === 0) { this.xSpeed = 0; this.ySpeed = -scale; } break;
-        case "Down": if (this.ySpeed === 0) { this.xSpeed = 0; this.ySpeed = scale; } break;
-        case "Left": if (this.xSpeed === 0) { this.xSpeed = -scale; this.ySpeed = 0; } break;
-        case "Right": if (this.xSpeed === 0) { this.xSpeed = scale; this.ySpeed = 0; } break;
+        case "Up":
+          if (this.ySpeed === 0) {
+            this.xSpeed = 0;
+            this.ySpeed = -scale;
+          }
+          break;
+        case "Down":
+          if (this.ySpeed === 0) {
+            this.xSpeed = 0;
+            this.ySpeed = scale;
+          }
+          break;
+        case "Left":
+          if (this.xSpeed === 0) {
+            this.xSpeed = -scale;
+            this.ySpeed = 0;
+          }
+          break;
+        case "Right":
+          if (this.xSpeed === 0) {
+            this.xSpeed = scale;
+            this.ySpeed = 0;
+          }
+          break;
       }
     }
 
@@ -112,10 +132,20 @@ window.initSnake = function () {
   // Event listeners
   startBtn.onclick = startGame;
 
+  // Direction control
   window.addEventListener("keydown", e => {
     const direction = e.key.replace("Arrow", "");
     snake?.changeDirection(direction);
   });
 
+  // Disable arrow key scrolling during Snake gameplay
+  window.addEventListener("keydown", function (e) {
+    const arrowKeys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+    if (arrowKeys.includes(e.key) && canvas?.offsetParent !== null) {
+      e.preventDefault();
+    }
+  });
+
   console.log("✅ Snake game initialized successfully.");
 };
+
