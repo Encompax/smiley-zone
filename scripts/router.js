@@ -1,9 +1,8 @@
-// Fixed router.js for Smiley Zone Arcade
 (() => {
   function tryInitGame(page) {
     const initFunctionName = `init${page.charAt(0).toUpperCase() + page.slice(1)}`;
     const initFunction = window[initFunctionName];
-  
+
     if (typeof initFunction === "function") {
       try {
         initFunction();
@@ -15,7 +14,6 @@
       console.warn(`⚠️ ${initFunctionName} is not defined or not a function`);
     }
   }
-  
 
   function loadGame() {
     const page = window.location.hash.substring(1) || "home";
@@ -26,12 +24,15 @@
       .then(html => {
         document.getElementById("gameContainer").innerHTML = html;
 
+        // Remove old dynamic script
         const oldScript = document.getElementById("dynamicScript");
         if (oldScript) oldScript.remove();
 
+        // Special logic for chess dependencies
         if (page === "chess") {
+          // ✅ Replaced with UMD-compatible chess.js version
           const chessJS = document.createElement("script");
-          chessJS.src = "https://cdn.jsdelivr.net/npm/chess.js@0.13.4/chess.min.js";
+          chessJS.src = "https://cdnjs.cloudflare.com/ajax/libs/chess.js/1.0.0-beta.1/chess.min.js";
           chessJS.defer = true;
           document.body.appendChild(chessJS);
 
@@ -46,6 +47,7 @@
           document.head.appendChild(chessCSS);
         }
 
+        // Load game logic script
         if (page !== "home") {
           const script = document.createElement("script");
           script.src = `scripts/games/${page}.js`;
@@ -55,19 +57,17 @@
           document.body.appendChild(script);
         }
 
+        // Load global or relative style.css
         const cssPath = window.location.pathname.includes("/games/")
-  ? "../style.css"
-  : "style.css";
+          ? "../style.css"
+          : "style.css";
 
-if (!document.querySelector(`link[href='${cssPath}']`)) {
-  const cssLink = document.createElement("link");
-  cssLink.href = "./style.css";
-
-
-  cssLink.href = cssPath;
-  document.head.appendChild(cssLink);
-}
-
+        if (!document.querySelector(`link[href='${cssPath}']`)) {
+          const cssLink = document.createElement("link");
+          cssLink.rel = "stylesheet";
+          cssLink.href = cssPath;
+          document.head.appendChild(cssLink);
+        }
       })
       .catch(() => {
         document.getElementById("gameContainer").innerHTML =
@@ -96,10 +96,11 @@ if (!document.querySelector(`link[href='${cssPath}']`)) {
     if (page === "admin") {
       initializeAdmin();
     } else {
-      loadGame(); // ✅ CRITICAL: add this to handle navigation!
+      loadGame();
     }
   });
 })();
+
 
 
 
