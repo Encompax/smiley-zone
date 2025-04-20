@@ -197,4 +197,14 @@ footer {
   transform: scale(1.05);
   background-color: #dbe8ff;
 }
+/* Whack-a-Mole Specific Image Handling */
+.mole-image {
+  width: 60px;
+  height: 60px;
+  display: none;
+}
+
+.whack-hole.active .mole-image {
+  display: block;
+}
 

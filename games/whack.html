@@ -64,22 +64,24 @@
       let holes = [];
 
       function setup() {
-        grid.innerHTML = "";
-        holes = [];
-        for (let i = 0; i < 9; i++) {
-          const div = document.createElement("div");
-          div.className = "whack-hole";
+  grid.innerHTML = "";
+  holes = [];
+  for (let i = 0; i < 9; i++) {
+    const div = document.createElement("div");
+    div.className = "whack-hole";
 
-          const moleImg = document.createElement("img");
-          moleImg.src = "images/goofy-mole.png"; // Replace with your actual image path
-          moleImg.alt = "Goofy Mole";
+    const moleImg = document.createElement("img");
+    moleImg.src = "images/goofy-mole.png"; // Ensure this matches your images directory
+    moleImg.alt = "Goofy Mole";
+    moleImg.className = "mole-image";
 
-          div.appendChild(moleImg);
-          div.onclick = () => hitMole(i);
-          grid.appendChild(div);
-          holes.push(div);
-        }
-        spawnMole();
+    div.appendChild(moleImg);
+    div.onclick = () => hitMole(i);
+    grid.appendChild(div);
+    holes.push(div);
+  }
+}
+
       }
 
       function spawnMole() {
