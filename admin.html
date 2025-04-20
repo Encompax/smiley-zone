@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+    }
+    th, td {
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    th {
+      background-color: #f3f3f3;
+    }
+    .ok { color: green; font-weight: bold; }
+    .fail { color: red; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>⚖️ Smiley Zone Admin Dashboard</h1>
+  <p>This console checks route health and init binding.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Game</th>
+        <th>HTML Found</th>
+        <th>JS Found</th>
+        <th>Init Function</th>
+      </tr>
+    </thead>
+    <tbody id="diagnosticTable">
+      <!-- Populated by diagnostics.js -->
+    </tbody>
+  </table>
+
+  <script src="scripts/utils/diagnostics.js"></script>
+</body>
+</html>
