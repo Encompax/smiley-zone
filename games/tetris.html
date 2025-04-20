@@ -1,8 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tetris</title>
+  <!-- Stylesheet is loaded globally via index.html -->
+</head>
+<body>
 
+  <div id="gameContainer" class="game-wrapper">
+    <p style="margin: 1rem 0;"><a href="#home">🏠 Return to Home</a></p>
+    <hr style="margin-bottom: 1.5rem;" />
 
-<p style="margin: 1rem 0;"><a href="#home">🏠 Return to Home</a>
-<hr style="margin-bottom: 1.5rem;">
-<h2>Tetris</h2>
-<p>Use arrow keys to move; "q" and "w" to rotate the pieces. Fill rows to score!</p>
-<canvas id="tetrisCanvas" width="240" height="400" style="border:1px solid #000; display: block; margin: 0 auto;"></canvas>
-<p id="tetrisScore" style="text-align: center; font-size: 18px;">Score: 0</p>
+    <h2 style="text-align: center;">Tetris</h2>
+    <p style="text-align: center;">
+      Use arrow keys to move; "Q" and "W" to rotate the pieces. Fill rows to score!
+    </p>
+
+    <canvas id="tetrisCanvas"
+            width="240"
+            height="400"
+            style="
+              border: 1px solid #000;
+              display: block;
+              margin: 0 auto;
+              max-width: 100%;
+              height: auto;">
+    </canvas>
+
+    <p id="tetrisScore"
+       style="text-align: center; font-size: 18px; margin-top: 10px;">
+      Score: 0
+    </p>
+  </div>
+
+  <!-- Tetris logic expected to be routed or injected dynamically -->
+</body>
+</html>

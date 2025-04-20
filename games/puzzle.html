@@ -1,45 +1,48 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sliding Puzzle</title>
-  
+  <!-- Stylesheet is loaded globally via index.html -->
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
-  <style>
-    #leaderboard-container {
-      max-height: 200px;
-      overflow-y: auto;
-      margin-top: 20px;
-      padding: 1rem;
-      background: #ffffffcc;
-      border-radius: 1rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-  </style>
 </head>
 <body>
 
-  <p style="margin: 1rem 0;"><a href="#home">🏠 Return to Home</a></p>
-  <hr style="margin-bottom: 1.5rem;" />
+  <div id="gameContainer" class="game-wrapper">
+    <p style="margin: 1rem 0;"><a href="#home">🏠 Return to Home</a></p>
+    <hr style="margin-bottom: 1.5rem;" />
 
-  <h2>🧩 Sliding Puzzle</h2>
-  <p>Click number tiles to arrange them in sequential order, left to right, top to bottom.</p>
+    <h2>🧩 Sliding Puzzle</h2>
+    <p style="text-align: center;">Click number tiles to arrange them in sequential order, left to right, top to bottom.</p>
 
-  <button onclick="startGame()" style="margin: 10px 0; padding: 8px 16px;">New Game</button>
+    <div style="text-align: center;">
+      <button onclick="startGame()" class="btn-primary" style="margin: 10px 0; padding: 8px 16px;">New Game</button>
+    </div>
 
-  <div id="game-area"
-       style="
-         display: grid;
-         gap: 5px;
-         justify-content: center;
-         margin-top: 10px;">
-  </div>
+    <div id="game-area"
+         style="
+           display: grid;
+           gap: 5px;
+           justify-content: center;
+           margin-top: 10px;
+           max-width: 100%;
+           margin-left: auto;
+           margin-right: auto;">
+    </div>
 
-  <div id="leaderboard-container">
-    <div id="leaderboard"></div>
+    <div id="leaderboard-container"
+         style="
+           max-height: 200px;
+           overflow-y: auto;
+           margin-top: 20px;
+           padding: 1rem;
+           background: #ffffffcc;
+           border-radius: 1rem;
+           box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+           text-align: center;">
+      <div id="leaderboard"></div>
+    </div>
   </div>
 
   <script>
@@ -62,7 +65,7 @@
         const gameArea = document.getElementById('game-area');
         if (!gameArea) return;
         gameArea.innerHTML = '';
-        gameArea.style.gridTemplateColumns = `repeat(${size}, 100px)`;
+        gameArea.style.gridTemplateColumns = `repeat(${size}, 80px)`;
         board.forEach((num, idx) => {
           const tile = document.createElement('div');
           tile.classList.add('tile');
@@ -131,4 +134,5 @@
 
 </body>
 </html>
+
 

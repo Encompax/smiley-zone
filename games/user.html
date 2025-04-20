@@ -1,34 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Profile & Leaderboard</title>
+  <!-- Stylesheet is loaded globally via index.html -->
+</head>
+<body>
 
+  <div id="gameContainer" class="game-wrapper">
+    <p style="margin: 1rem 0;"><a href="#home">🏠 Return to Home</a></p>
+    <hr style="margin-bottom: 1.5rem;" />
 
-<p style="margin: 1rem 0;"><a href="#home">🏠 Return to Home</a>
-<hr style="margin-bottom: 1.5rem;">
-<h2>Leaderboard & User Profile</h2>
-<div style="max-width: 600px; margin: 0 auto; text-align: left;">
-  <h3>Create / Update Profile</h3>
+    <h2 style="text-align: center;">Leaderboard & User Profile</h2>
 
-  <label>Name:</label><br>
-  <input type="text" id="userName" placeholder="Enter your name" /><br><br>
+    <!-- Profile Section -->
+    <div style="max-width: 600px; margin: 0 auto;">
+      <h3>Create / Update Profile</h3>
 
-  <label>Bio:</label><br>
-  <textarea id="userBio" placeholder="Short bio..." rows="3" style="width: 100%;"></textarea><br><br>
+      <label for="userName">Name:</label><br />
+      <input type="text" id="userName" placeholder="Enter your name" style="width: 100%;" /><br /><br />
 
-  <p><strong>Token Balance:</strong> <span id="tokenBalance">0</span></p>
+      <label for="userBio">Bio:</label><br />
+      <textarea id="userBio" placeholder="Short bio..." rows="3" style="width: 100%;"></textarea><br /><br />
 
-  <button onclick="arcadeUser.earnTokens(10)">Earn 10 Tokens</button>
-  <button onclick="arcadeUser.spendTokens(20)">Spend 20 Tokens</button><br><br>
+      <p><strong>Token Balance:</strong> <span id="tokenBalance">0</span></p>
 
-  <button onclick="arcadeUser.saveUser()">Save Profile</button>
-</div>
+      <div style="margin-bottom: 10px;">
+        <button onclick="arcadeUser.earnTokens(10)">Earn 10 Tokens</button>
+        <button onclick="arcadeUser.spendTokens(20)">Spend 20 Tokens</button>
+      </div>
 
-<hr style="margin: 30px 0;">
+      <button onclick="arcadeUser.saveUser()">Save Profile</button>
+    </div>
 
-<div style="max-width: 600px; margin: 0 auto;">
-  <h3>Top Players</h3>
-  <table border="1" cellpadding="8" cellspacing="0" width="100%" style="text-align:center;">
-    <thead>
-      <tr><th>Rank</th><th>Name</th><th>High Score</th></tr>
-    </thead>
-    <tbody id="leaderboardTable"></tbody>
-  </table>
-</div>
+    <hr style="margin: 30px 0;" />
+
+    <!-- Leaderboard Section -->
+    <div style="max-width: 600px; margin: 0 auto;">
+      <h3>Top Players</h3>
+      <table border="1" cellpadding="8" cellspacing="0" width="100%" style="text-align: center;">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>High Score</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboardTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- JS logic for user profile assumed to be routed or injected -->
+</body>
+</html>
+
 

@@ -1,21 +1,31 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Breakout Game</title>
-  
+  <!-- Stylesheet is included globally in index.html -->
 </head>
 <body>
 
-  <p style="margin: 1rem 0;"><a href="#home">🏠 Return to Home</a></p>
-  <hr style="margin-bottom: 1.5rem;" />
+  <div id="gameContainer" class="game-wrapper">
+    <p style="margin: 1rem 0;">
+      <a href="#home">🏠 Return to Home</a>
+    </p>
+    <hr style="margin-bottom: 1.5rem;" />
 
-  <h2>Breakout Game</h2>
+    <h2>Breakout Game</h2>
 
-  <canvas id="breakoutCanvas" width="480" height="320" style="border:1px solid #000;"></canvas>
-  <p>Use left/right arrow keys to move the paddle.</p>
+    <canvas id="breakoutCanvas"
+            width="480"
+            height="320"
+            style="border: 1px solid #000; display: block; margin: 0 auto; touch-action: none;">
+    </canvas>
+
+    <p style="text-align: center; margin-top: 1rem;">
+      Use left/right arrow keys to move the paddle.
+    </p>
+  </div>
 
   <script>
     window.initBreakout = function () {
@@ -162,5 +172,3 @@
 
 </body>
 </html>
-
-

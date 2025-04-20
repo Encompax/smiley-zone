@@ -4,21 +4,38 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chess Game</title>
-  
-  
+  <!-- Stylesheet is loaded globally via index.html -->
 </head>
 <body>
 
-  <p style="margin: 1rem 0;"><a href="#home">🏠 Return to Home</a>
-  <hr style="margin-bottom: 1.5rem;" />
+  <div id="gameContainer" class="game-wrapper">
+    <p style="margin: 1rem 0;">
+      <a href="#home">🏠 Return to Home</a>
+    </p>
+    <hr style="margin-bottom: 1.5rem;" />
 
-  <h2>♟️ Chess</h2>
-  <div id="chessBoard" style="width: 400px; margin: 0 auto;"></div>
-  <p id="chessStatus" style="text-align: center; margin-top: 10px;"></p>
+    <h2>♟️ Chess</h2>
 
-  <!-- Dependencies loaded dynamically by router.js -->
-  <!-- Main chess game logic will be injected here -->
+    <div id="chessBoard"
+         style="
+           max-width: 90vw;
+           aspect-ratio: 1;
+           margin: 0 auto;
+         ">
+    </div>
 
+    <p id="chessStatus"
+       style="
+         text-align: center;
+         margin-top: 10px;
+         font-weight: bold;
+         font-size: 1rem;
+       ">
+    </p>
+  </div>
+
+  <!-- Chess logic is injected dynamically by router.js -->
 </body>
 </html>
+
 

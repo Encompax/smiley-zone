@@ -4,32 +4,39 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Minesweeper</title>
- 
+  <!-- Stylesheet is loaded globally via index.html -->
 </head>
 <body>
 
-  <p style="margin: 1rem 0;"><a href="#home">🏠 Return to Home</a>
-  <hr style="margin-bottom: 1.5rem;" />
+  <div id="gameContainer" class="game-wrapper">
+    <p style="margin: 1rem 0;"><a href="#home">🏠 Return to Home</a></p>
+    <hr style="margin-bottom: 1.5rem;" />
 
-  <h2>💣 Minesweeper</h2>
-  <p>Click tiles to reveal them. Avoid the mines!</p>
+    <h2>💣 Minesweeper</h2>
+    <p style="text-align: center;">Click tiles to reveal them. Avoid the mines!</p>
 
-  <div id="minesweeperGrid"
+    <div id="minesweeperGrid"
+         style="
+           display: grid;
+           grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+           gap: 2px;
+           justify-content: center;
+           margin-top: 20px;
+           max-width: 360px;
+           margin-left: auto;
+           margin-right: auto;">
+    </div>
+
+    <p id="minesweeperStatus"
        style="
-         display: grid;
-         grid-template-columns: repeat(8, 40px);
-         gap: 2px;
-         justify-content: center;
-         margin-top: 20px;">
+         font-size: 18px;
+         margin-top: 10px;
+         text-align: center;
+         font-weight: bold;">
+    </p>
   </div>
 
-  <p id="minesweeperStatus"
-     style="
-       font-size: 18px;
-       margin-top: 10px;
-       text-align: center;
-       font-weight: bold;">
-  </p>
-
+  <!-- Minesweeper JS is expected to be loaded via router or routed script -->
 </body>
 </html>
+

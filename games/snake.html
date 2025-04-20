@@ -4,25 +4,55 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Snake Game</title>
-  
+  <!-- Stylesheet is loaded globally via index.html -->
 </head>
 <body>
 
-  <p style="margin: 1rem 0;"><a href="#home">🏠 Return to Home</a>
-  <hr style="margin-bottom: 1.5rem;" />
+  <div id="gameContainer" class="game-wrapper">
+    <p style="margin: 1rem 0;"><a href="#home">🏠 Return to Home</a></p>
+    <hr style="margin-bottom: 1.5rem;" />
 
-  <canvas id="gameCanvas" width="400" height="400" style="border:1px solid #000;"></canvas>
-  <p>Use arrow keys (desktop) or swipe (mobile) to control the snake!</p>
-  <button id="startBtn" onclick="startGame()">Start Game</button>
+    <h2 style="text-align: center;">🐍 Snake Game</h2>
 
-  <div id="scoreboard">Score: 0</div>
+    <canvas id="gameCanvas"
+            width="400"
+            height="400"
+            style="
+              border: 1px solid #000;
+              display: block;
+              margin: 0 auto;
+              max-width: 100%;
+              height: auto;">
+    </canvas>
 
-  <div id="leaderboard">
-    <h3>🏆 Leaderboard</h3>
-    <ol id="leaderboardList"></ol>
+    <p style="text-align: center; margin-top: 10px;">
+      Use arrow keys (desktop) or swipe (mobile) to control the snake!
+    </p>
+
+    <div style="text-align: center; margin: 10px 0;">
+      <button id="startBtn" class="btn-primary" onclick="startGame()">Start Game</button>
+    </div>
+
+    <div id="scoreboard" style="text-align: center; font-size: 18px; margin-bottom: 20px;">
+      Score: 0
+    </div>
+
+    <div id="leaderboard"
+         style="
+           max-width: 500px;
+           margin: 0 auto;
+           padding: 1rem;
+           background: #ffffffcc;
+           border-radius: 1rem;
+           box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+      <h3 style="text-align: center;">🏆 Leaderboard</h3>
+      <ol id="leaderboardList" style="padding-left: 1.5rem;"></ol>
+    </div>
   </div>
 
+  <!-- Snake game logic expected to be routed or injected dynamically -->
 </body>
 </html>
+
 
 

@@ -4,26 +4,39 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Arcade Maze</title>
-  
+  <!-- Stylesheet is loaded globally via index.html -->
 </head>
 <body>
 
-  <p style="margin: 1rem 0;"><a href="#home">🏠 Return to Home</a>
-  <hr style="margin-bottom: 1.5rem;" />
+  <div id="gameContainer" class="game-wrapper">
+    <p style="margin: 1rem 0;"><a href="#home">🏠 Return to Home</a></p>
+    <hr style="margin-bottom: 1.5rem;" />
 
-  <h2>🌐 Arcade Maze</h2>
-  <p>Use arrow keys to navigate the maze. Reach the goal without hitting walls!</p>
+    <h2>🌐 Arcade Maze</h2>
+    <p style="text-align: center;">Use arrow keys to navigate the maze. Reach the goal without hitting walls!</p>
 
-  <canvas id="mazeCanvas"
-          width="320"
-          height="320"
-          style="border:1px solid #000; display: block; margin: 20px auto;">
-  </canvas>
+    <canvas id="mazeCanvas"
+            width="320"
+            height="320"
+            style="
+              border: 1px solid #000;
+              display: block;
+              margin: 20px auto;
+              max-width: 100%;
+              height: auto;">
+    </canvas>
 
-  <p id="mazeMessage"
-     style="text-align: center; font-size: 18px; color: #4e342e; font-weight: bold;">
-  </p>
+    <p id="mazeMessage"
+       style="
+         text-align: center;
+         font-size: 18px;
+         color: #4e342e;
+         font-weight: bold;">
+    </p>
+  </div>
 
+  <!-- JS logic for maze game assumed to be routed and injected dynamically -->
 </body>
 </html>
+
 

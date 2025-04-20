@@ -1,14 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rock, Paper, Scissors</title>
+  <!-- Stylesheet is loaded globally via index.html -->
+</head>
+<body>
 
-<p style="margin: 1rem 0;"><a href="#home">🏠 Return to Home</a>
-<hr style="margin-bottom: 1.5rem;">
-<h2>Rock, Paper, Scissors</h2>
-<p>Choose your move and play against the computer!</p>
+  <div id="gameContainer" class="game-wrapper">
+    <p style="margin: 1rem 0;"><a href="#home">🏠 Return to Home</a></p>
+    <hr style="margin-bottom: 1.5rem;" />
 
-<div style="margin-top: 20px;">
-  <button id="rockBtn" style="margin: 5px;">Rock</button>
-  <button id="paperBtn" style="margin: 5px;">Paper</button>
-  <button id="scissorsBtn" style="margin: 5px;">Scissors</button>
-</div>
+    <h2 style="text-align: center;">Rock, Paper, Scissors</h2>
+    <p style="text-align: center;">Choose your move and play against the computer!</p>
 
-<div id="rpsResult" style="margin-top: 20px; font-size: 20px;"></div>
+    <div style="text-align: center; margin-top: 20px;">
+      <button id="rockBtn" class="btn-primary" style="margin: 5px;">Rock</button>
+      <button id="paperBtn" class="btn-primary" style="margin: 5px;">Paper</button>
+      <button id="scissorsBtn" class="btn-primary" style="margin: 5px;">Scissors</button>
+    </div>
+
+    <div id="rpsResult"
+         style="margin-top: 30px; font-size: 20px; text-align: center;">
+    </div>
+  </div>
+
+  <!-- JS logic expected to be routed or injected by router -->
+</body>
+</html>
+
 

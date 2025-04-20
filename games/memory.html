@@ -1,29 +1,33 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Memory Flip Game</title>
- 
+  <!-- Stylesheet is loaded globally via index.html -->
 </head>
 <body>
 
-  <p style="margin: 1rem 0;">
-    <a href="#home">🏠 Return to Home</a>
-  </p>
-  <hr style="margin-bottom: 1.5rem;" />
+  <div id="gameContainer" class="game-wrapper">
+    <p style="margin: 1rem 0;">
+      <a href="#home">🏠 Return to Home</a>
+    </p>
+    <hr style="margin-bottom: 1.5rem;" />
 
-  <h2>🧠 Memory Flip Game</h2>
-  <p>Match all the pairs by flipping the cards.</p>
+    <h2>🧠 Memory Flip Game</h2>
+    <p style="text-align: center;">Match all the pairs by flipping the cards.</p>
 
-  <div id="memoryGrid"
-       style="
-         display: grid;
-         grid-template-columns: repeat(4, 80px);
-         gap: 10px;
-         justify-content: center;
-         margin-top: 20px;">
+    <div id="memoryGrid"
+         style="
+           display: grid;
+           grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+           gap: 10px;
+           justify-content: center;
+           margin-top: 20px;
+           max-width: 500px;
+           margin-left: auto;
+           margin-right: auto;">
+    </div>
   </div>
 
   <script>
@@ -41,14 +45,14 @@
         cards.forEach((icon, index) => {
           const card = document.createElement("div");
           card.className = "memory-card";
-          card.style.width = "80px";
-          card.style.height = "80px";
+          card.style.width = "100%";
+          card.style.aspectRatio = "1 / 1";
           card.style.background = "#f48fb1";
           card.style.display = "flex";
           card.style.alignItems = "center";
           card.style.justifyContent = "center";
           card.style.fontSize = "32px";
-          card.style.color = "#f48fb1";
+          card.style.color = "#f48fb1"; /* Hidden initially */
           card.style.border = "2px solid #880e4f";
           card.style.cursor = "pointer";
           card.dataset.index = index;

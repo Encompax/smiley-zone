@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Whack-a-Mole</title>
-  
+  <!-- Stylesheet is loaded globally via index.html -->
+
   <style>
     .whack-hole {
       width: 100px;
@@ -15,25 +16,44 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
       transition: background 0.2s;
+      position: relative;
     }
 
-    .whack-hole.active {
-      background-color: #8bc34a;
+    .whack-hole img {
+      width: 60px;
+      height: 60px;
+      display: none;
+    }
+
+    .whack-hole.active img {
+      display: block;
     }
   </style>
 </head>
 <body>
 
-  <p style="margin: 1rem 0;"><a href="#home">🏠 Return to Home</a></p>
-  <hr style="margin-bottom: 1.5rem;" />
+  <div id="gameContainer" class="game-wrapper">
+    <p style="margin: 1rem 0;"><a href="#home">🏠 Return to Home</a></p>
+    <hr style="margin-bottom: 1.5rem;" />
 
-  <h2>Whack-a-Mole</h2>
-  <p>Click the mole as it appears to score points!</p>
+    <h2 style="text-align: center;">Whack-a-Mole</h2>
+    <p style="text-align: center;">Click the mole as it appears to score points!</p>
 
-  <div id="whackGrid" style="display: grid; grid-template-columns: repeat(3, 100px); gap: 10px; justify-content: center; margin-top: 20px;"></div>
-  <p id="whackScore" style="font-size: 20px; margin-top: 20px;">Score: 0</p>
+    <div id="whackGrid"
+         style="
+           display: grid;
+           grid-template-columns: repeat(3, 100px);
+           gap: 10px;
+           justify-content: center;
+           margin-top: 20px;">
+    </div>
+
+    <p id="whackScore"
+       style="font-size: 20px; text-align: center; margin-top: 20px;">
+      Score: 0
+    </p>
+  </div>
 
   <script>
     window.onload = function () {
@@ -49,6 +69,12 @@
         for (let i = 0; i < 9; i++) {
           const div = document.createElement("div");
           div.className = "whack-hole";
+
+          const moleImg = document.createElement("img");
+          moleImg.src = "images/goofy-mole.png"; // Replace with your actual image path
+          moleImg.alt = "Goofy Mole";
+
+          div.appendChild(moleImg);
           div.onclick = () => hitMole(i);
           grid.appendChild(div);
           holes.push(div);
@@ -57,7 +83,9 @@
       }
 
       function spawnMole() {
-        if (activeIndex !== null) holes[activeIndex].classList.remove("active");
+        if (activeIndex !== null) {
+          holes[activeIndex].classList.remove("active");
+        }
         activeIndex = Math.floor(Math.random() * holes.length);
         holes[activeIndex].classList.add("active");
         setTimeout(spawnMole, 1000);
@@ -78,3 +106,4 @@
 
 </body>
 </html>
+
