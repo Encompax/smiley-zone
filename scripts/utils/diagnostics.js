@@ -17,6 +17,7 @@ const games = [
     const btn = document.createElement("button");
     btn.textContent = "Reset";
     btn.className = "action-button";
+    btn.style.marginLeft = "5px";
     btn.onclick = () => {
       const fn = window[`reset${game.charAt(0).toUpperCase() + game.slice(1)}`];
       if (typeof fn === "function") {
@@ -30,6 +31,9 @@ const games = [
   }
   
   (async function runDiagnostics() {
+    document.body.style.overflowY = "auto";
+    document.body.style.maxHeight = "100vh";
+  
     for (const game of games) {
       const htmlPath = `games/${game}.html`;
       const jsPath = `scripts/games/${game}.js`;
