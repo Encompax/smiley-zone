@@ -31,16 +31,26 @@ const games = [
   }
   
   (async function runDiagnostics() {
-    document.body.style.overflow = "auto";
-    document.body.style.maxHeight = "100vh";
-    document.body.style.maxWidth = "100vw";
-    document.body.style.overflowX = "auto";
-  
     const container = document.getElementById("diagnosticContainer");
     if (container) {
       container.style.overflow = "auto";
-      container.style.maxHeight = "90vh";
+      container.style.maxHeight = "calc(100vh - 180px)";
       container.style.border = "1px solid #ccc";
+    }
+  
+    const table = document.querySelector("table");
+    if (table) {
+      table.style.position = "relative";
+      table.style.borderCollapse = "collapse";
+      table.style.width = "100%";
+    }
+  
+    const thead = document.querySelector("thead");
+    if (thead) {
+      thead.style.position = "sticky";
+      thead.style.top = "0";
+      thead.style.background = "#e3f2f9";
+      thead.style.zIndex = "2";
     }
   
     for (const game of games) {
