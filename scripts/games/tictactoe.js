@@ -3,7 +3,7 @@ window.initTictactoe = function () {
   const board = Array(9).fill(null);
   let currentPlayer = "X";
   const cells = document.querySelectorAll(".cell");
-  const status = document.getElementById("status");
+  const status = document.getElementById("tttstatus");
 
   function checkWinner() {
     const combos = [
