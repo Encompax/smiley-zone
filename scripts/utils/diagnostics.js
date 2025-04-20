@@ -31,8 +31,17 @@ const games = [
   }
   
   (async function runDiagnostics() {
-    document.body.style.overflowY = "auto";
+    document.body.style.overflow = "auto";
     document.body.style.maxHeight = "100vh";
+    document.body.style.maxWidth = "100vw";
+    document.body.style.overflowX = "auto";
+  
+    const container = document.getElementById("diagnosticContainer");
+    if (container) {
+      container.style.overflow = "auto";
+      container.style.maxHeight = "90vh";
+      container.style.border = "1px solid #ccc";
+    }
   
     for (const game of games) {
       const htmlPath = `games/${game}.html`;
@@ -72,3 +81,4 @@ const games = [
       tokenDisplay.textContent = balance;
     }
   })();
+  
