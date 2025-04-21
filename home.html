@@ -1,57 +1,9 @@
-<body class="home-page"></body>
-<h2>**Smiley-Zone Arcade!**</h2>
-<p>vvv------------select from game menu----^*-*^</p>
-<style>
-   body.home-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  text-align: center;
-  padding: 2rem;
-}
+<!-- home.html (SPA fragment for Smiley-Zone Arcade) -->
 
-body.home-page .grid {
-  margin: 0 auto;
-}
-  
-    h2 {
-      color: #444;
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-  
-    p {
-      font-style: italic;
-      color: #666;
-    }
-  
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 12px;
-      max-width: 900px;
-      margin: 2rem auto;
-    }
-  
-    .nav-button {
-      display: inline-block;
-      background-color: #ffcc00;
-      border: none;
-      padding: 0.6rem 1rem;
-      border-radius: 12px;
-      font-weight: bold;
-      color: #000;
-      text-decoration: none;
-      transition: background-color 0.3s ease;
-    }
-  
-    .nav-button:hover {
-      background-color: #ffc107;
-      color: #fff;
-    }
-  </style>
-  
+<div class="home-page">
+  <h2>**Smiley-Zone Arcade!**</h2>
+  <p>vvv------------select from game menu----^*-*^</p>
+
   <div class="grid">
     <a href="#user" class="nav-button">User Profile & Leaderboard</a>
     <a href="#snake" class="nav-button">Snake</a>
@@ -71,4 +23,58 @@ body.home-page .grid {
     <a href="#maze" class="nav-button">Arcade Maze</a>
     <a href="#tictactoe" class="nav-button">Tic-Tac-Toe</a>
   </div>
-  
+</div>
+
+<style>
+  .home-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .home-page .grid {
+    margin: 0 auto;
+  }
+
+  h2 {
+    color: #444;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-style: italic;
+    color: #666;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    max-width: 900px;
+    margin: 2rem auto;
+  }
+
+  .nav-button {
+    display: inline-block;
+    background-color: #ffcc00;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 12px;
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+
+  .nav-button:hover {
+    background-color: #ffc107;
+    color: #fff;
+  }
+</style>
+
+<!-- Optional: Firebase Init (only if home view needs it specifically) -->
+<!-- <script type="module" src="scripts/utils/firebase-init.js"></script> -->

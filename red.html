@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head><title>Red Smiley</title></head>
-<body style="background-color: #fff0f0; text-align: center;">
-  <p><a href="index.html">🏠 Home</a></p>
-  <h2>Here's your red smiley :)</h2>
-  <a href="fact.html?color=red">
+<!-- red.html (SPA fragment with Firebase support) -->
+
+<div class="red-view">
+  <p><a href="#home">🏠 Home</a></p>
+
+  <h2>document creation :)</h2>
+
+  <a href="#fact?color=red">
     <svg width="100" height="100">
       <circle cx="50" cy="50" r="45" fill="red" />
       <circle cx="35" cy="35" r="5" fill="black" />
@@ -12,6 +13,26 @@
       <path d="M 30 65 Q 50 80 70 65" stroke="black" stroke-width="5" fill="none" />
     </svg>
   </a>
-  <p>Click the smiley for a historical fact!</p>
-</body>
-</html>
+
+  <p>create documents and pdf files!</p>
+</div>
+
+<style>
+  .red-view {
+    background-color: #fff0f0;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .red-view svg {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .red-view svg:hover {
+    transform: scale(1.05);
+  }
+</style>
+
+<!-- Firebase init module -->
+<script type="module" src="scripts/utils/firebase-init.js"></script>

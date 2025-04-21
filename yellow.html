@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head><title>Yellow Smiley</title></head>
-<body style="background-color: #ffffe0; text-align: center;">
-  <p><a href="index.html">🏠 Home</a></p>
-  <h2>Here's your yellow smiley :)</h2>
-  <a href="fact.html?color=yellow">
+<!-- yellow.html (SPA fragment with Firebase connectivity) -->
+
+<div class="yellow-view">
+  <p><a href="#home">🏠 Home</a></p>
+
+  <h2>cloud storage :)</h2>
+
+  <a href="#fact?color=yellow">
     <svg width="100" height="100">
       <circle cx="50" cy="50" r="45" fill="yellow" />
       <circle cx="35" cy="35" r="5" fill="black" />
@@ -12,6 +13,26 @@
       <path d="M 30 65 Q 50 80 70 65" stroke="black" stroke-width="5" fill="none" />
     </svg>
   </a>
-  <p>Click the smiley for a historical fact!</p>
-</body>
-</html>
+
+  <p>upload and save documents!</p>
+</div>
+
+<style>
+  .yellow-view {
+    background-color: #ffffe0;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .yellow-view svg {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .yellow-view svg:hover {
+    transform: scale(1.05);
+  }
+</style>
+
+<!-- Firebase init module (optional — remove if not used directly in this view) -->
+<script type="module" src="scripts/utils/firebase-init.js"></script>

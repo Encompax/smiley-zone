@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head><title>Green Smiley</title></head>
-<body style="background-color: #f0fff0; text-align: center;">
-  <p><a href="index.html">🏠 Home</a></p>
-  <h2>Here's your green smiley :)</h2>
-  <a href="fact.html?color=green">
+<!-- green.html (SPA fragment) -->
+
+<div class="green-view">
+  <p><a href="#home">🏠 Home</a></p>
+
+  <h2>purchase game tokens :)</h2>
+
+  <a href="#fact?color=green">
     <svg width="100" height="100">
       <circle cx="50" cy="50" r="45" fill="green" />
       <circle cx="35" cy="35" r="5" fill="black" />
@@ -12,6 +13,27 @@
       <path d="M 30 65 Q 50 80 70 65" stroke="black" stroke-width="5" fill="none" />
     </svg>
   </a>
-  <p>Click the smiley for a historical fact!</p>
-</body>
-</html>
+
+  <p>purchase tokens for exclusive level gameplay and multiplayer challenges!</p>
+</div>
+
+<style>
+  .green-view {
+    background-color: #f0fff0;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .green-view svg {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .green-view svg:hover {
+    transform: scale(1.05);
+  }
+</style>
+
+<!-- Optional: Only include if this page specifically uses Firebase -->
+<!-- <script type="module" src="scripts/utils/firebase-init.js"></script> -->
+

@@ -1,91 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="./style.css" />
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      padding: 2rem;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 2rem;
-    }
-    th, td {
-      padding: 0.75rem;
-      border: 1px solid #ccc;
-      text-align: left;
-    }
-    th {
-      background-color: #f3f3f3;
-    }
-    .ok {
-      color: green;
-      font-weight: bold;
-    }
-    .fail {
-      color: red;
-      font-weight: bold;
-    }
-    .action-button {
-      padding: 0.3rem 0.75rem;
-      border: none;
-      border-radius: 5px;
-      background-color: #007bff;
-      color: white;
-      font-size: 0.9rem;
-      cursor: pointer;
-    }
-    .token-banner {
-      position: absolute;
-      top: 1rem;
-      right: 2rem;
-      background: #f0f0f0;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      font-weight: bold;
-    }
-    .coming-soon {
-      margin-top: 2rem;
-      background-color: #fffae6;
-      padding: 1rem;
-      border: 1px dashed #e0b800;
-      border-radius: 8px;
-    }
-  </style>
-</head>
-<body>
-  <div class="token-banner">Token Balance: <span id="tokenBalance">0</span></div>
-  <h1>⚖️ Smiley Zone Admin Dashboard</h1>
-  <p>This console checks route health, init binding, and offers management tools.</p>
+<!-- admin.html (SPA-compliant version) -->
 
-  <table>
-    <thead>
-      <tr>
-        <th>Game</th>
-        <th>HTML Found</th>
-        <th>JS Found</th>
-        <th>Init Function</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody id="diagnosticTable">
-      <!-- Populated by diagnostics.js -->
-    </tbody>
-  </table>
+<div class="token-banner">Token Balance: <span id="tokenBalance">0</span></div>
 
-  <div class="coming-soon">
-    <h3>🚀 Firebase Sync (Coming Soon)</h3>
-    <p>This feature will let you sync leaderboard data, admin actions, and system flags across users.</p>
-  </div>
+<h1>⚖️ Smiley Zone Admin Dashboard</h1>
+<p>This console checks route health, init binding, and offers management tools.</p>
 
-  <script src="scripts/utils/token.js"></script>
-  <script src="scripts/utils/diagnostics.js"></script>
-  <script src="scripts/utils/loadHeader.js"></script>
+<table>
+  <thead>
+    <tr>
+      <th>Game</th>
+      <th>HTML Found</th>
+      <th>JS Found</th>
+      <th>Init Function</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody id="diagnosticTable">
+    <!-- Populated by diagnostics.js -->
+  </tbody>
+</table>
 
-</body>
-</html>
+<div class="coming-soon">
+  <h3>🚀 Firebase Sync (Coming Soon)</h3>
+  <p>This feature will let you sync leaderboard data, admin actions, and system flags across users.</p>
+</div>
+
+<style>
+  .token-banner {
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+    background: #f0f0f0;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: bold;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+  }
+  th, td {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    text-align: left;
+  }
+  th {
+    background-color: #f3f3f3;
+  }
+  .ok {
+    color: green;
+    font-weight: bold;
+  }
+  .fail {
+    color: red;
+    font-weight: bold;
+  }
+  .action-button {
+    padding: 0.3rem 0.75rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  .coming-soon {
+    margin-top: 2rem;
+    background-color: #fffae6;
+    padding: 1rem;
+    border: 1px dashed #e0b800;
+    border-radius: 8px;
+  }
+</style>
+
+<!-- Scripts scoped to admin page -->
+<script type="module" src="scripts/utils/firebase-init.js"></script>
+<script src="scripts/utils/token.js"></script>
+<script src="scripts/utils/diagnostics.js"></script>
+<script src="scripts/utils/loadHeader.js"></script>
