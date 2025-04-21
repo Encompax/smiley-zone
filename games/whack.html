@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Whack-a-Mole</title>
   <!-- Stylesheet is loaded globally via index.html -->
+  <link rel="stylesheet" href="../style.css" />
 
   <style>
     .whack-hole {
@@ -31,82 +32,9 @@
     }
   </style>
 </head>
+
 <body>
-
-  <div id="gameContainer" class="game-wrapper">
-    <p style="margin: 1rem 0;"><a href="#home">🏠 Return to Home</a></p>
-    <hr style="margin-bottom: 1.5rem;" />
-
-    <h2 style="text-align: center;">Whack-a-Mole</h2>
-    <p style="text-align: center;">Click the mole as it appears to score points!</p>
-
-    <div id="whackGrid"
-         style="
-           display: grid;
-           grid-template-columns: repeat(3, 100px);
-           gap: 10px;
-           justify-content: center;
-           margin-top: 20px;">
-    </div>
-
-    <p id="whackScore"
-       style="font-size: 20px; text-align: center; margin-top: 20px;">
-      Score: 0
-    </p>
-  </div>
-
-  <script>
-    window.onload = function () {
-      const grid = document.getElementById("whackGrid");
-      const scoreDisplay = document.getElementById("whackScore");
-      let score = 0;
-      let activeIndex = null;
-      let holes = [];
-
-      function setup() {
-  grid.innerHTML = "";
-  holes = [];
-  for (let i = 0; i < 9; i++) {
-    const div = document.createElement("div");
-    div.className = "whack-hole";
-
-    const moleImg = document.createElement("img");
-    moleImg.src = "images/goofy-mole.png"; // Ensure this matches your images directory
-    moleImg.alt = "Goofy Mole";
-    moleImg.className = "mole-image";
-
-    div.appendChild(moleImg);
-    div.onclick = () => hitMole(i);
-    grid.appendChild(div);
-    holes.push(div);
-  }
-}
-
-      }
-
-      function spawnMole() {
-        if (activeIndex !== null) {
-          holes[activeIndex].classList.remove("active");
-        }
-        activeIndex = Math.floor(Math.random() * holes.length);
-        holes[activeIndex].classList.add("active");
-        setTimeout(spawnMole, 1000);
-      }
-
-      function hitMole(index) {
-        if (index === activeIndex) {
-          score++;
-          scoreDisplay.textContent = `Score: ${score}`;
-          holes[index].classList.remove("active");
-          activeIndex = null;
-        }
-      }
-
-      setup();
-    };
-  </script>
-<script src="scripts/utils/loadHeader.js"></script>
-
+  <!-- your game content and scripts here -->
+  <script src="scripts/utils/loadHeader.js"></script>
 </body>
 </html>
-
