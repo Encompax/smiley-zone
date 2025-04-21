@@ -1,3 +1,10 @@
+body.home-background {
+  background: url("images/smiley-zone-banner.png") top center no-repeat;
+  background-size: cover;
+  background-color: #1E90FF; /* fallback if image fails */
+}
+
+
 :root {
   --primary: #4db8ff;
   --secondary: #ffd966;
