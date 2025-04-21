@@ -207,4 +207,12 @@ footer {
 .whack-hole.active .mole-image {
   display: block;
 }
+/* Global Thin White Text Border */
+body, h1, h2, h3, h4, h5, h6, p, button, a, span, label, input[type="text"] {
+  text-shadow:
+    -1px -1px 0 #fff,
+     1px -1px 0 #fff,
+    -1px  1px 0 #fff,
+     1px  1px 0 #fff;
+}
 
