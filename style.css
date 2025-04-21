@@ -210,9 +210,10 @@ footer {
 /* Global Thin White Text Border */
 body, h1, h2, h3, h4, h5, h6, p, button, a, span, label, input[type="text"] {
   text-shadow:
-  -1px -1px 0 white,
-   1px -1px 0 white,
-  -1px  1px 0 white,
-   1px  1px 0 white;
+  -0.5px -0.5px 0 white,
+   0.5px -0.5px 0 white,
+  -0.5px  0.5px 0 white,
+   0.5px  0.5px 0 white;
+
 }
 
