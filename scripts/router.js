@@ -19,6 +19,19 @@
   }
 
   // -----------------------------
+  // Normalize button labels to say "Start"
+  // -----------------------------
+  function normalizeStartButtons() {
+    const phrases = ["New Game", "Start Game", "Play", "Begin", "Go"];
+
+    document.querySelectorAll("button").forEach(btn => {
+      if (phrases.includes(btn.textContent.trim())) {
+        btn.textContent = "Start";
+      }
+    });
+  }
+
+  // -----------------------------
   // Load game content dynamically
   // -----------------------------
   function loadGame() {
@@ -56,19 +69,24 @@
         }
 
         // -----------------------------
-        // Load game-specific logic script
+        // Load game-specific script
         // -----------------------------
         if (page !== "home") {
           const script = document.createElement("script");
           script.src = `scripts/games/${page}.js`;
           script.id = "dynamicScript";
           script.defer = true;
-          script.onload = () => tryInitGame(page);
+          script.onload = () => {
+            tryInitGame(page);
+            normalizeStartButtons(); // ✅ Rename buttons after game loads
+          };
           document.body.appendChild(script);
+        } else {
+          normalizeStartButtons(); // ✅ Rename buttons on home screen too, if needed
         }
 
         // -----------------------------
-        // Load style.css if missing
+        // Ensure style.css is loaded
         // -----------------------------
         const cssPath = window.location.pathname.includes("/games/")
           ? "../style.css"
@@ -91,7 +109,7 @@
   }
 
   // -----------------------------
-  // Initialize Admin Dashboard
+  // Admin Dashboard Initializer
   // -----------------------------
   function initializeAdmin() {
     if (typeof renderShopEditor === 'function') renderShopEditor();
@@ -106,16 +124,14 @@
   // -----------------------------
   document.addEventListener("DOMContentLoaded", () => {
     const initialPage = window.location.hash.substring(1) || "home";
-
     if (initialPage === "admin") {
       initializeAdmin();
     }
-
     loadGame();
   });
 
   // -----------------------------
-  // On Hash/Page Change
+  // On Hash Change (Navigation)
   // -----------------------------
   window.addEventListener("hashchange", () => {
     const page = window.location.hash.substring(1);
@@ -126,10 +142,3 @@
     }
   });
 })();
-
-
-
-
-
-
-
