@@ -1,4 +1,7 @@
 (() => {
+  // -----------------------------
+  // Utility: Initialize game script if available
+  // -----------------------------
   function tryInitGame(page) {
     const initFunctionName = `init${page.charAt(0).toUpperCase() + page.slice(1)}`;
     const initFunction = window[initFunctionName];
@@ -15,6 +18,9 @@
     }
   }
 
+  // -----------------------------
+  // Load game content dynamically
+  // -----------------------------
   function loadGame() {
     const page = window.location.hash.substring(1) || "home";
     const htmlPath = page === "home" ? `${page}.html` : `games/${page}.html`;
@@ -22,15 +28,17 @@
     fetch(htmlPath)
       .then(response => response.text())
       .then(html => {
-        document.getElementById("gameContainer").innerHTML = html;
+        const container = document.getElementById("gameContainer");
+        container.innerHTML = html;
 
-        // Remove old dynamic script
+        // Remove any old dynamic game script
         const oldScript = document.getElementById("dynamicScript");
         if (oldScript) oldScript.remove();
 
-        // Special logic for chess dependencies
+        // -----------------------------
+        // Special case: Chess dependencies
+        // -----------------------------
         if (page === "chess") {
-          // ✅ Replaced with UMD-compatible chess.js version
           const chessJS = document.createElement("script");
           chessJS.src = "https://cdnjs.cloudflare.com/ajax/libs/chess.js/1.0.0-beta.1/chess.min.js";
           chessJS.defer = true;
@@ -47,7 +55,9 @@
           document.head.appendChild(chessCSS);
         }
 
-        // Load game logic script
+        // -----------------------------
+        // Load game-specific logic script
+        // -----------------------------
         if (page !== "home") {
           const script = document.createElement("script");
           script.src = `scripts/games/${page}.js`;
@@ -57,12 +67,15 @@
           document.body.appendChild(script);
         }
 
-        // Load global or relative style.css
+        // -----------------------------
+        // Load style.css if missing
+        // -----------------------------
         const cssPath = window.location.pathname.includes("/games/")
           ? "../style.css"
           : "style.css";
 
-        if (!document.querySelector(`link[href='${cssPath}']`)) {
+        const existingLink = document.querySelector(`link[href='${cssPath}']`);
+        if (!existingLink) {
           const cssLink = document.createElement("link");
           cssLink.rel = "stylesheet";
           cssLink.href = cssPath;
@@ -70,11 +83,16 @@
         }
       })
       .catch(() => {
-        document.getElementById("gameContainer").innerHTML =
-          "<h2 class='error'>404 - File Not Found</h2><p>The requested game could not be loaded.</p>";
+        const container = document.getElementById("gameContainer");
+        container.innerHTML = `
+          <h2 class="error">404 - File Not Found</h2>
+          <p>The requested game could not be loaded.</p>`;
       });
   }
 
+  // -----------------------------
+  // Initialize Admin Dashboard
+  // -----------------------------
   function initializeAdmin() {
     if (typeof renderShopEditor === 'function') renderShopEditor();
     if (typeof renderUserManager === 'function') renderUserManager();
@@ -83,14 +101,22 @@
     if (typeof loadModerationSettings === 'function') loadModerationSettings();
   }
 
+  // -----------------------------
+  // On Initial Load
+  // -----------------------------
   document.addEventListener("DOMContentLoaded", () => {
     const initialPage = window.location.hash.substring(1) || "home";
+
     if (initialPage === "admin") {
       initializeAdmin();
     }
+
     loadGame();
   });
 
+  // -----------------------------
+  // On Hash/Page Change
+  // -----------------------------
   window.addEventListener("hashchange", () => {
     const page = window.location.hash.substring(1);
     if (page === "admin") {
@@ -100,6 +126,7 @@
     }
   });
 })();
+
 
 
 
