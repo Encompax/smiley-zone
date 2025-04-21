@@ -210,6 +210,9 @@ footer {
   height: 60px;
   display: none;
 }
+canvas {
+  background-color: black !important;
+}
 
 .whack-hole.active .mole-image {
   display: block;
