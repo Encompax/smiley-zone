@@ -1,4 +1,4 @@
-<!-- yellow.html (SPA fragment with Firebase connectivity) -->
+<!-- yellow.html (SPA fragment: Cloud Storage + Firebase) -->
 
 <div class="yellow-view">
   <p><a href="#home">🏠 Home</a></p>
@@ -15,6 +15,14 @@
   </a>
 
   <p>upload and save documents!</p>
+
+  <div class="cloud-upload">
+    <input type="file" id="fileUpload" multiple />
+    <button id="uploadBtn">📤 Upload</button>
+    <div class="upload-status" id="uploadStatus"></div>
+    <h3>📁 Uploaded Files</h3>
+    <ul id="fileList"></ul>
+  </div>
 </div>
 
 <style>
@@ -32,7 +40,78 @@
   .yellow-view svg:hover {
     transform: scale(1.05);
   }
+
+  .cloud-upload {
+    margin-top: 2rem;
+    text-align: left;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    background: #fff;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+
+  #fileUpload {
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  #uploadBtn {
+    padding: 0.6rem 1.2rem;
+    background-color: #ffcc00;
+    color: #000;
+    font-weight: bold;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+
+  #uploadBtn:hover {
+    background-color: #f0b700;
+  }
+
+  #fileList {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+  }
+
+  #fileList li {
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 0.25rem 0;
+  }
+
+  .upload-status {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #444;
+  }
+
+  .file-actions button {
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.3rem;
+    border: none;
+    cursor: pointer;
+    background: #007bff;
+    color: white;
+  }
+
+  .file-actions button:hover {
+    background: #0056b3;
+  }
 </style>
 
-<!-- Firebase init module (optional — remove if not used directly in this view) -->
+<!-- Firebase init -->
 <script type="module" src="scripts/utils/firebase-init.js"></script>
+
+<!-- File upload/download logic -->
+<script type="module" src="scripts/tools/cloudStorage.js"></script>
+

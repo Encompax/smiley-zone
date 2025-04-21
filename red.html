@@ -1,4 +1,4 @@
-<!-- red.html (SPA fragment with Firebase support) -->
+<!-- red.html (SPA fragment: Documentation Tool + Firebase Init) -->
 
 <div class="red-view">
   <p><a href="#home">🏠 Home</a></p>
@@ -15,6 +15,13 @@
   </a>
 
   <p>create documents and pdf files!</p>
+
+  <div class="red-docs">
+    <h2>📝 Create New Document</h2>
+    <input type="text" id="docTitle" placeholder="Document Title" />
+    <div id="editor" contenteditable="true" class="editor"></div>
+    <button id="saveDoc">💾 Save</button>
+  </div>
 </div>
 
 <style>
@@ -32,7 +39,55 @@
   .red-view svg:hover {
     transform: scale(1.05);
   }
+
+  .red-docs {
+    margin-top: 2rem;
+    text-align: left;
+    background: #fff;
+    border-radius: 1rem;
+    padding: 1rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+
+  .red-docs input {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+  }
+
+  .editor {
+    min-height: 300px;
+    border: 1px solid #ccc;
+    margin: 1rem 0;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 0.5rem;
+    overflow-y: auto;
+  }
+
+  #saveDoc {
+    background: #d9534f;
+    color: white;
+    padding: 0.75rem 1.25rem;
+    border: none;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+
+  #saveDoc:hover {
+    background-color: #c9302c;
+  }
 </style>
 
-<!-- Firebase init module -->
+<!-- Firebase init -->
 <script type="module" src="scripts/utils/firebase-init.js"></script>
+
+<!-- Doc editor script -->
+<script type="module" src="scripts/tools/docEditor.js"></script>

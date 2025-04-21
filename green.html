@@ -1,4 +1,4 @@
-<!-- green.html (SPA fragment) -->
+<!-- green.html (SPA fragment: Token Purchasing Portal) -->
 
 <div class="green-view">
   <p><a href="#home">🏠 Home</a></p>
@@ -15,6 +15,16 @@
   </a>
 
   <p>purchase tokens for exclusive level gameplay and multiplayer challenges!</p>
+
+  <div class="token-shop">
+    <h3>💰 Token Packages</h3>
+    <button class="token-option" data-amount="5" data-tokens="50">50 Tokens - $5</button>
+    <button class="token-option" data-amount="10" data-tokens="120">120 Tokens - $10</button>
+    <button class="token-option" data-amount="20" data-tokens="300">300 Tokens - $20</button>
+    <div class="balance-display">
+      Your current balance: <span id="tokenBalance">0</span>
+    </div>
+  </div>
 </div>
 
 <style>
@@ -32,8 +42,42 @@
   .green-view svg:hover {
     transform: scale(1.05);
   }
+
+  .token-shop {
+    background: #ffffff;
+    border-radius: 1rem;
+    padding: 2rem;
+    margin-top: 2rem;
+    display: inline-block;
+    box-shadow: 0 0 10px rgba(0, 128, 0, 0.1);
+  }
+
+  .token-option {
+    display: block;
+    margin: 0.5rem auto;
+    padding: 0.75rem 1.5rem;
+    background-color: #28a745;
+    color: white;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+
+  .token-option:hover {
+    background-color: #218838;
+  }
+
+  .balance-display {
+    margin-top: 1rem;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #333;
+  }
 </style>
 
-<!-- Optional: Only include if this page specifically uses Firebase -->
-<!-- <script type="module" src="scripts/utils/firebase-init.js"></script> -->
+<!-- Firebase init -->
+<script type="module" src="scripts/utils/firebase-init.js"></script>
 
+<!-- Token purchasing logic -->
+<script type="module" src="scripts/commerce/tokenPurchase.js"></script>

@@ -1,4 +1,4 @@
-<!-- blue.html (SPA Fragment Only) -->
+<!-- blue.html (SPA fragment: Group Hub with Firebase) -->
 
 <div class="blue-view">
   <p><a href="#home">🏠 Home</a></p>
@@ -15,6 +15,20 @@
   </a>
 
   <p>form or join a group, chat with group members live, challenge other group members to a game!</p>
+
+  <div class="group-section">
+    <input type="text" id="groupName" placeholder="Enter or create a group name" />
+    <button id="joinGroupBtn">Join/Create Group</button>
+
+    <div id="groupInfo" style="margin-top: 1rem;"></div>
+
+    <div class="chat-area" style="margin-top: 2rem;">
+      <h3>💬 Group Chat</h3>
+      <div id="chatMessages" class="chat-box"></div>
+      <input type="text" id="chatInput" placeholder="Type a message..." />
+      <button id="sendMsg">Send</button>
+    </div>
+  </div>
 </div>
 
 <style>
@@ -23,15 +37,70 @@
     text-align: center;
     padding: 2rem;
   }
+
   .blue-view svg {
     cursor: pointer;
     transition: transform 0.3s ease;
   }
+
   .blue-view svg:hover {
     transform: scale(1.05);
   }
+
+  .group-section {
+    max-width: 600px;
+    margin: 2rem auto;
+    text-align: left;
+    background: #fff;
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+
+  .group-section input[type="text"] {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+  }
+
+  #joinGroupBtn, #sendMsg {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  #joinGroupBtn:hover, #sendMsg:hover {
+    background-color: #0056b3;
+  }
+
+  .chat-box {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: #f9f9f9;
+    border-radius: 0.5rem;
+  }
+
+  #chatInput {
+    width: calc(100% - 100px);
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+  }
 </style>
 
-<!-- Optional: If blue.html needs isolated Firebase features -->
-<!-- <script type="module" src="scripts/utils/firebase-init.js"></script> -->
+<!-- Firebase connection -->
+<script type="module" src="scripts/utils/firebase-init.js"></script>
 
+<!-- Group functionality logic -->
+<script type="module" src="scripts/social/groupHub.js"></script>
