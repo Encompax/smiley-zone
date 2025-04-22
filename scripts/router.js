@@ -1,7 +1,14 @@
 (() => {
-  // -----------------------------
-  // Utility: Initialize game script if available
-  // -----------------------------
+  const routeOverrides = {
+    red: "red.html",
+    yellow: "yellow.html",
+    blue: "blue.html",
+    green: "green.html",
+    user: "user.html",
+    home: "home.html",
+    admin: "admin.html"
+  };
+
   function tryInitGame(page) {
     const initFunctionName = `init${page.charAt(0).toUpperCase() + page.slice(1)}`;
     const initFunction = window[initFunctionName];
@@ -18,12 +25,8 @@
     }
   }
 
-  // -----------------------------
-  // Normalize button labels to say "Start"
-  // -----------------------------
   function normalizeStartButtons() {
     const phrases = ["New Game", "Start Game", "Play", "Begin", "Go"];
-
     document.querySelectorAll("button").forEach(btn => {
       if (phrases.includes(btn.textContent.trim())) {
         btn.textContent = "Start";
@@ -31,12 +34,9 @@
     });
   }
 
-  // -----------------------------
-  // Load game content dynamically
-  // -----------------------------
   function loadGame() {
     const page = window.location.hash.substring(1) || "home";
-    const htmlPath = page === "home" ? `${page}.html` : `games/${page}.html`;
+    const htmlPath = routeOverrides[page] || `games/${page}.html`;
 
     fetch(htmlPath)
       .then(response => response.text())
@@ -44,13 +44,9 @@
         const container = document.getElementById("gameContainer");
         container.innerHTML = html;
 
-        // Remove any old dynamic game script
         const oldScript = document.getElementById("dynamicScript");
         if (oldScript) oldScript.remove();
 
-        // -----------------------------
-        // Special case: Chess dependencies
-        // -----------------------------
         if (page === "chess") {
           const chessJS = document.createElement("script");
           chessJS.src = "https://cdnjs.cloudflare.com/ajax/libs/chess.js/1.0.0-beta.1/chess.min.js";
@@ -68,30 +64,23 @@
           document.head.appendChild(chessCSS);
         }
 
-        // -----------------------------
-        // Load game-specific script
-        // -----------------------------
-        if (page !== "home") {
+        if (!routeOverrides[page] && page !== "home") {
           const script = document.createElement("script");
           script.src = `scripts/games/${page}.js`;
           script.id = "dynamicScript";
           script.defer = true;
           script.onload = () => {
             tryInitGame(page);
-            normalizeStartButtons(); // ✅ Rename buttons after game loads
+            normalizeStartButtons();
           };
           document.body.appendChild(script);
         } else {
-          normalizeStartButtons(); // ✅ Rename buttons on home screen too, if needed
+          normalizeStartButtons();
         }
 
-        // -----------------------------
-        // Ensure style.css is loaded
-        // -----------------------------
         const cssPath = window.location.pathname.includes("/games/")
           ? "../style.css"
           : "style.css";
-
         const existingLink = document.querySelector(`link[href='${cssPath}']`);
         if (!existingLink) {
           const cssLink = document.createElement("link");
@@ -108,9 +97,6 @@
       });
   }
 
-  // -----------------------------
-  // Admin Dashboard Initializer
-  // -----------------------------
   function initializeAdmin() {
     if (typeof renderShopEditor === 'function') renderShopEditor();
     if (typeof renderUserManager === 'function') renderUserManager();
@@ -119,9 +105,6 @@
     if (typeof loadModerationSettings === 'function') loadModerationSettings();
   }
 
-  // -----------------------------
-  // On Initial Load
-  // -----------------------------
   document.addEventListener("DOMContentLoaded", () => {
     const initialPage = window.location.hash.substring(1) || "home";
     if (initialPage === "admin") {
@@ -130,9 +113,6 @@
     loadGame();
   });
 
-  // -----------------------------
-  // On Hash Change (Navigation)
-  // -----------------------------
   window.addEventListener("hashchange", () => {
     const page = window.location.hash.substring(1);
     if (page === "admin") {
