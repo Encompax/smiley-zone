@@ -1,10 +1,10 @@
-<!-- home.html (SPA fragment for Smiley-Zone Arcade) -->
+<!-- home.html (SPA fragment for Smiley-Zone Arcade, layout-enhanced) -->
 
-<main class="home-wrapper">
-  <div class="home-page">
-    <h2>🎮 Smiley-Zone Arcade!</h2>
-    <p>vvv ------------ select from game menu ---- ^*-*^</p>
+<div class="home-page">
+  <h2><span class="emoji">🎮</span> Smiley-Zone Arcade!</h2>
+  <p>vvv ------------ <em>select from game menu</em> ---- ^_*_^</p>
 
+  <div class="grid-wrapper">
     <div class="grid">
       <a href="#user" class="nav-button">User Profile & Leaderboard</a>
       <a href="#snake" class="nav-button">Snake</a>
@@ -25,64 +25,66 @@
       <a href="#tictactoe" class="nav-button">Tic-Tac-Toe</a>
     </div>
   </div>
-</main>
+</div>
 
 <style>
-  .home-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 3rem 1rem;
-    min-height: 100vh;
-    background-color: #1E90FF;
-  }
-
   .home-page {
-    text-align: center;
-    max-width: 1200px;
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2rem;
+    min-height: 100vh;
+    padding-right: 320px; /* Shift to accommodate fixed chat sidebar */
   }
 
   h2 {
     color: #fff;
     font-size: 2.5rem;
     margin-bottom: 0.5rem;
+    font-family: 'Baloo 2', cursive;
   }
 
   p {
     font-style: italic;
-    color: #f8f8f8;
-    font-size: 1.1rem;
-    margin-bottom: 2rem;
+    color: #eee;
+    margin-bottom: 1.5rem;
+  }
+
+  .emoji {
+    font-size: 2rem;
+    margin-right: 0.5rem;
+  }
+
+  .grid-wrapper {
+    width: 100%;
+    max-width: 1200px;
   }
 
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 16px;
-    width: 100%;
-    padding: 0 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.2rem;
     justify-content: center;
+    padding: 1rem;
   }
 
   .nav-button {
-    display: inline-block;
     background-color: #ffcc00;
     border: none;
-    padding: 1rem 1.5rem;
+    padding: 0.75rem 1rem;
     border-radius: 12px;
     font-weight: bold;
     color: #000;
+    font-size: 1rem;
+    text-align: center;
     text-decoration: none;
-    font-size: 1.1rem;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
   }
 
   .nav-button:hover {
     background-color: #ffc107;
     color: #fff;
+    transform: scale(1.05);
   }
 </style>
-
-<!-- Optional: Firebase Init (only if home view needs it specifically) -->
-<!-- <script type="module" src="scripts/utils/firebase-init.js"></script> -->
