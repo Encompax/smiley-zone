@@ -63,7 +63,7 @@
     addScoreToLeaderboard,
     createGroup: function () {
       alert("Group creation not implemented yet.");
-    }
+    },
     get name() {
       return user.name || "";
     },
