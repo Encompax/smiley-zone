@@ -1,10 +1,10 @@
-<!-- home.html (SPA fragment for Smiley-Zone Arcade, layout-enhanced) -->
+<!-- home.html (SPA fragment for Smiley-Zone Arcade - Chat-Aware Layout) -->
 
-<div class="home-page">
-  <h2><span class="emoji">🎮</span> Smiley-Zone Arcade!</h2>
-  <p>vvv ------------ <em>select from game menu</em> ---- ^_*_^</p>
+<div class="home-wrapper">
+  <div class="home-page">
+    <h2>🎮 Smiley-Zone Arcade!</h2>
+    <p>vv ------------ <em>select from game menu</em> ---- ^_−☆</p>
 
-  <div class="grid-wrapper">
     <div class="grid">
       <a href="#user" class="nav-button">User Profile & Leaderboard</a>
       <a href="#snake" class="nav-button">Snake</a>
@@ -28,21 +28,25 @@
 </div>
 
 <style>
-  .home-page {
+  .home-wrapper {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 2rem;
-    min-height: 100vh;
-    padding-right: 320px; /* Shift to accommodate fixed chat sidebar */
+    justify-content: center;
+    padding-right: 320px; /* reserve space for fixed chat */
+    padding-top: 2rem;
+    box-sizing: border-box;
+  }
+
+  .home-page {
+    max-width: 900px;
+    width: 100%;
+    text-align: center;
+    background-color: transparent;
   }
 
   h2 {
-    color: #fff;
     font-size: 2.5rem;
     margin-bottom: 0.5rem;
-    font-family: 'Baloo 2', cursive;
+    color: #fff;
   }
 
   p {
@@ -51,40 +55,28 @@
     margin-bottom: 1.5rem;
   }
 
-  .emoji {
-    font-size: 2rem;
-    margin-right: 0.5rem;
-  }
-
-  .grid-wrapper {
-    width: 100%;
-    max-width: 1200px;
-  }
-
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 1.2rem;
-    justify-content: center;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
     padding: 1rem;
   }
 
   .nav-button {
+    display: block;
     background-color: #ffcc00;
     border: none;
     padding: 0.75rem 1rem;
     border-radius: 12px;
     font-weight: bold;
     color: #000;
-    font-size: 1rem;
-    text-align: center;
     text-decoration: none;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease;
   }
 
   .nav-button:hover {
     background-color: #ffc107;
     color: #fff;
-    transform: scale(1.05);
   }
 </style>
+
