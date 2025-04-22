@@ -41,17 +41,20 @@
     fetch(htmlPath)
       .then(response => response.text())
       .then(html => {
-        const container = document.querySelector(".main-content");
+        // 🔄 Dual container logic (new and legacy)
+        const container = document.getElementById("spa-view") || document.getElementById("gameContainer");
         if (!container) {
-          console.error("❌ .main-content container not found in DOM.");
+          console.error("❌ No valid container (#spa-view or #gameContainer) found in DOM.");
           return;
         }
 
         container.innerHTML = html;
 
+        // 🧹 Remove any previously added dynamic script
         const oldScript = document.getElementById("dynamicScript");
         if (oldScript) oldScript.remove();
 
+        // ♟ Special case for chess dependencies
         if (page === "chess") {
           const chessJS = document.createElement("script");
           chessJS.src = "https://cdnjs.cloudflare.com/ajax/libs/chess.js/1.0.0-beta.1/chess.min.js";
@@ -69,6 +72,7 @@
           document.head.appendChild(chessCSS);
         }
 
+        // 🧠 Load corresponding JS logic for games
         if (!routeOverrides[page] && page !== "home") {
           const script = document.createElement("script");
           script.src = `scripts/games/${page}.js`;
@@ -83,16 +87,17 @@
           normalizeStartButtons();
         }
 
+        // 💬 Toggle chat visibility if function exists
         if (typeof routeAwareChatToggle === "function") {
           routeAwareChatToggle();
         }
       })
       .catch(err => {
-        const container = document.querySelector(".main-content");
+        const container = document.getElementById("spa-view") || document.getElementById("gameContainer");
         if (container) {
           container.innerHTML = `
             <h2 class="error">404 - File Not Found</h2>
-            <p>The requested game could not be loaded.</p>`;
+            <p>The requested page could not be loaded.</p>`;
         }
         console.error("❌ Error loading game page:", err);
       });
@@ -100,4 +105,27 @@
 
   function initializeAdmin() {
     if (typeof renderShopEditor === 'function') renderShopEditor();
-    if (typeof renderUserManager === 'function') renderUser
+    if (typeof renderUserManager === 'function') renderUserManager();
+    if (typeof drawCharts === 'function') drawCharts();
+    if (typeof renderAuditLog === 'function') renderAuditLog();
+    if (typeof loadModerationSettings === 'function') loadModerationSettings();
+  }
+
+  // 🚦 Initial load trigger
+  document.addEventListener("DOMContentLoaded", () => {
+    const initialPage = window.location.hash.substring(1) || "home";
+    if (initialPage === "admin") {
+      initializeAdmin();
+    }
+    loadGame();
+  });
+
+  // 🔁 SPA navigation trigger
+  window.addEventListener("hashchange", () => {
+    const page = window.location.hash.substring(1);
+    if (page === "admin") {
+      initializeAdmin();
+    }
+    loadGame();
+  });
+})();
