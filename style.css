@@ -247,11 +247,12 @@ body, h1, h2, h3, h4, h5, h6, p, button, a, span, label, input[type="text"] {
 
 .grid {
   display: grid;
-  background: rgba(255, 0, 0, 0.2); /* Visual test */
+  outline: 2px dashed lime;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
-  justify-content: center;
-  padding: 1rem;
+  width: 100%;
+  max-width: 800px; /* Optional — caps grid width */
+  background: rgba(255, 0, 0, 0.1); /* Remove after confirming */
 }
 
 /* Chat Layout Styling */
