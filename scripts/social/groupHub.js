@@ -1,92 +1,117 @@
 // groupHub.js
-import { database } from "../utils/firebase-init.js";
-import {
-  ref,
-  set,
-  get,
-  push,
-  onChildAdded,
-  serverTimestamp,
-  child,
-  update
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { getDatabase, ref, get, set, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { openGroupChat } from "./groupChat.js";
 
-// Simulated user ID and name
-const userId = localStorage.getItem("szaUserId") || generateGuestId();
-const username = localStorage.getItem("szaUserName") || "Player_" + userId.slice(-4);
-
-// Active group state
-let currentGroup = null;
-
-// Fallback guest ID
-function generateGuestId() {
+const db = getDatabase();
+const userId = localStorage.getItem("szaUserId") || generateUserId();
+function generateUserId() {
   const id = "guest_" + Math.random().toString(36).substring(2, 10);
   localStorage.setItem("szaUserId", id);
   return id;
 }
 
-// DOM Elements
-const joinBtn = document.getElementById("joinGroupBtn");
-const groupInput = document.getElementById("groupName");
-const chatLog = document.getElementById("chatMessages");
-const chatInput = document.getElementById("chatInput");
-const sendMsgBtn = document.getElementById("sendMsg");
-const groupInfo = document.getElementById("groupInfo");
+const groupListDiv = document.getElementById("groupList");
+const groupCreateBtn = document.getElementById("createGroupBtn");
+const summaryStats = document.getElementById("userSummaryStats");
 
-// Join or create a group
-function joinGroup(groupName) {
-  currentGroup = groupName;
-  groupInfo.innerHTML = `✅ Joined group: <strong>${groupName}</strong> as <strong>${username}</strong>`;
-  listenToChat(groupName);
-}
+function loadGroups() {
+  const allGroupsRef = ref(db, "groups");
+  get(allGroupsRef).then((snapshot) => {
+    groupListDiv.innerHTML = "";
+    if (!snapshot.exists()) {
+      groupListDiv.innerHTML = "<p>No groups yet.</p>";
+      return;
+    }
 
-// Send chat message
-function sendMessage() {
-  if (!currentGroup || !chatInput.value.trim()) return;
+    let joinedCount = 0;
+    const groups = snapshot.val();
+    Object.entries(groups).forEach(([name, details]) => {
+      const isMember = details.members && details.members[userId];
+      const isInvited = details.invites && details.invites[userId];
 
-  const msgRef = push(ref(database, `groups/${currentGroup}/messages`));
-  set(msgRef, {
-    user: username,
-    text: chatInput.value.trim(),
-    timestamp: serverTimestamp()
-  });
+      const card = document.createElement("div");
+      card.classList.add("group-card");
+      card.innerHTML = `
+        <h3>${name}</h3>
+        <p>${details.description || "No description."}</p>
+        <p><strong>Created by:</strong> ${details.createdBy}</p>
+        <p>Status: ${isMember ? "✅ Member" : isInvited ? "📩 Invited" : "❌ Not a member"}</p>
+      `;
 
-  chatInput.value = "";
-}
-
-// Listen for messages in group
-function listenToChat(groupName) {
-  const msgRef = ref(database, `groups/${groupName}/messages`);
-
-  onChildAdded(msgRef, (snapshot) => {
-    const msg = snapshot.val();
-    const msgEl = document.createElement("div");
-    msgEl.innerHTML = `<strong>${msg.user}:</strong> ${msg.text}`;
-    chatLog.appendChild(msgEl);
-    chatLog.scrollTop = chatLog.scrollHeight;
-  });
-}
-
-// Bind events
-function initGroupListeners() {
-  if (joinBtn && groupInput) {
-    joinBtn.addEventListener("click", () => {
-      const groupName = groupInput.value.trim();
-      if (groupName) {
-        joinGroup(groupName);
+      if (isInvited && !isMember) {
+        const acceptBtn = document.createElement("button");
+        acceptBtn.textContent = "✅ Accept Invite";
+        acceptBtn.onclick = () => acceptInvite(name);
+        card.appendChild(acceptBtn);
       }
-    });
-  }
 
-  if (sendMsgBtn && chatInput) {
-    sendMsgBtn.addEventListener("click", sendMessage);
-    chatInput.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") sendMessage();
+      if (isMember) {
+        joinedCount++;
+        const chatBtn = document.createElement("button");
+        chatBtn.textContent = "💬 Chat";
+        chatBtn.onclick = () => {
+          const profileRef = ref(db, `users/${userId}/profile`);
+          get(profileRef).then((snap) => {
+            const profile = snap.exists() ? snap.val() : {};
+            openGroupChat(name, profile.displayName || "Anonymous");
+          });
+        };
+        card.appendChild(chatBtn);
+
+        const linkPanel = document.createElement("div");
+        linkPanel.className = "tool-links";
+        linkPanel.innerHTML = `
+          <a href="#red" class="tool-btn">📄 Docs</a>
+          <a href="#yellow" class="tool-btn">☁️ Cloud</a>
+          <a href="#green" class="tool-btn">💰 Tokens</a>
+          <a href="#blue" class="tool-btn">👥 Groups</a>
+        `;
+        card.appendChild(linkPanel);
+      }
+
+      groupListDiv.appendChild(card);
     });
-  }
+
+    // Display summary stats if applicable
+    if (summaryStats) {
+      summaryStats.innerHTML = `<p>🔢 Total Groups Joined: <strong>${joinedCount}</strong></p>`;
+    }
+  });
 }
 
-// Load on page init
-window.addEventListener("DOMContentLoaded", () => {
-  initGroupListeners();
-});
+function acceptInvite(groupName) {
+  const updates = {};
+  updates[`groups/${groupName}/members/${userId}`] = "member";
+  updates[`groups/${groupName}/invites/${userId}`] = null;
+  updates[`users/${userId}/profile/groups/${groupName}`] = true;
+  update(ref(db), updates)
+    .then(() => {
+      alert("✅ Joined group " + groupName);
+      loadGroups();
+    })
+    .catch((err) => console.error("❌ Failed to join group:", err));
+}
+
+function createGroup() {
+  const name = prompt("🆕 New Group Name:", "CoolGamers");
+  if (!name) return;
+  const clean = name.trim().replace(/\s+/g, "_");
+  const groupRef = ref(db, `groups/${clean}`);
+  get(groupRef).then((snap) => {
+    if (snap.exists()) return alert("❌ Group already exists.");
+    const data = {
+      createdBy: userId,
+      description: "New group created by user",
+      members: { [userId]: "admin" },
+      invites: {},
+    };
+    set(groupRef, data).then(() => {
+      update(ref(db, `users/${userId}/profile/groups/${clean}`), true);
+      loadGroups();
+    });
+  });
+}
+
+if (groupCreateBtn) groupCreateBtn.addEventListener("click", createGroup);
+
+window.addEventListener("DOMContentLoaded", loadGroups);
