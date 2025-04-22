@@ -1,4 +1,3 @@
-
 (() => {
   const leaderboard = JSON.parse(localStorage.getItem("leaderboard") || "[]");
   const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -26,7 +25,8 @@
         table.innerHTML += row;
       });
   }
-
+  
+  
   function addScoreToLeaderboard(name, score) {
     leaderboard.push({ name, score });
     localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
@@ -61,6 +61,9 @@
     earnTokens,
     spendTokens,
     addScoreToLeaderboard,
+    createGroup: function () {
+      alert("Group creation not implemented yet.");
+    }
     get name() {
       return user.name || "";
     },
@@ -69,12 +72,29 @@
     }
   };
 
-  // ✅ Initialization
-  document.addEventListener("DOMContentLoaded", () => {
+  // ✅ SPA router-compatible page loader
+  window.initUser = function () {
+    console.log("✅ initUser() called");
     if (user.name) document.getElementById("userName").value = user.name;
     if (user.bio) document.getElementById("userBio").value = user.bio;
     renderLeaderboard();
     updateTokenDisplay();
+
+    const saveBtn = document.getElementById("saveUserBtn");
+    const earnBtn = document.getElementById("earnTokensBtn");
+    const spendBtn = document.getElementById("spendTokensBtn");
+
+    if (saveBtn) saveBtn.onclick = saveUser;
+    if (earnBtn) earnBtn.onclick = () => earnTokens(10);
+    if (spendBtn) spendBtn.onclick = () => spendTokens(20);
+  };
+
+  // Optional fallback: allow static load without router
+  document.addEventListener("DOMContentLoaded", () => {
+    if (document.getElementById("userName")) {
+      window.initUser();
+    }
   });
 })();
+
 
