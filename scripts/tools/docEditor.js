@@ -3,9 +3,7 @@ import { database } from "../utils/firebase-init.js";
 import {
   ref,
   set,
-  get,
-  child,
-  update
+  get
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
 // Simulated user ID (replace with auth.currentUser?.uid if using Firebase Auth)
@@ -22,7 +20,7 @@ const titleInput = document.getElementById("docTitle");
 const editor = document.getElementById("editor");
 const saveBtn = document.getElementById("saveDoc");
 
-// Validate input
+// Validation
 function validateInputs() {
   if (!titleInput.value.trim()) {
     alert("⚠️ Please enter a document title.");
@@ -35,7 +33,7 @@ function validateInputs() {
   return true;
 }
 
-// Save document
+// Save to Firebase
 function saveDocument() {
   if (!validateInputs()) return;
 
@@ -57,34 +55,5 @@ function saveDocument() {
     });
 }
 
-// Load existing document (optional feature)
-function loadDocument(title) {
-  const docRef = ref(database, `users/${userId}/docs/${title}`);
+// Load from
 
-  get(docRef).then((snapshot) => {
-    if (snapshot.exists()) {
-      const doc = snapshot.val();
-      titleInput.value = doc.title;
-      editor.innerHTML = doc.content;
-    } else {
-      alert("⚠️ Document not found.");
-    }
-  });
-}
-
-// Bind save button
-function bindEditorEvents() {
-  if (saveBtn) {
-    saveBtn.addEventListener("click", saveDocument);
-  }
-
-  // Optional: Load document from query string (e.g., #red?title=MeetingNotes)
-  const hashParams = new URLSearchParams(window.location.hash.split("?")[1]);
-  const titleToLoad = hashParams.get("title");
-  if (titleToLoad) {
-    loadDocument(titleToLoad);
-  }
-}
-
-// Init on DOM load
-window.addEventListener("DOMContentLoaded", bindEditorEvents);

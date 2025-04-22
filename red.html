@@ -1,4 +1,4 @@
-<!-- red.html (SPA fragment: Documentation Tool + Firebase Init) -->
+<!-- red.html (SPA fragment: Documentation Tool + Firebase + Cloud Export Integration + Metadata Logging) -->
 
 <div class="red-view">
   <p><a href="#home">🏠 Home</a></p>
@@ -19,8 +19,21 @@
   <div class="red-docs">
     <h2>📝 Create New Document</h2>
     <input type="text" id="docTitle" placeholder="Document Title" />
-    <div id="editor" contenteditable="true" class="editor"></div>
-    <button id="saveDoc">💾 Save</button>
+
+    <details open>
+      <summary style="font-weight: bold; font-size: 1.1rem; margin-bottom: 1rem;">✍️ Editor</summary>
+      <div id="editor" contenteditable="true" class="editor"></div>
+    </details>
+
+    <div class="export-controls">
+      <button id="saveDoc">💾 Save</button>
+      <button id="exportPdf">📄 Export PDF</button>
+      <button id="exportTxt">📝 Export TXT</button>
+      <button id="printDoc">🖨️ Print</button>
+      <button id="clearDoc">🧹 Clear</button>
+      <button id="loadDoc">📂 Load Existing</button>
+      <button id="sendToCloud">📤 Send to Cloud</button>
+    </div>
   </div>
 </div>
 
@@ -49,7 +62,7 @@
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 
   .red-docs input {
@@ -71,23 +84,40 @@
     overflow-y: auto;
   }
 
-  #saveDoc {
-    background: #d9534f;
-    color: white;
-    padding: 0.75rem 1.25rem;
-    border: none;
-    font-size: 1rem;
-    border-radius: 0.5rem;
-    cursor: pointer;
+  .export-controls {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
   }
 
-  #saveDoc:hover {
+  .export-controls button {
     background-color: #c9302c;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1.2rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.2s ease;
+  }
+
+  .export-controls button:hover {
+    background-color: #a02621;
+    transform: scale(1.04);
+  }
+
+  .export-controls button:active {
+    transform: scale(0.98);
   }
 </style>
 
-<!-- Firebase init -->
+<!-- Modules -->
 <script type="module" src="scripts/utils/firebase-init.js"></script>
-
-<!-- Doc editor script -->
 <script type="module" src="scripts/tools/docEditor.js"></script>
+<script type="module" src="scripts/tools/docExporter.js"></script>
+<script type="module" src="scripts/tools/docListView.js"></script>
+<script type="module" src="scripts/tools/cloudExport.js"></script>

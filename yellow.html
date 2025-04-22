@@ -1,4 +1,4 @@
-<!-- yellow.html (SPA fragment: Cloud Storage + Firebase) -->
+<!-- yellow.html (SPA fragment: Cloud Storage + Firebase Metadata Integration) -->
 
 <div class="yellow-view">
   <p><a href="#home">🏠 Home</a></p>
@@ -20,6 +20,7 @@
     <input type="file" id="fileUpload" multiple />
     <button id="uploadBtn">📤 Upload</button>
     <div class="upload-status" id="uploadStatus"></div>
+    <input type="text" id="fileSearch" placeholder="🔍 Search by title, tag, or description" style="margin: 1rem auto; display: block; width: 100%; max-width: 400px; padding: 0.5rem; border-radius: 0.5rem; border: 1px solid #ccc;" />
     <h3>📁 Uploaded Files</h3>
     <ul id="fileList"></ul>
   </div>
@@ -50,7 +51,7 @@
     background: #fff;
     border-radius: 1rem;
     padding: 1.5rem;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 
   #fileUpload {
@@ -80,11 +81,8 @@
 
   #fileList li {
     margin-bottom: 0.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     border-bottom: 1px solid #ddd;
-    padding: 0.25rem 0;
+    padding: 0.5rem 0;
   }
 
   .upload-status {
@@ -92,26 +90,10 @@
     font-size: 0.9rem;
     color: #444;
   }
-
-  .file-actions button {
-    margin-left: 0.5rem;
-    font-size: 0.8rem;
-    padding: 0.3rem 0.6rem;
-    border-radius: 0.3rem;
-    border: none;
-    cursor: pointer;
-    background: #007bff;
-    color: white;
-  }
-
-  .file-actions button:hover {
-    background: #0056b3;
-  }
 </style>
 
 <!-- Firebase init -->
 <script type="module" src="scripts/utils/firebase-init.js"></script>
-
-<!-- File upload/download logic -->
 <script type="module" src="scripts/tools/cloudStorage.js"></script>
+
 
