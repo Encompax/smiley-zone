@@ -14,76 +14,37 @@
     }
   </script>
 
-  <!-- Inline background color fallback (if style.css fails to load or override) -->
   <style>
     body {
-      background-color: #1E90FF !important; /* Dodger Blue */
+      background-color: #1E90FF !important;
       margin: 0;
       padding: 0;
       font-family: 'Baloo 2', cursive;
       overflow-x: hidden;
     }
-
-    #mainLayout {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  margin-right: 300px; /* reserve space for the fixed chat */
-}
-
-
-    #chatSidebar {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 300px;
-  height: 100vh;
-  background-color: #ffffff;
-  border-left: 2px solid #ccc;
-  padding: 1rem;
-  overflow-y: auto;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-  font-family: 'Baloo 2', cursive;
-  display: none; /* hidden by default, shown in JS if not on #home */
-  z-index: 1000;
-}
-
-
-    #chatLog {
-      height: 80%;
-      overflow-y: scroll;
-      border: 1px solid #aaa;
-      padding: 0.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    #chatInput {
-      width: 100%;
-      padding: 0.5rem;
-      border: 1px solid #aaa;
-      font-size: 1rem;
-    }
   </style>
 </head>
-
 <body>
-  <div id="mainLayout">
-    <!-- 🔲 Dynamic page content goes here -->
-    <div id="gameContainer" style="flex: 1;"></div>
+  <div class="app-wrapper">
+    <div class="main-content">
+      <div id="spa-view"></div>
+    </div>
 
-    <!-- 💬 Chat Sidebar -->
-    <div id="chatSidebar">
-      <h4>🎮 Game Chat</h4>
-      <div id="chatLog"></div>
-      <input type="text" id="chatInput" placeholder="Type a message..." />
+    <div class="chat-container expanded" id="chatBox">
+      <div class="chat-header" onclick="toggleChat()">
+        Chat
+        <span id="chatAlert" class="chat-alert hidden">●</span>
+        <button id="toggleBtn">_</button>
+      </div>
+      <div class="chat-body" id="chatBody">
+        <div>Welcome to Smiley-Zone Chat!</div>
+      </div>
     </div>
   </div>
 
   <!-- Core scripts -->
   <script src="scripts/router.js" defer></script>
   <script src="scripts/chat.js" defer></script>
-  <script src="scripts/utils/loadHeader.js"></script>
-
+  <script src="scripts/utils/loadHeader.js" defer></script>
 </body>
 </html>
-
