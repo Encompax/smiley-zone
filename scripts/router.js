@@ -4,7 +4,6 @@
     yellow: "yellow.html",
     blue: "blue.html",
     green: "green.html",
-    user: "user.html",
     home: "home.html",
     admin: "admin.html"
   };
