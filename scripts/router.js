@@ -41,7 +41,12 @@
     fetch(htmlPath)
       .then(response => response.text())
       .then(html => {
-        const container = document.getElementById("gameContainer");
+        const container = document.querySelector(".main-content");
+        if (!container) {
+          console.error("❌ .main-content container not found in DOM.");
+          return;
+        }
+
         container.innerHTML = html;
 
         const oldScript = document.getElementById("dynamicScript");
@@ -78,52 +83,21 @@
           normalizeStartButtons();
         }
 
-        const cssPath = window.location.pathname.includes("/games/")
-          ? "../style.css"
-          : "style.css";
-        const existingLink = document.querySelector(`link[href='${cssPath}']`);
-        if (!existingLink) {
-          const cssLink = document.createElement("link");
-          cssLink.rel = "stylesheet";
-          cssLink.href = cssPath;
-          document.head.appendChild(cssLink);
+        if (typeof routeAwareChatToggle === "function") {
+          routeAwareChatToggle();
         }
-
-        // ✅ Sync chat visibility after content loads
-        if (typeof routeAwareChatToggle === "function") routeAwareChatToggle();
       })
-      .catch(() => {
-        const container = document.getElementById("gameContainer");
-        container.innerHTML = `
-          <h2 class="error">404 - File Not Found</h2>
-          <p>The requested game could not be loaded.</p>`;
+      .catch(err => {
+        const container = document.querySelector(".main-content");
+        if (container) {
+          container.innerHTML = `
+            <h2 class="error">404 - File Not Found</h2>
+            <p>The requested game could not be loaded.</p>`;
+        }
+        console.error("❌ Error loading game page:", err);
       });
   }
 
   function initializeAdmin() {
     if (typeof renderShopEditor === 'function') renderShopEditor();
-    if (typeof renderUserManager === 'function') renderUserManager();
-    if (typeof drawCharts === 'function') drawCharts();
-    if (typeof renderAuditLog === 'function') renderAuditLog();
-    if (typeof loadModerationSettings === 'function') loadModerationSettings();
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    const initialPage = window.location.hash.substring(1) || "home";
-    if (initialPage === "admin") {
-      initializeAdmin();
-    }
-    loadGame();
-    if (typeof routeAwareChatToggle === "function") routeAwareChatToggle();
-  });
-
-  window.addEventListener("hashchange", () => {
-    const page = window.location.hash.substring(1);
-    if (page === "admin") {
-      initializeAdmin();
-    } else {
-      loadGame();
-    }
-    if (typeof routeAwareChatToggle === "function") routeAwareChatToggle();
-  });
-})();
+    if (typeof renderUserManager === 'function') renderUser
