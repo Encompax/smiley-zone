@@ -26,10 +26,11 @@
 </div>
 
 <style>
-  .home-wrapper {
-    display: flex;
-    justify-content: center;
-    padding-right: 150px; /* Compensate for chat sidebar */
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%; /* Add this to override natural shrinking */
+  box-sizing: border-box; /* Ensure padding doesn't shrink layout */
   }
 
   .home-page {
