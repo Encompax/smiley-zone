@@ -78,9 +78,10 @@ h1 {
   margin: auto;
   padding: 1rem;
   flex-grow: 1;
-  overflow-y: auto; /* ✅ Scroll inside game wrapper or loaded container */
-  max-height: 100vh;
+  overflow: visible; /* ✅ remove internal scrolling */
+  height: auto;
 }
+
 
 .arcade-container {
   display: flex;
