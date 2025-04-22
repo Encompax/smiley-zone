@@ -88,6 +88,9 @@
           cssLink.href = cssPath;
           document.head.appendChild(cssLink);
         }
+
+        // ✅ Sync chat visibility after content loads
+        if (typeof routeAwareChatToggle === "function") routeAwareChatToggle();
       })
       .catch(() => {
         const container = document.getElementById("gameContainer");
@@ -111,6 +114,7 @@
       initializeAdmin();
     }
     loadGame();
+    if (typeof routeAwareChatToggle === "function") routeAwareChatToggle();
   });
 
   window.addEventListener("hashchange", () => {
@@ -120,5 +124,6 @@
     } else {
       loadGame();
     }
+    if (typeof routeAwareChatToggle === "function") routeAwareChatToggle();
   });
 })();
