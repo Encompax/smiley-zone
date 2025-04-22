@@ -248,7 +248,7 @@ canvas {
 
 .grid {
   display: grid;
-  outline: 2px dashed lime;
+ /* outline: 2px dashed lime;*/
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
   width: 100%;
