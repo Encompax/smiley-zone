@@ -1,9 +1,7 @@
-<!-- home.html (SPA fragment for Smiley-Zone Arcade - Chat-Aware Layout) -->
-
 <div class="home-wrapper">
   <div class="home-page">
     <h2>🎮 Smiley-Zone Arcade!</h2>
-    <p>vv ------------ <em>select from game menu</em> ---- ^_−☆</p>
+    <p>vv ------------ <em>select from game menu</em> ---- ^‿^</p>
 
     <div class="grid">
       <a href="#user" class="nav-button">User Profile & Leaderboard</a>
@@ -31,52 +29,53 @@
   .home-wrapper {
     display: flex;
     justify-content: center;
-    padding-right: 320px; /* reserve space for fixed chat */
-    padding-top: 2rem;
-    box-sizing: border-box;
+    padding-right: 150px; /* Compensate for chat sidebar */
   }
 
   .home-page {
-    max-width: 900px;
+    max-width: 960px;
     width: 100%;
     text-align: center;
-    background-color: transparent;
+    padding: 2rem;
   }
 
   h2 {
     font-size: 2.5rem;
-    margin-bottom: 0.5rem;
     color: #fff;
+    margin-bottom: 0.5rem;
   }
 
   p {
     font-style: italic;
     color: #eee;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
   }
 
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
+    gap: 16px;
+    justify-content: center;
     padding: 1rem;
   }
 
   .nav-button {
     display: block;
     background-color: #ffcc00;
-    border: none;
-    padding: 0.75rem 1rem;
-    border-radius: 12px;
+    padding: 0.75rem 1.25rem;
+    border-radius: 1rem;
+    text-decoration: none;
     font-weight: bold;
     color: #000;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s ease;
   }
 
   .nav-button:hover {
-    background-color: #ffc107;
-    color: #fff;
+    background-color: #ffb700;
+    color: white;
+    transform: scale(1.05);
   }
 </style>
+
 
