@@ -237,12 +237,13 @@ canvas {
   display: block;
 }
 
-body, h1, h2, h3, h4, h5, h6, p, button, a, span, label, input[type="text"] {
+/* Arcade-style outline only for nav buttons */
+.nav-button, .game-card a, .arcade-menu button {
   text-shadow:
-  -0.5px -0.5px 0 white,
-   0.5px -0.5px 0 white,
-  -0.5px  0.5px 0 white,
-   0.5px  0.5px 0 white;
+    -0.5px -0.5px 0 white,
+     0.5px -0.5px 0 white,
+    -0.5px  0.5px 0 white,
+     0.5px  0.5px 0 white;
 }
 
 .grid {

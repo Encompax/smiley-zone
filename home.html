@@ -26,12 +26,13 @@
 </div>
 
 <style>
+ .home-wrapper {
   display: flex;
   justify-content: center;
   width: 100%;
-  max-width: 100%; /* Add this to override natural shrinking */
-  box-sizing: border-box; /* Ensure padding doesn't shrink layout */
-  }
+  max-width: 100%; /* Prevents shrink */
+  box-sizing: border-box; /* Keeps padding from collapsing layout */
+}
 
   .home-page {
   width: 100%;
