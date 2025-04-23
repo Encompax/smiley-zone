@@ -86,7 +86,7 @@ h1 {
   z-index: -1;
   display: block;
   pointer-events: none;
-  background-image: url("/smiley-zone/images/bckgrnd.png");
+  background-image: url("games/images/bckgrnd.png");
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
