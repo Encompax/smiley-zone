@@ -4,7 +4,6 @@
   background-color: #000;
 }
 
-
 :root {
   --primary: #4db8ff;
   --secondary: #ffd966;
@@ -52,7 +51,7 @@ html, body {
   width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
-  overflow-y: auto; /* ✅ Enable vertical scrolling */
+  overflow-y: auto;
   scroll-behavior: smooth;
   touch-action: manipulation;
 }
@@ -63,7 +62,7 @@ body {
   align-items: center;
   justify-content: flex-start;
   min-height: 100vh;
-  overflow-y: auto; /* ✅ Re-ensure vertical scroll here */
+  overflow-y: auto;
   padding: 60px 1rem 2rem;
 }
 
@@ -79,10 +78,57 @@ h1 {
   margin: auto;
   padding: 1rem;
   flex-grow: 1;
-  overflow: visible; /* ✅ remove internal scrolling */
+  overflow: visible;
   height: auto;
 }
 
+/* --- Home Page Layout & Navigation --- */
+.home-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+.home-page {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.home-page h2 {
+  font-size: 2.5rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.home-page p {
+  font-style: italic;
+  color: #eee;
+  margin-bottom: 2rem;
+}
+
+.nav-button {
+  display: block;
+  background-color: #ffcc00;
+  padding: 0.75rem 1.25rem;
+  border-radius: 1rem;
+  text-decoration: none;
+  font-weight: bold;
+  color: #000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-button:hover {
+  background-color: #ffb700;
+  color: white;
+  transform: scale(1.05);
+}
 
 .arcade-container {
   display: flex;
@@ -238,7 +284,6 @@ canvas {
   display: block;
 }
 
-/* Arcade-style outline only for nav buttons */
 .nav-button, .game-card a, .arcade-menu button {
   text-shadow:
     -0.5px -0.5px 0 white,
@@ -249,15 +294,13 @@ canvas {
 
 .grid {
   display: grid;
- /* outline: 2px dashed lime;*/
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
   width: 100%;
-  max-width: 800px; /* Optional — caps grid width */
-  background: rgba(255, 0, 0, 0.1); /* Remove after confirming */
+  max-width: 800px;
+  background: rgba(255, 0, 0, 0.1); /* Temporary debug background */
 }
 
-/* Chat Layout Styling */
 .app-wrapper {
   display: flex;
   height: 100vh;
@@ -269,11 +312,10 @@ canvas {
   flex: 1;
   padding: 1rem;
   transition: width 0.3s ease;
-  overflow: visible; /* ✅ allow natural flow from body */
+  overflow: visible;
   height: auto;
 }
 
-/* Additional page-specific scroll support */
 body.red-background,
 body.green-background,
 body.blue-background,
@@ -323,5 +365,6 @@ body.user-background {
 .chat-alert.hidden {
   display: none;
 }
+
 
 
