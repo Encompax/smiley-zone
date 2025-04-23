@@ -1,8 +1,9 @@
-body.home-background {
+.home-background {
   background: url("images/bckgrnd.png") no-repeat center center fixed;
   background-size: cover;
-  background-color: #000; /* Fallback color */
+  background-color: #000;
 }
+
 
 :root {
   --primary: #4db8ff;

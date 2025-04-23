@@ -1,4 +1,4 @@
-<div class="home-wrapper">
+<div class="home-wrapper home-background">
   <div class="home-page">
     
 
@@ -28,9 +28,11 @@
  .home-wrapper {
   display: flex;
   justify-content: center;
-  width: 100%;
-  max-width: 100%; /* Prevents shrink */
-  box-sizing: border-box; /* Keeps padding from collapsing layout */
+  align-items: center; /* Center vertically */
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  overflow: auto; /* Ensure scroll if menu is too large */
 }
 
   .home-page {
