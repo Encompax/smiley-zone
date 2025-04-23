@@ -86,26 +86,13 @@ h1 {
   z-index: -1;
   display: block;
   pointer-events: none;
-  background-image: url("games/images/bckgrnd.png");
+  background-image: url("../images/bckgrnd.png");
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
   background-color: #000;
 }
-
-.home-background::after {
-  content: "🕹️ Image Layer Active";
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  color: white;
-  font-weight: bold;
-  background: rgba(0, 0, 0, 0.7);
-  padding: 0.5rem;
-  z-index: 10;
-}
-
 
 .home-wrapper {
   display: flex;
