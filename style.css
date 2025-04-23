@@ -36,6 +36,24 @@
   transform: scale(1.05);
 }
 
+.animated-banner {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  padding: 1rem 0;
+}
+
+.animated-banner img {
+  display: inline-block;
+  animation: slide-banner 12s linear infinite;
+}
+
+@keyframes slide-banner {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+
 html, body {
   margin: 0;
   padding: 0;
