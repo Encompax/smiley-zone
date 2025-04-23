@@ -76,28 +76,35 @@ h1 {
   height: auto;
 }
 
-/* --- Home Page Layout & Navigation --- */
-.home-wrapper.home-background {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
+<!-- style.css (relevant additions) -->
+.home-background {
   position: fixed;
   top: 0;
   left: 0;
+  width: 100vw;
+  height: 100vh;
   z-index: -1;
   background: url("images/bckgrnd.png") no-repeat center center fixed;
   background-size: cover;
   background-color: #000;
 }
 
+.home-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  padding: 2rem;
+}
 
 .home-page {
   width: 100%;
   display: flex;
   justify-content: center;
   padding: 2rem;
+  flex-wrap: wrap;
+  min-height: 60vh;
 }
 
 .home-page h2 {
