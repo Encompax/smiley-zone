@@ -1,9 +1,3 @@
-.home-background {
-  background: url("images/bckgrnd.png") no-repeat center center fixed;
-  background-size: cover;
-  background-color: #000;
-}
-
 :root {
   --primary: #4db8ff;
   --secondary: #ffd966;
@@ -83,15 +77,21 @@ h1 {
 }
 
 /* --- Home Page Layout & Navigation --- */
-.home-wrapper {
+.home-wrapper.home-background {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100vw;
   height: 100vh;
-  box-sizing: border-box;
-  overflow: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  background: url("images/bckgrnd.png") no-repeat center center fixed;
+  background-size: cover;
+  background-color: #000;
 }
+
 
 .home-page {
   width: 100%;
