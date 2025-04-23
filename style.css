@@ -84,10 +84,13 @@ h1 {
   width: 100vw;
   height: 100vh;
   z-index: -1;
+  display: block; /* ✅ Ensures it occupies space */
+  pointer-events: none; /* ✅ Prevents accidental interaction blocking */
   background: url("images/bckgrnd.png") no-repeat center center fixed;
   background-size: cover;
   background-color: #000;
 }
+
 
 .home-wrapper {
   display: flex;
