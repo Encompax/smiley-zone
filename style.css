@@ -10,10 +10,7 @@
   box-sizing: border-box;
 }
 
-html, body {
-  overflow-y: auto !important;
-  height: 100%;
-}
+
 
 .site-header {
   position: fixed;
@@ -41,47 +38,21 @@ html, body {
   transform: scale(1.05);
 }
 
-.animated-banner {
-  overflow: hidden;
-  white-space: nowrap;
-  width: 100%;
-  padding: 1rem 0;
-}
-
-.animated-banner img {
-  display: inline-block;
-  animation: slide-banner 12s linear infinite;
-}
-
-@keyframes slide-banner {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
-}
 
 
 html, body {
   margin: 0;
   padding: 0;
-  font-family: 'Baloo 2', cursive;
-  background-color: #1E90FF;
-  color: var(--text);
   width: 100%;
-  min-height: 100vh;
+  height: 100%;
+  font-family: 'Baloo 2', cursive;
   overflow-x: hidden;
   overflow-y: auto;
   scroll-behavior: smooth;
   touch-action: manipulation;
+  background-color: var(--background, #e0f7fa);
 }
 
-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  min-height: 100vh;
-  overflow-y: auto;
-  padding: 60px 1rem 2rem;
-}
 
 h1 {
   font-size: 3rem;
@@ -423,6 +394,34 @@ body.user-background {
 
 .chat-alert.hidden {
   display: none;
+}
+
+/* 🔐 Auth Buttons for Top-Right Header */
+.auth-header {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1001;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.auth-btn {
+  background-color: var(--secondary); /* consistent yellow theme */
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: var(--text);
+  text-decoration: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.auth-btn:hover {
+  background-color: #ffcc33;
+  color: #000;
+  transform: scale(1.05);
 }
 
 
