@@ -5,7 +5,10 @@
     blue: "blue.html",
     green: "green.html",
     home: "home.html",
-    admin: "admin.html"
+    admin: "admin.html",
+    user: "user.html",
+    signup: "signup.html", // ✅ added
+    login: "login.html"    // ✅ added
   };
 
   function tryInitGame(page) {
