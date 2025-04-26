@@ -80,12 +80,12 @@ h1 {
   z-index: -1;
   display: block;
   pointer-events: none;
-  background-image: url("../images/bckgrnd.png");
+  /*background-image: url("../images/bckgrnd.png");
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
-  background-color: #000;
+  background-color: #000;*/
 }
 
 .home-wrapper {

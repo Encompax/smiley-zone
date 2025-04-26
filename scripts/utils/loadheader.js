@@ -1,5 +1,3 @@
-// scripts/utils/loadHeader.js
-
 const headerContainer = document.createElement("div");
 headerContainer.id = "site-header";
 headerContainer.style.cssText = `
@@ -15,16 +13,30 @@ headerContainer.style.cssText = `
   font-family: 'Baloo 2', cursive;
 `;
 
+const bannerImg = document.createElement("img");
+bannerImg.src = "images/smileyz-banner-horizontal.png";
+bannerImg.alt = "Smiley-Zone Arcade!";
+bannerImg.style.cssText = "height: 60px; object-fit: contain;";
+
+const rightSide = document.createElement("div");
+rightSide.style.display = "flex";
+rightSide.style.alignItems = "center";
+rightSide.style.gap = "1rem";
+
+const userInfo = document.createElement("div");
+userInfo.style.fontSize = "1rem";
+
+headerContainer.appendChild(bannerImg);
+headerContainer.appendChild(userInfo);
+headerContainer.appendChild(rightSide);
 document.body.insertBefore(headerContainer, document.body.firstChild);
 
 function updateHeader(user) {
-  const userInfo = document.createElement("div");
-  userInfo.style.cssText = "font-size: 1rem;";
   userInfo.innerHTML = user
     ? `👋 Welcome, <strong>${user.displayName || user.email}</strong>`
     : "🎮 Welcome to Smiley-Zone Arcade!";
 
-  const rightSide = document.createElement("div");
+  rightSide.innerHTML = "";
 
   if (user) {
     const tokenDisplay = document.createElement("span");
@@ -48,29 +60,29 @@ function updateHeader(user) {
       "color: white; background-color: #ffd966; padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; font-weight: bold;";
     rightSide.appendChild(loginBtn);
   }
-
-  headerContainer.innerHTML = "";
-  headerContainer.appendChild(userInfo);
-  headerContainer.appendChild(rightSide);
 }
 
-// 🔄 Call this once auth state is confirmed
-firebase.auth().onAuthStateChanged(async (user) => {
-  updateHeader(user);
+// ✅ Ensure Firebase is initialized first
+if (typeof firebase !== "undefined" && firebase.auth) {
+  firebase.auth().onAuthStateChanged(async (user) => {
+    updateHeader(user);
 
-  if (user) {
-    // Update token display in header
-    try {
-      const doc = await firebase.firestore().collection("users").doc(user.uid).get();
-      const data = doc.data();
-      const headerToken = document.getElementById("header-token-balance");
-      if (headerToken && data.tokens !== undefined) {
-        headerToken.textContent = `💰 Tokens: ${data.tokens}`;
+    if (user) {
+      try {
+        const doc = await firebase.firestore().collection("users").doc(user.uid).get();
+        const data = doc.data();
+        const headerToken = document.getElementById("header-token-balance");
+        if (headerToken && data.tokens !== undefined) {
+          headerToken.textContent = `💰 Tokens: ${data.tokens}`;
+        }
+      } catch (err) {
+        console.warn("⚠️ Unable to load token balance for header:", err);
       }
-    } catch (err) {
-      console.warn("⚠️ Unable to load token balance for header:", err);
     }
-  }
-});
+  });
+} else {
+  console.warn("⚠️ Firebase not available yet.");
+}
+
 
   
