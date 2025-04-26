@@ -5,7 +5,8 @@
   <script src="scripts/utils/loadHeader.js"></script>
 
   <h2>group chats :)</h2>
-  <div id="userSummaryStats"></div> <!-- 🔹 Add it here for dynamic status -->
+  <div id="userSummaryStats"></div>
+
   <a href="#fact?color=blue">
     <svg width="100" height="100">
       <circle cx="50" cy="50" r="45" fill="blue" />
@@ -18,7 +19,8 @@
   <p>form or join a group, chat with group members live, challenge other group members to a game!</p>
 
   <div class="group-tools">
-    <button id="createGroupBtn">➕ Create New Group</button>
+    <button id="createGroupBtn" onclick="createGroup()">➕ Create New Group</button>
+    <button onclick="inviteToGroup('MyCoolGroup')">📨 Invite Member</button>
     <div id="groupList" style="margin-top: 2rem;"></div>
   </div>
 </div>

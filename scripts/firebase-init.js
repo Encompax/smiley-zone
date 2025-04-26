@@ -9,145 +9,144 @@ const firebaseConfig = {
     messagingSenderId: "638687747467",
     appId: "1:638687747467:web:b2c96791c7dba00448a38e"
   };
-  
-  // 🔧 Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-  const db = firebase.firestore();
-  
-  // ✅ Global UID handler
-  let currentUserUID = null;
-  auth.onAuthStateChanged(async (user) => {
-    if (user) {
-      currentUserUID = user.uid;
-      console.log("✅ Authenticated UID:", currentUserUID);
-      if (typeof initUser === "function") initUser();
-    } else {
-      currentUserUID = null;
-    }
+ // 🔧 Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// ✅ Global UID handler
+let currentUserUID = null;
+auth.onAuthStateChanged(async (user) => {
+  if (user) {
+    currentUserUID = user.uid;
+    console.log("✅ Authenticated UID:", currentUserUID);
+    if (typeof initUser === "function") initUser();
+  } else {
+    currentUserUID = null;
+  }
+});
+
+// 📝 SIGNUP FUNCTION
+window.handleSignup = async function () {
+  const name = document.getElementById("signupName").value.trim();
+  const email = document.getElementById("signupEmail").value.trim();
+  const password = document.getElementById("signupPassword").value;
+
+  try {
+    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+    const user = userCredential.user;
+
+    await db.collection("users").doc(user.uid).set({
+      name,
+      email,
+      tokens: 0,
+      highScores: {},
+      purchases: [],
+      documents: [],
+      groups: [],
+      createdAt: Date.now()
+    });
+
+    alert("✅ Account created!");
+    window.location.hash = "#user";
+  } catch (error) {
+    console.error("❌ Signup error:", error);
+    alert(error.message);
+  }
+};
+
+// 🔐 LOGIN FUNCTION
+window.handleLogin = async function () {
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
+
+  try {
+    await auth.signInWithEmailAndPassword(email, password);
+    alert("✅ Logged in!");
+    window.location.hash = "#user";
+  } catch (error) {
+    console.error("❌ Login error:", error);
+    alert(error.message);
+  }
+};
+
+// 🚪 LOGOUT FUNCTION
+window.logoutUser = async function () {
+  await auth.signOut();
+  alert("🚪 Logged out!");
+  window.location.hash = "#home";
+};
+
+// 💬 SEND GROUP CHAT MESSAGE
+window.sendGroupMessage = async function (groupName, messageText) {
+  const user = auth.currentUser;
+  if (!user || !groupName || !messageText) return;
+
+  try {
+    await db.collection("groups").doc(groupName).collection("messages").add({
+      sender: user.uid,
+      text: messageText,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    });
+  } catch (err) {
+    console.error("❌ Failed to send message:", err);
+  }
+};
+
+// 🔁 LOAD GROUP CHAT MESSAGES
+window.loadGroupMessages = async function (groupName, renderCallback) {
+  const messagesRef = db.collection("groups").doc(groupName).collection("messages").orderBy("timestamp", "asc");
+  messagesRef.onSnapshot((snapshot) => {
+    const messages = [];
+    snapshot.forEach((doc) => messages.push(doc.data()));
+    renderCallback(messages);
   });
-  
-  // 📝 SIGNUP FUNCTION
-  window.handleSignup = async function () {
-    const name = document.getElementById("signupName").value.trim();
-    const email = document.getElementById("signupEmail").value.trim();
-    const password = document.getElementById("signupPassword").value;
-  
-    try {
-      const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-      const user = userCredential.user;
-  
-      await db.collection("users").doc(user.uid).set({
-        name,
-        email,
-        tokens: 0,
-        highScores: {},
-        purchases: [],
-        documents: [],
-        groups: [],
-        createdAt: Date.now()
-      });
-  
-      alert("✅ Account created!");
-      window.location.hash = "#user";
-    } catch (error) {
-      console.error("❌ Signup error:", error);
-      alert(error.message);
-    }
-  };
-  
-  // 🔐 LOGIN FUNCTION
-  window.handleLogin = async function () {
-    const email = document.getElementById("loginEmail").value.trim();
-    const password = document.getElementById("loginPassword").value;
-  
-    try {
-      await auth.signInWithEmailAndPassword(email, password);
-      alert("✅ Logged in!");
-      window.location.hash = "#user";
-    } catch (error) {
-      console.error("❌ Login error:", error);
-      alert(error.message);
-    }
-  };
-  
-  // 🚪 LOGOUT FUNCTION
-  window.logoutUser = async function () {
-    await auth.signOut();
-    alert("🚪 Logged out!");
-    window.location.hash = "#home";
-  };
-  
-  // 💾 SAVE USER PROFILE
-  window.saveUserProfile = async function () {
-    const user = auth.currentUser;
-    if (!user) {
-      alert("⚠️ You must be logged in to save your profile.");
-      window.location.hash = "#login";
-      return;
-    }
-  
-    const name = document.getElementById("userName").value.trim();
-    const bio = document.getElementById("userBio").value.trim();
-  
-    try {
-      await db.collection("users").doc(user.uid).set({
-        name,
-        bio,
-        updatedAt: Date.now()
-      }, { merge: true });
-  
-      alert("✅ Profile saved!");
-      if (typeof initUser === "function") initUser();
-    } catch (err) {
-      console.error("❌ Failed to save profile:", err);
-      alert("Failed to save profile.");
-    }
-  };
-  
-  // 🔄 INIT USER PROFILE VIEW
-  window.initUser = async function () {
-    const user = auth.currentUser;
-    if (!user) return;
-  
-    try {
-      const doc = await db.collection("users").doc(user.uid).get();
-      if (!doc.exists) return;
-      const data = doc.data();
-  
-      document.getElementById("userName").value = data.name || "";
-      document.getElementById("userBio").value = data.bio || "";
-      document.getElementById("userEmail").textContent = user.email || "N/A";
-      document.getElementById("userTokens").textContent = data.tokens ?? 0;
-      document.getElementById("tokenBalance").textContent = data.tokens ?? 0;
-  
-      const highScoresEl = document.getElementById("userHighScores");
-      highScoresEl.innerHTML = "";
-      for (const [game, score] of Object.entries(data.highScores || {})) {
-        highScoresEl.innerHTML += `<li>${game}: ${score}</li>`;
-      }
-  
-      const purchasesEl = document.getElementById("userPurchases");
-      purchasesEl.innerHTML = "";
-      for (const item of data.purchases || []) {
-        purchasesEl.innerHTML += `<li>${item}</li>`;
-      }
-  
-      const documentsEl = document.getElementById("userDocuments");
-      documentsEl.innerHTML = "";
-      for (const docId of data.documents || []) {
-        documentsEl.innerHTML += `<li>${docId}</li>`;
-      }
-  
-      const groupsEl = document.getElementById("userGroupList");
-      groupsEl.innerHTML = "";
-      for (const group of data.groups || []) {
-        const li = document.createElement("li");
-        li.textContent = group;
-        groupsEl.appendChild(li);
-      }
-  
-    } catch (err) {
-      console.error("❌ Error loading user profile:", err);
-    }
-  };
+};
+
+// 👥 LOAD GROUP MEMBERS & ROLES
+window.loadGroupMembers = async function (groupName, renderCallback) {
+  try {
+    const groupDoc = await db.collection("groups").doc(groupName).get();
+    if (!groupDoc.exists) return;
+    const groupData = groupDoc.data();
+
+    const roles = groupData.roles || {};
+    const members = groupData.members || [];
+
+    const userDocs = await Promise.all(members.map(uid => db.collection("users").doc(uid).get()));
+    const detailedMembers = userDocs.map(doc => ({
+      uid: doc.id,
+      name: doc.data().name || "(no name)",
+      role: roles[doc.id] || "member"
+    }));
+
+    renderCallback(detailedMembers);
+  } catch (err) {
+    console.error("❌ Failed to load group members:", err);
+  }
+};
+
+// 🚫 REMOVE GROUP MEMBER (Admin only)
+window.removeGroupMember = async function (groupName, memberUID) {
+  const user = auth.currentUser;
+  if (!user || !groupName || !memberUID) return;
+
+  const groupRef = db.collection("groups").doc(groupName);
+  const groupDoc = await groupRef.get();
+  const groupData = groupDoc.data();
+
+  if (groupData.roles[user.uid] !== "admin") {
+    alert("🚫 Only admins can remove members.");
+    return;
+  }
+
+  try {
+    await groupRef.update({
+      members: firebase.firestore.FieldValue.arrayRemove(memberUID),
+      [`roles.${memberUID}`]: firebase.firestore.FieldValue.delete()
+    });
+    alert("✅ Member removed.");
+  } catch (err) {
+    console.error("❌ Failed to remove member:", err);
+  }
+};

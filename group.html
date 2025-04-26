@@ -1,0 +1,135 @@
+<!-- group.html (SPA Fragment: Group Chat + Member List with Roles) -->
+
+<div class="group-view">
+    <p><a href="#home">🏠 Home</a></p>
+    <script src="scripts/utils/loadHeader.js"></script>
+  
+    <h2>📢 Group Chatroom</h2>
+  
+    <div id="chatSection" class="chat-section">
+      <div id="chatMessages" class="chat-messages"></div>
+      <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="Type a message..." />
+        <button onclick="sendGroupMessage('MyCoolGroup', document.getElementById('chatInput').value); document.getElementById('chatInput').value = ''">📤 Send</button>
+      </div>
+    </div>
+  
+    <h3>👥 Members</h3>
+    <div id="groupMembers" class="member-list"></div>
+  </div>
+  
+  <style>
+    .group-view {
+      padding: 2rem;
+      background-color: #eef6ff;
+      text-align: center;
+    }
+  
+    .chat-section {
+      max-width: 600px;
+      margin: 1rem auto;
+      background: white;
+      border-radius: 1rem;
+      padding: 1rem;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    }
+  
+    .chat-messages {
+      height: 300px;
+      overflow-y: scroll;
+      text-align: left;
+      border: 1px solid #ccc;
+      padding: 1rem;
+      background-color: #f9f9f9;
+      margin-bottom: 1rem;
+    }
+  
+    .chat-input {
+      display: flex;
+      gap: 0.5rem;
+    }
+  
+    .chat-input input {
+      flex: 1;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid #ccc;
+    }
+  
+    .member-list {
+      max-width: 600px;
+      margin: 1rem auto;
+      text-align: left;
+      background: white;
+      padding: 1rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+    }
+  
+    .member-list .member {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #eee;
+    }
+  
+    .member-list .member button {
+      background-color: red;
+      color: white;
+      padding: 0.3rem 0.6rem;
+      border: none;
+      border-radius: 0.3rem;
+      cursor: pointer;
+    }
+  </style>
+  
+  <script type="module">
+    import { loadGroupMessages, loadGroupMembers, removeGroupMember } from '../scripts/utils/firebase-init.js';
+  
+    const groupName = 'MyCoolGroup'; // Replace with dynamic group selection logic
+  
+    // Load chat messages
+    loadGroupMessages(groupName, (messages) => {
+      const container = document.getElementById('chatMessages');
+      container.innerHTML = '';
+      messages.forEach(msg => {
+        const div = document.createElement('div');
+        div.textContent = msg.text;
+        container.appendChild(div);
+      });
+    });
+  
+    // Load members and attach remove buttons for admins
+    loadGroupMembers(groupName, (members) => {
+      const list = document.getElementById('groupMembers');
+      list.innerHTML = '';
+      members.forEach(member => {
+        const item = document.createElement('div');
+        item.classList.add('member');
+        item.innerHTML = `<strong>${member.name}</strong> <em>(${member.role})</em>`;
+        if (member.role !== 'admin') {
+          const btn = document.createElement('button');
+          btn.textContent = 'Kick';
+          btn.onclick = () => removeGroupMember(groupName, member.uid);
+          item.appendChild(btn);
+        }
+        list.appendChild(item);
+      });
+    });
+    // When sending a message:
+sendGroupMessage("MyCoolGroup", "Hello everyone!");
+
+// When initializing the chat view:
+loadGroupMessages("MyCoolGroup", (messages) => {
+  const chatBox = document.getElementById("chatMessages");
+  chatBox.innerHTML = "";
+  messages.forEach(msg => {
+    const div = document.createElement("div");
+    div.textContent = msg.text;
+    chatBox.appendChild(div);
+  });
+});
+
+  </script>
+  
