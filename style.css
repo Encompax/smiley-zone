@@ -157,9 +157,15 @@ html, body {
 
 .home-page h2 {
   font-size: 2.5rem;
-  color: #010000;
+  color: #000;
   margin-bottom: 0.5rem;
+  text-shadow:
+    -1px -1px 0 #fff,
+     1px -1px 0 #fff,
+    -1px  1px 0 #fff,
+     1px  1px 0 #fff;
 }
+
 
 .home-page p {
   font-style: italic;
@@ -204,11 +210,14 @@ html, body {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 16px;
   width: 100%;
-  max-width: 800px;
+  max-width: 1000px;
+  padding: 1rem;
+  margin: 0 auto;
   background: rgba(255, 0, 0, 0.1); /* Debug */
+
 }
 
 /* Additional Component Styling */
