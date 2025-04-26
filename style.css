@@ -2,7 +2,7 @@
 :root {
   --primary: #4db8ff;
   --secondary: #ffd966;
-  --background: #e0f7fa;
+  --background: #71cdef;
   --card: #ffffff;
   --text: #333;
 }
@@ -60,7 +60,7 @@ html, body {
   align-items: center;
   padding: 0.75rem 1rem;
   background-color: var(--primary);
-  color: white;
+  color: rgb(234, 64, 64);
   font-family: 'Baloo 2', cursive;
   pointer-events: auto;
 }
