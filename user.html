@@ -5,44 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>User Profile & Leaderboard</title>
 </head>
-
 <body>
-  
   <script src="scripts/utils/loadHeader.js"></script>
-
   <div id="gameContainer" class="game-wrapper">
     <p style="margin: 1rem 0;">
       <a href="#home" title="Return to Home">
         <img src="images/sza-logo.png" alt="Smiley Zone Logo" style="height: 60px; margin: 1rem 0;" />
       </a>
     </p>
-
     <hr style="margin-bottom: 1.5rem;" />
     <h2 style="text-align: center;">Leaderboard & User Profile</h2>
 
     <!-- 🔄 Firebase-Connected Dynamic Profile Display -->
     <div class="profile-container" style="max-width: 600px; margin: 2rem auto;">
-      <h2>👤 Welcome, <span id="userName">...</span></h2>
-      <p><strong>Email:</strong> <span id="userEmail">...</span></p>
-      <p><strong>Token Balance:</strong> <span id="userTokens">0</span></p>
-
+      <h2>👤 Welcome, <span id="userNameDisplay">...</span></h2>
+      <p><strong>Email:</strong> <span id="userEmailDisplay">...</span></p>
+      <p><strong>Token Balance:</strong> <span id="tokenBalance">0</span></p>
       <hr style="margin: 2rem 0;" />
-
       <h3>🎯 High Scores</h3>
       <ul id="userHighScores">
         <li>No scores yet.</li>
       </ul>
-
       <h3>🛒 Purchased Items</h3>
       <ul id="userPurchases">
         <li>No purchases yet.</li>
       </ul>
-
       <h3>📁 Saved Documents</h3>
       <ul id="userDocuments">
         <li>No documents saved.</li>
       </ul>
-
       <div style="margin-top: 2rem;">
         <button onclick="logoutUser()">🚪 Log Out</button>
       </div>
@@ -51,24 +42,16 @@
     <!-- 🧠 Manual Profile Controls (optional override) -->
     <div style="max-width: 600px; margin: 0 auto;">
       <h3>Create / Update Profile</h3>
-
       <label for="userName">Name:</label><br />
       <input type="text" id="userName" placeholder="Enter your name" style="width: 100%;" /><br /><br />
-
       <label for="userBio">Bio:</label><br />
       <textarea id="userBio" placeholder="Short bio..." rows="3" style="width: 100%;"></textarea><br /><br />
-
-      <p><strong>Token Balance:</strong> <span id="tokenBalance">0</span></p>
-
+      <p><strong>Token Balance:</strong> <span id="tokenBalanceDisplay">0</span></p>
       <div style="margin-bottom: 10px;">
         <button id="earnTokensBtn">Earn or Purchase Tokens</button>
         <button id="spendTokensBtn">Smiley Zone Arcade Store</button>
       </div>
-
-      
       <button id="saveUserBtn" onclick="arcadeUser.saveUser()">💾 Save Profile</button>
-
-
       <hr style="margin: 20px 0;" />
       <h4>🔗 Your Dashboard</h4>
       <div style="display: flex; flex-wrap: wrap; gap: 10px;">
@@ -107,5 +90,22 @@
   <!-- Script Hooks -->
   <script src="scripts/utils/loadHeader.js"></script>
   <script type="module" src="scripts/tools/userProfile.js"></script>
+  <script>
+    window.initUser = async function () {
+      if (!currentUserUID) return;
+      try {
+        const userDoc = await db.collection("users").doc(currentUserUID).get();
+        if (userDoc.exists) {
+          const data = userDoc.data();
+          document.getElementById("userNameDisplay").textContent = data.name || "...";
+          document.getElementById("userEmailDisplay").textContent = data.email || "...";
+          document.getElementById("tokenBalance").textContent = data.tokens || 0;
+          document.getElementById("tokenBalanceDisplay").textContent = data.tokens || 0;
+        }
+      } catch (err) {
+        console.error("❌ Failed to load user profile:", err);
+      }
+    };
+  </script>
 </body>
 </html>
