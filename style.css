@@ -48,7 +48,7 @@ html, body {
   overflow-x: hidden;
   overflow-y: auto;
   scroll-behavior: smooth;
-  background-color: var(--background, #e0f7fa);
+  background-color: var(--background, #e0f7fa) !important;
 }
 
 .app-wrapper {
