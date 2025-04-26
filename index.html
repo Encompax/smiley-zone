@@ -7,14 +7,13 @@
   <title>Smiley-Zone Arcade</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
+
   <script>
     if (!location.hash) {
       location.replace(location.pathname + "#home");
     }
   </script>
-  
 </head>
-<script src="scripts/utils/loadHeader.js"></script>
 
 <body>
   <div class="app-wrapper">
@@ -31,23 +30,21 @@
       <div class="chat-body" id="chatBody">
         <div>Welcome to Smiley-Zone Chat!</div>
       </div>
+      <input id="chatInput" type="text" placeholder="Type a message..." />
     </div>
   </div>
 
+  <!-- SPA Routing & Chat Logic -->
   <script src="scripts/router.js" defer></script>
   <script src="scripts/chat.js" defer></script>
-  <!-- Firebase App (Core) -->
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 
-<!-- Firebase Authentication -->
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
-<!-- Firebase Firestore -->
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
-<!-- Firebase Config & App Logic -->
-<script src="scripts/firebase-init.js"></script>
-<script src="scripts/utils/loadHeader.js"></script>
-
+  <!-- Firebase App Logic & Header -->
+  <script src="scripts/firebase-init.js"></script>
+  <script src="scripts/utils/loadHeader.js"></script>
 </body>
 </html>
