@@ -2,12 +2,12 @@
 
 // 🔐 Your Firebase Project Config (replace with actual values)
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyBpiQAyL9ZUNxeRsSlB0DAc__uVxNyMRDU",
+    authDomain: "smiley-zone-arcade.firebaseapp.com",
+    projectId: "smiley-zone-arcade",
+    storageBucket: "smiley-zone-arcade.appspot.com",
+    messagingSenderId: "638687747467",
+    appId: "1:638687747467:web:b2c96791c7dba00448a38e"
   };
   
   // 🔧 Initialize Firebase
