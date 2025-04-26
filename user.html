@@ -101,6 +101,12 @@
           document.getElementById("userEmailDisplay").textContent = data.email || "...";
           document.getElementById("tokenBalance").textContent = data.tokens || 0;
           document.getElementById("tokenBalanceDisplay").textContent = data.tokens || 0;
+
+          // Update header buttons
+          const loginBtn = document.querySelector("a[href='#login']");
+          const signupBtn = document.querySelector("a[href='#signup']");
+          if (loginBtn) loginBtn.textContent = data.name || "My Profile";
+          if (signupBtn) signupBtn.style.display = "none";
         }
       } catch (err) {
         console.error("❌ Failed to load user profile:", err);
