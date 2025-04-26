@@ -13,10 +13,6 @@ headerContainer.style.cssText = `
   font-family: 'Baloo 2', cursive;
 `;
 
-const bannerImg = document.createElement("img");
-bannerImg.src = "images/smileyz-banner-horizontal.png";
-bannerImg.alt = "Smiley-Zone Arcade!";
-bannerImg.style.cssText = "height: 60px; object-fit: contain;";
 
 const rightSide = document.createElement("div");
 rightSide.style.display = "flex";
