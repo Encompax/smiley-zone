@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>User Profile & Leaderboard</title>
 </head>
+
 <body>
+  
+  <script src="scripts/utils/loadHeader.js"></script>
+
   <div id="gameContainer" class="game-wrapper">
     <p style="margin: 1rem 0;">
       <a href="#home" title="Return to Home">
@@ -61,7 +65,9 @@
         <button id="spendTokensBtn">Smiley Zone Arcade Store</button>
       </div>
 
-      <button id="saveUserBtn">Save Profile</button>
+      
+      <button id="saveUserBtn" onclick="arcadeUser.saveUser()">💾 Save Profile</button>
+
 
       <hr style="margin: 20px 0;" />
       <h4>🔗 Your Dashboard</h4>
