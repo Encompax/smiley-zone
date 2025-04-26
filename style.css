@@ -1,8 +1,8 @@
 /* Root Theme Variables */
 :root {
-  --primary: #4db8ff;
+  --primary: #ed3528;
   --secondary: #ffd966;
-  --background: #71cdef;
+  --background: #4db8ff;
   --card: #ffffff;
   --text: #333;
 }
