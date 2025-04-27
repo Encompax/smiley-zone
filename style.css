@@ -144,12 +144,14 @@ html, body {
   width: 100%;
   min-height: 100vh;
   padding: 2rem;
+  box-sizing: border-box;
 }
 
 .home-page {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding: 2rem;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 2rem;
@@ -157,6 +159,7 @@ html, body {
   width: 100%;
   max-width: 1300px; /* or slightly larger than 8-column grid */
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .home-header {
@@ -225,6 +228,9 @@ html, body {
   gap: 1rem;
   width: 100%;
   max-width: 1200px;
+  justify-content: center;
+  margin: 0 auto;
+  box-sizing: border-box;
   padding: 1rem;
 }
 
