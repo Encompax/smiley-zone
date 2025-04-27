@@ -29,7 +29,7 @@ document.body.insertBefore(headerContainer, document.body.firstChild);
 
 function updateHeader(user) {
   userInfo.innerHTML = user
-    ? `👋 Welcome, <strong>${user.displayName || user.email}</strong>`
+    ? `👋 Wellcome, <strong>${user.displayName || user.email}</strong>`
     : "🎮 Welcome to Smiley-Zone Arcade!";
 
   rightSide.innerHTML = "";
