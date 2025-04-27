@@ -79,6 +79,3 @@ if (typeof firebase !== "undefined" && firebase.auth) {
 } else {
   console.warn("⚠️ Firebase not available yet.");
 }
-
-
-  
