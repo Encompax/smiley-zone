@@ -214,11 +214,11 @@ html, body {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 1rem;
   width: 100%;
-  max-width: 600;
-  padding: 1.5rem;
+  max-width: 1200px;
+  padding: 1rem;
   margin: 0 auto;
   background: rgba(255, 0, 0, 0.1); /* Debug */
 
