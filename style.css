@@ -147,17 +147,24 @@ html, body {
 }
 
 .home-page {
-  width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   padding: 2rem;
-  flex-wrap: wrap;
-  min-height: 60vh;
-
-  background: rgba(255, 255, 255, 0.1); /* Soft overlay */
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 2rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 1300px; /* or slightly larger than 8-column grid */
+  margin: 0 auto;
 }
+
+.home-header {
+  text-align: center;
+  max-width: 800px;
+  margin-bottom: 1rem;
+}
+
 
 .home-page h2 {
   font-size: 2.5rem;
@@ -219,10 +226,8 @@ html, body {
   width: 100%;
   max-width: 1200px;
   padding: 1rem;
-  margin: 0 auto;
-  background: rgba(255, 0, 0, 0.1); /* Debug */
-
 }
+
 
 /* Additional Component Styling */
 /* Include cards, chat, game-specific UI, inputs, footer, etc. as in original */
