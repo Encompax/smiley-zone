@@ -38,37 +38,64 @@ function updateHeader(user) {
   const loginBtn = document.getElementById("loginBtn");
   const signupBtn = document.getElementById("signupBtn");
 
-  // 🎮 Show user greeting or guest prompt
-  userInfo.innerHTML = user
-    ? `🎮 <strong>${user.displayName || user.email}</strong>`
-    : `🎮 <a href="#login" style="color: white;">Log in</a> or <a href="#signup" style="color: white;">create an account</a>`;
+  userInfo.innerHTML = "";
 
-  // 👤 Show/hide login and signup buttons
-  if (user) {
-    if (loginBtn) loginBtn.style.display = "none";
-    if (signupBtn) signupBtn.style.display = "none";
-  } else {
-    if (loginBtn) loginBtn.style.display = "inline-block";
-    if (signupBtn) signupBtn.style.display = "inline-block";
-  }
-
-  // 🎯 Clear right-side container and rebuild (e.g., tokens, logout button)
+  // Clear right-side container (e.g., logout, token display)
   rightSide.innerHTML = "";
 
   if (user) {
-    const tokenDisplay = document.createElement("span");
-    tokenDisplay.id = "header-token-balance";
-    tokenDisplay.style.marginRight = "1rem";
-    tokenDisplay.textContent = "💰 Tokens: ...";
-    rightSide.appendChild(tokenDisplay);
+    // Hide login/signup buttons
+    if (loginBtn) loginBtn.style.display = "none";
+    if (signupBtn) signupBtn.style.display = "none";
 
+    // Create dropdown container
+    const dropdownWrapper = document.createElement("div");
+    dropdownWrapper.className = "user-dropdown";
+
+    // Create label (username or email)
+    const userLabel = document.createElement("button");
+    userLabel.className = "dropdown-toggle";
+    userLabel.textContent = user.displayName || user.email;
+
+    // Toggle dropdown visibility
+    userLabel.onclick = () => {
+      dropdownMenu.classList.toggle("show");
+    };
+
+    // Create dropdown menu
+    const dropdownMenu = document.createElement("div");
+    dropdownMenu.className = "dropdown-menu";
+
+    // Token Display (optional)
+    const tokenDisplay = document.createElement("div");
+    tokenDisplay.id = "header-token-balance";
+    tokenDisplay.textContent = "🎟 Tokens: 0"; // Will be dynamically updated
+    tokenDisplay.className = "dropdown-item";
+    dropdownMenu.appendChild(tokenDisplay);
+
+    // Logout Button
     const logoutBtn = document.createElement("button");
-    logoutBtn.textContent = "🚪 Log Out";
-    logoutBtn.style = "color: white; background-color: #ff6961; padding: 0.5rem 1rem; border: none; border-radius: 0.5rem; cursor: pointer;";
-    logoutBtn.onclick = () => logoutUser();
-    rightSide.appendChild(logoutBtn);
+    logoutBtn.textContent = "🚪 Logout";
+    logoutBtn.className = "dropdown-item";
+    logoutBtn.onclick = () => firebase.auth().signOut();
+    dropdownMenu.appendChild(logoutBtn);
+
+    // Append to wrapper
+    dropdownWrapper.appendChild(userLabel);
+    dropdownWrapper.appendChild(dropdownMenu);
+    userInfo.appendChild(dropdownWrapper);
+  } else {
+    // Show login/signup
+    if (loginBtn) loginBtn.style.display = "inline-block";
+    if (signupBtn) signupBtn.style.display = "inline-block";
+
+    userInfo.innerHTML = `
+      <a href="#login" style="color: white;">Log in</a> or 
+      <a href="#signup" style="color: white;">Create an account</a>
+    `;
   }
 }
+
 
 
 // ✅ Ensure Firebase is initialized first
