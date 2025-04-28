@@ -35,35 +35,41 @@ headerContainer.appendChild(rightSide);
 document.body.insertBefore(headerContainer, document.body.firstChild);
 
 function updateHeader(user) {
-  userInfo.innerHTML = user
-    ? `👋 Wellcome, <strong>${user.displayName || user.email}</strong>`
-    : "🎮 Welcome to Smiley-Zone Arcade!";
+  const loginBtn = document.getElementById("loginBtn");
+  const signupBtn = document.getElementById("signupBtn");
 
+  // 🎮 Show user greeting or guest prompt
+  userInfo.innerHTML = user
+    ? `🎮 <strong>${user.displayName || user.email}</strong>`
+    : `🎮 <a href="#login" style="color: white;">Log in</a> or <a href="#signup" style="color: white;">create an account</a>`;
+
+  // 👤 Show/hide login and signup buttons
+  if (user) {
+    if (loginBtn) loginBtn.style.display = "none";
+    if (signupBtn) signupBtn.style.display = "none";
+  } else {
+    if (loginBtn) loginBtn.style.display = "inline-block";
+    if (signupBtn) signupBtn.style.display = "inline-block";
+  }
+
+  // 🎯 Clear right-side container and rebuild (e.g., tokens, logout button)
   rightSide.innerHTML = "";
 
   if (user) {
     const tokenDisplay = document.createElement("span");
     tokenDisplay.id = "header-token-balance";
     tokenDisplay.style.marginRight = "1rem";
-    tokenDisplay.textContent = `💰 Tokens: ...`;
+    tokenDisplay.textContent = "💰 Tokens: ...";
+    rightSide.appendChild(tokenDisplay);
 
     const logoutBtn = document.createElement("button");
     logoutBtn.textContent = "🚪 Log Out";
+    logoutBtn.style = "color: white; background-color: #ff6961; padding: 0.5rem 1rem; border: none; border-radius: 0.5rem; cursor: pointer;";
     logoutBtn.onclick = () => logoutUser();
-    logoutBtn.style.cssText =
-      "background-color: #ffd966; border: none; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer; font-weight: bold;";
-
-    rightSide.appendChild(tokenDisplay);
     rightSide.appendChild(logoutBtn);
-  } else {
-    const loginBtn = document.createElement("a");
-    loginBtn.href = "#login";
-    loginBtn.textContent = "🔐 Log In";
-    loginBtn.style.cssText =
-      "color: white; background-color: #ffd966; padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; font-weight: bold;";
-    rightSide.appendChild(loginBtn);
   }
 }
+
 
 // ✅ Ensure Firebase is initialized first
 if (typeof firebase !== "undefined" && firebase.auth) {

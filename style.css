@@ -107,24 +107,25 @@ html, body {
 /* Home Page Styling */
 #homeBanner {
   width: 100vw;
-  height: 103px;
-  background-color: #1E90FF;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 0 1rem;
-  box-sizing: border-box;
+  align-items: center;
   overflow: hidden;
+  box-sizing: border-box;
   position: relative;
   z-index: 10;
 }
 
 #homeBanner img {
-  max-height: 100%;
+  width: 100%;
   height: auto;
-  width: auto;
-  object-fit: contain;
+  display: block;
+  object-fit: cover; /* full width without stretching */
 }
+
 
 .home-background {
   position: fixed;
@@ -232,6 +233,25 @@ html, body {
   margin: 0 auto;
   box-sizing: border-box;
   padding: 1rem;
+}
+
+.main-nav {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  background-color: #222;
+  padding: 0.75rem 0;
+  border-top: 3px solid #ffd966;
+}
+
+.main-nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.main-nav a:hover {
+  text-decoration: underline;
 }
 
 
