@@ -126,6 +126,25 @@ html, body {
   object-fit: cover; /* full width without stretching */
 }
 
+#homeBanner .banner-overlay-buttons {
+  position: absolute;
+  top: 10%;
+  right: 5%;
+  z-index: 2;
+  display: flex;
+  gap: 1rem;
+}
+
+#homeBanner .banner-overlay-buttons button {
+  padding: 0.5rem 1rem;
+  background-color: #fff;
+  border: none;
+  border-radius: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
 
 .home-background {
   position: fixed;
