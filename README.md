@@ -1,2 +1,2 @@
 # smiley-zone
-history facts when you click on the smiley faces
+R&D sandbox for testing new features and applications
