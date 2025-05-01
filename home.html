@@ -1,19 +1,22 @@
 <div class="home-background"></div>
-<!-- home.html -->
 
-<!-- Auth controls -->
-<div class="auth-header">
-  <a href="#login" id="loginBtn" class="auth-btn">Log In</a>
-  <a href="#signup" id="signupBtn" class="auth-btn">Sign Up</a>
+<!-- Banner Container -->
+<div id="homeBanner">
+  <img src="assets/banner.jpg" alt="Smiley-Zone Arcade Banner" class="banner-img" />
+
+  <!-- Auth buttons layered over banner -->
+  <div class="banner-overlay-buttons">
+    <a href="#login" id="loginBtn" class="auth-btn">Log In</a>
+    <a href="#signup" id="signupBtn" class="auth-btn">Sign Up</a>
+  </div>
 </div>
 
 <!-- Navigation Bar Placeholder -->
 <div id="mainNav"></div>
 <script src="scripts/utils/loadNav.js"></script>
+
 <!-- Home Content -->
 <div class="home-header">
-
-
   <div class="grid">
     <a href="#user" class="nav-button">User Profile & Leaderboard</a>
     <a href="#snake" class="nav-button">Snake</a>
@@ -33,4 +36,9 @@
     <a href="#maze" class="nav-button">Arcade Maze</a>
     <a href="#tictactoe" class="nav-button">Tic-Tac-Toe</a>
   </div>
+</div>
+
+<!-- Bottom login sentence -->
+<div class="login-footer">
+  <a href="#login">Log in</a> or <a href="#signup">Create an account</a>
 </div>

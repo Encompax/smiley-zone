@@ -273,6 +273,31 @@ html, body {
   text-decoration: underline;
 }
 
+/* Footer Login Sentence Styling (Theme-Matched) */
+.login-footer {
+  text-align: center;
+  font-size: 0.85rem;
+  color: white;
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+  text-shadow:
+    -0.5px -0.5px 0 var(--text),
+     0.5px -0.5px 0 var(--text),
+    -0.5px  0.5px 0 var(--text),
+     0.5px  0.5px 0 var(--text);
+}
+
+.login-footer a {
+  color: var(--secondary);
+  text-decoration: underline;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.login-footer a:hover {
+  color: #fff;
+}
+
 
 /* Additional Component Styling */
 /* Include cards, chat, game-specific UI, inputs, footer, etc. as in original */
