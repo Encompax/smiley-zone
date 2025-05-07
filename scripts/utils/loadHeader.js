@@ -25,8 +25,10 @@ userInfo.style.fontSize = "1rem";
 const bannerImg = document.createElement("img");
 bannerImg.src = "images/smileyz-banner-horizontal.png"; // Make sure the path is correct
 bannerImg.alt = "Smiley-Zone Banner";
-bannerImg.style.maxWidth = "100%";
+bannerImg.style.width = "60%";  // Try 50-65% if needed
 bannerImg.style.height = "auto";
+bannerImg.style.objectFit = "contain";  // Optional for scaling without distortion
+
 bannerImg.style.margin = "1rem 0";
 
 headerContainer.appendChild(bannerImg);
