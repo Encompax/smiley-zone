@@ -2,7 +2,7 @@
 
 // 🔐 Your Firebase Project Config (replace with actual values)
 const firebaseConfig = {
-    apiKey: "AAIzaSyC2B6MaIwuzSNPbCIfvDu3cfGC6vtweeDs",
+    apiKey: "AIzaSyCUm6z_IrtZZ9GhjCkALIXUpMV0L-xpZYs",
     authDomain: "smiley-zone-arcade.firebaseapp.com",
     projectId: "smiley-zone-arcade",
     storageBucket: "smiley-zone-arcade.appspot.com",
