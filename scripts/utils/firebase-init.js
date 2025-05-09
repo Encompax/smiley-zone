@@ -151,3 +151,25 @@ window.removeGroupMember = async function (groupName, memberUID) {
     console.error("❌ Failed to remove member:", err);
   }
 };
+
+// ✍️ SAVE / UPDATE USER PROFILE DATA
+window.updateUserProfile = async function (name, bio) {
+  const user = auth.currentUser;
+  if (!user) {
+    alert("❌ You must be logged in to update your profile.");
+    return;
+  }
+
+  try {
+    await db.collection("users").doc(user.uid).set({
+      name,
+      bio
+    }, { merge: true });
+
+    alert("✅ Profile updated successfully!");
+  } catch (error) {
+    console.error("❌ Failed to update profile:", error);
+    alert("Error saving profile.");
+  }
+};
+

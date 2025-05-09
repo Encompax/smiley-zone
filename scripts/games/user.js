@@ -1,36 +1,37 @@
 (() => {
-  const leaderboard = JSON.parse(localStorage.getItem("leaderboard") || "[]");
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  let user = {};
+  let currentUserUID = null;
 
   function saveUser() {
     const name = document.getElementById("userName").value.trim();
     const bio = document.getElementById("userBio").value.trim();
-    if (name) {
-      user.name = name;
-      user.bio = bio;
-      localStorage.setItem("user", JSON.stringify(user));
-      alert("Profile saved!");
-      updateTokenDisplay();
-    }
+
+    if (!currentUserUID || !name) return alert("❌ Not logged in or name is missing.");
+
+    const updatedData = { name, bio };
+
+    db.collection("users").doc(currentUserUID).update(updatedData)
+      .then(() => {
+        user.name = name;
+        user.bio = bio;
+        alert("✅ Profile saved!");
+        updateTokenDisplay();
+      })
+      .catch((error) => {
+        console.error("❌ Error saving profile:", error);
+        alert("Failed to save profile.");
+      });
   }
 
   function renderLeaderboard() {
     const table = document.getElementById("leaderboardTable");
     if (!table) return;
     table.innerHTML = "";
-    leaderboard
-      .sort((a, b) => b.score - a.score)
-      .forEach((entry, index) => {
-        const row = `<tr><td>${index + 1}</td><td>${entry.name}</td><td>${entry.score}</td></tr>`;
-        table.innerHTML += row;
-      });
-  }
-  
-  
-  function addScoreToLeaderboard(name, score) {
-    leaderboard.push({ name, score });
-    localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
-    renderLeaderboard();
+
+    // TODO: Migrate leaderboard to Firestore if needed
   }
 
   function updateTokenDisplay() {
@@ -39,42 +40,49 @@
   }
 
   function earnTokens(amount) {
+    if (!currentUserUID) return;
+
     user.tokens = (user.tokens || 0) + amount;
-    localStorage.setItem("user", JSON.stringify(user));
-    updateTokenDisplay();
+
+    db.collection("users").doc(currentUserUID).update({ tokens: user.tokens })
+      .then(updateTokenDisplay)
+      .catch(err => console.error("❌ Failed to update tokens:", err));
   }
 
   function spendTokens(amount) {
-    if ((user.tokens || 0) >= amount) {
-      user.tokens -= amount;
-      localStorage.setItem("user", JSON.stringify(user));
-      updateTokenDisplay();
-      alert(`You spent ${amount} tokens.`);
-    } else {
-      alert("Not enough tokens.");
+    if ((user.tokens || 0) < amount) return alert("Not enough tokens.");
+    user.tokens -= amount;
+
+    db.collection("users").doc(currentUserUID).update({ tokens: user.tokens })
+      .then(() => {
+        updateTokenDisplay();
+        alert(`You spent ${amount} tokens.`);
+      })
+      .catch(err => console.error("❌ Token spend failed:", err));
+  }
+
+  async function loadUserData() {
+    const currentUser = auth.currentUser;
+    if (!currentUser) return;
+
+    currentUserUID = currentUser.uid;
+
+    try {
+      const doc = await db.collection("users").doc(currentUserUID).get();
+      if (doc.exists) {
+        user = doc.data();
+      }
+    } catch (err) {
+      console.error("❌ Failed to load user data:", err);
     }
   }
 
-  // ✅ Globally exposed arcade user API
-  window.arcadeUser = {
-    saveUser,
-    earnTokens,
-    spendTokens,
-    addScoreToLeaderboard,
-    createGroup: function () {
-      alert("Group creation not implemented yet.");
-    },
-    get name() {
-      return user.name || "";
-    },
-    get tokens() {
-      return user.tokens || 0;
-    }
-  };
-
   // ✅ SPA router-compatible page loader
-  window.initUser = function () {
+  window.initUser = async function () {
     console.log("✅ initUser() called");
+
+    await loadUserData();
+
     if (user.name) document.getElementById("userName").value = user.name;
     if (user.bio) document.getElementById("userBio").value = user.bio;
     renderLeaderboard();
@@ -89,12 +97,22 @@
     if (spendBtn) spendBtn.onclick = () => spendTokens(20);
   };
 
-  // Optional fallback: allow static load without router
   document.addEventListener("DOMContentLoaded", () => {
     if (document.getElementById("userName")) {
       window.initUser();
     }
   });
+
+  // ✅ Globally exposed arcade user API
+  window.arcadeUser = {
+    saveUser,
+    earnTokens,
+    spendTokens,
+    get name() {
+      return user.name || "";
+    },
+    get tokens() {
+      return user.tokens || 0;
+    }
+  };
 })();
-
-
