@@ -123,7 +123,9 @@ window.initSnake = function () {
     if (gameLoop) clearInterval(gameLoop);
 
     gameLoop = setInterval(() => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#000"; // Black game board
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
       food.draw();
       snake.update();
       snake.draw();
