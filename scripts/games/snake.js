@@ -1,6 +1,3 @@
-const db = firebase.firestore();
-const auth = firebase.auth();
-
 
 window.initSnake = function () {
   const canvas = document.getElementById("gameCanvas");
