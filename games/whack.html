@@ -4,33 +4,36 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Whack-a-Mole</title>
-  <!-- Stylesheet is loaded globally via index.html -->
   <link rel="stylesheet" href="../style.css" />
-  <a href="#home" title="Return to Home">
-    <img src="images/sza-logo.png" alt="Smiley Zone Logo" style="height: 60px; margin: 1rem 0;" />
-  </a>
   <style>
+    .whack-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
     .whack-hole {
       width: 100px;
       height: 100px;
-      background-color: #d7ccc8;
-      border: 2px solid #5d4037;
+      background-color: #333;
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.2s;
-      position: relative;
+      box-shadow: inset 0 0 10px #000;
+      cursor: pointer;
+      transition: transform 0.1s ease;
     }
 
-    .whack-hole img {
-      width: 60px;
-      height: 60px;
-      display: none;
+    .whack-hole.active {
+      background-color: #f44336;
     }
 
-    .whack-hole.active img {
-      display: block;
+    #whackScore {
+      text-align: center;
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-top: 1rem;
+      color: #fff;
     }
   </style>
 </head>
@@ -38,7 +41,16 @@
 <body>
   <script src="scripts/utils/loadHeader.js"></script>
 
-  <!-- your game content and scripts here -->
-  <script src="scripts/utils/loadHeader.js"></script>
+  <div class="game-wrapper" style="text-align: center;">
+    <a href="#home" title="Return to Home">
+      <img src="images/sza-logo.png" alt="Smiley Zone Logo" style="height: 60px; margin: 1rem 0;" />
+    </a>
+
+    <h1>🎯 Whack-a-Mole</h1>
+    <div id="whackGrid" class="whack-grid"></div>
+    <div id="whackScore">Score: 0</div>
+  </div>
+
+  <script src="scripts/games/whack.js"></script>
 </body>
 </html>
