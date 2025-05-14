@@ -173,10 +173,13 @@ async function saveScoreToFirebase(score) {
   // Event listeners
   startBtn.onclick = startGame;
 
-  window.addEventListener("keydown", e => {
-    const direction = e.key.replace("Arrow", "");
-    snake?.changeDirection(direction);
-  });
+ window.addEventListener("keydown", e => {
+  if (!e.key?.startsWith("Arrow")) return; // Guard clause
+
+  const direction = e.key.replace("Arrow", "");
+  snake?.changeDirection(direction);
+});
+
 
   // Disable arrow key scrolling during Snake gameplay
   window.addEventListener("keydown", function (e) {
