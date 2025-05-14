@@ -13,7 +13,6 @@ headerContainer.style.cssText = `
   font-family: 'Baloo 2', cursive;
 `;
 
-
 const rightSide = document.createElement("div");
 rightSide.style.display = "flex";
 rightSide.style.alignItems = "center";
@@ -22,16 +21,22 @@ rightSide.style.gap = "1rem";
 const userInfo = document.createElement("div");
 userInfo.style.fontSize = "1rem";
 
+// 🔁 SPA-compatible home link
+const bannerLink = document.createElement("a");
+bannerLink.href = "#home"; // Hash-based routing
+
 const bannerImg = document.createElement("img");
-bannerImg.src = "images/smileyz-banner-horizontal.png"; // Make sure the path is correct
+bannerImg.src = "images/smileyz-banner-horizontal.png";
 bannerImg.alt = "Smiley-Zone Banner";
-bannerImg.style.width = "60%";  // Try 50-65% if needed
+bannerImg.style.width = "60%";
 bannerImg.style.height = "auto";
-bannerImg.style.objectFit = "contain";  // Optional for scaling without distortion
-
+bannerImg.style.objectFit = "contain";
 bannerImg.style.margin = "1rem 0";
+bannerImg.style.cursor = "pointer"; // UX cue for interactivity
 
-headerContainer.appendChild(bannerImg);
+bannerLink.appendChild(bannerImg);
+headerContainer.appendChild(bannerLink);
+
 headerContainer.appendChild(userInfo);
 headerContainer.appendChild(rightSide);
 document.body.insertBefore(headerContainer, document.body.firstChild);
@@ -41,53 +46,42 @@ function updateHeader(user) {
   const signupBtn = document.getElementById("signupBtn");
 
   userInfo.innerHTML = "";
-
-  // Clear right-side container (e.g., logout, token display)
   rightSide.innerHTML = "";
 
   if (user) {
-    // Hide login/signup buttons
     if (loginBtn) loginBtn.style.display = "none";
     if (signupBtn) signupBtn.style.display = "none";
 
-    // Create dropdown container
     const dropdownWrapper = document.createElement("div");
     dropdownWrapper.className = "user-dropdown";
 
-    // Create label (username or email)
     const userLabel = document.createElement("button");
     userLabel.className = "dropdown-toggle";
     userLabel.textContent = user.displayName || user.email;
 
-    // Toggle dropdown visibility
-    userLabel.onclick = () => {
-      dropdownMenu.classList.toggle("show");
-    };
-
-    // Create dropdown menu
     const dropdownMenu = document.createElement("div");
     dropdownMenu.className = "dropdown-menu";
 
-    // Token Display (optional)
     const tokenDisplay = document.createElement("div");
     tokenDisplay.id = "header-token-balance";
-    tokenDisplay.textContent = "🎟 Tokens: 0"; // Will be dynamically updated
+    tokenDisplay.textContent = "🎟 Tokens: 0";
     tokenDisplay.className = "dropdown-item";
     dropdownMenu.appendChild(tokenDisplay);
 
-    // Logout Button
     const logoutBtn = document.createElement("button");
     logoutBtn.textContent = "🚪 Logout";
     logoutBtn.className = "dropdown-item";
     logoutBtn.onclick = () => firebase.auth().signOut();
     dropdownMenu.appendChild(logoutBtn);
 
-    // Append to wrapper
+    userLabel.onclick = () => {
+      dropdownMenu.classList.toggle("show");
+    };
+
     dropdownWrapper.appendChild(userLabel);
     dropdownWrapper.appendChild(dropdownMenu);
     userInfo.appendChild(dropdownWrapper);
   } else {
-    // Show login/signup
     if (loginBtn) loginBtn.style.display = "inline-block";
     if (signupBtn) signupBtn.style.display = "inline-block";
 
@@ -98,9 +92,7 @@ function updateHeader(user) {
   }
 }
 
-
-
-// ✅ Ensure Firebase is initialized first
+// 🧠 Auth + Firestore
 if (typeof firebase !== "undefined" && firebase.auth) {
   firebase.auth().onAuthStateChanged(async (user) => {
     updateHeader(user);

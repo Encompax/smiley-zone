@@ -11,6 +11,8 @@
     login: "login.html"    // ✅ added
   };
 
+  let currentPage = ""; // ✅ Track the current page
+
   function tryInitGame(page) {
     const initFunctionName = `init${page.charAt(0).toUpperCase() + page.slice(1)}`;
     const initFunction = window[initFunctionName];
@@ -38,12 +40,19 @@
 
   function loadGame() {
     const page = window.location.hash.substring(1) || "home";
+
+    // ✅ Skip reload if already on this page
+    if (page === currentPage) {
+      console.log(`⏭️ Skipping reload of same page: #${page}`);
+      return;
+    }
+
+    currentPage = page;
     const htmlPath = routeOverrides[page] || `games/${page}.html`;
 
     fetch(htmlPath)
       .then(response => response.text())
       .then(html => {
-        // 🔄 Dual container logic (new and legacy)
         const container = document.getElementById("spa-view") || document.getElementById("gameContainer");
         if (!container) {
           console.error("❌ No valid container (#spa-view or #gameContainer) found in DOM.");
