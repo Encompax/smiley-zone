@@ -121,17 +121,18 @@ async function saveScoreToFirebase(score) {
   }
 
   try {
-    await addDoc(collection(db, "scores"), {
+    await db.collection("scores").add({
       uid: user.uid,
       name: user.displayName || "Anonymous",
       score: score,
-      timestamp: serverTimestamp(),
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
     });
     console.log("🏆 Score saved to Firestore:", score);
   } catch (error) {
     console.error("❌ Failed to save score:", error);
   }
 }
+
 
   function startGame() {
     snake = new Snake();
