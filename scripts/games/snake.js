@@ -1,3 +1,7 @@
+const db = firebase.firestore();
+const auth = firebase.auth();
+
+
 window.initSnake = function () {
   const canvas = document.getElementById("gameCanvas");
   const startBtn = document.getElementById("startBtn");
@@ -112,6 +116,25 @@ window.initSnake = function () {
       scoreDisplay.textContent = "Score: " + score;
     }
   }
+async function saveScoreToFirebase(score) {
+  const user = auth.currentUser;
+  if (!user) {
+    console.warn("User not authenticated. Score not saved.");
+    return;
+  }
+
+  try {
+    await addDoc(collection(db, "scores"), {
+      uid: user.uid,
+      name: user.displayName || "Anonymous",
+      score: score,
+      timestamp: serverTimestamp(),
+    });
+    console.log("🏆 Score saved to Firestore:", score);
+  } catch (error) {
+    console.error("❌ Failed to save score:", error);
+  }
+}
 
   function startGame() {
     snake = new Snake();
@@ -138,7 +161,10 @@ window.initSnake = function () {
 
       if (snake.checkCollision()) {
         clearInterval(gameLoop);
-        alert("Game Over");
+        saveScoreToFirebase(score).then(() => {
+  alert("Game Over");
+});
+
         // Future: saveScoreToFirebase(score);
       }
     }, 200);
