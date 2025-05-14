@@ -1,8 +1,18 @@
 // userProfile.js
-import { getDatabase, ref, get, set, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import {
+  getDatabase,
+  ref,
+  get,
+  set,
+  update,
+  query,
+  orderByChild,
+  limitToFirst
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
 const db = getDatabase();
 const userId = localStorage.getItem("szaUserId") || generateUserId();
+
 function generateUserId() {
   const id = "guest_" + Math.random().toString(36).substring(2, 10);
   localStorage.setItem("szaUserId", id);
@@ -13,6 +23,7 @@ const userNameInput = document.getElementById("userName");
 const userBioInput = document.getElementById("userBio");
 const tokenSpan = document.getElementById("tokenBalance");
 const groupList = document.getElementById("userGroupList");
+const leaderboardTable = document.getElementById("leaderboardTable");
 
 export const arcadeUser = {
   async loadProfile() {
@@ -27,6 +38,8 @@ export const arcadeUser = {
     } else {
       tokenSpan.textContent = 0;
     }
+
+    arcadeUser.renderLeaderboard(); // ✅ Load leaderboard after profile
   },
 
   saveUser() {
@@ -98,8 +111,41 @@ export const arcadeUser = {
     await update(ref(db, `users/${userId}/profile`), {
       groups: { [cleanName]: true },
     });
-    alert(`✅ Group \"${groupName}\" created.`);
+
+    alert(`✅ Group "${groupName}" created.`);
     arcadeUser.loadProfile();
+  },
+
+  async renderLeaderboard() {
+    if (!leaderboardTable) return;
+
+    leaderboardTable.innerHTML = "<tr><th>Rank</th><th>Name</th><th>Score</th></tr>";
+
+    const scoreQuery = query(ref(db, "scores"), orderByChild("score"), limitToFirst(10));
+    try {
+      const snapshot = await get(scoreQuery);
+      const scores = [];
+
+      snapshot.forEach((childSnap) => {
+        scores.push({ ...childSnap.val(), key: childSnap.key });
+      });
+
+      // Sort descending (since Realtime Database has no `orderByChild(desc)`)
+      scores.sort((a, b) => b.score - a.score);
+
+      scores.forEach((entry, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${entry.name || "Anonymous"}</td>
+          <td>${entry.score}</td>
+        `;
+        leaderboardTable.appendChild(row);
+      });
+    } catch (err) {
+      console.error("❌ Failed to render leaderboard:", err);
+      leaderboardTable.innerHTML += "<tr><td colspan='3'>Failed to load.</td></tr>";
+    }
   }
 };
 

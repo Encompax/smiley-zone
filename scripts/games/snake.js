@@ -125,13 +125,15 @@ async function saveScoreToFirebase(score) {
       uid: user.uid,
       name: user.displayName || "Anonymous",
       score: score,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      game: "snake" // ✅ Added game tag
     });
     console.log("🏆 Score saved to Firestore:", score);
   } catch (error) {
     console.error("❌ Failed to save score:", error);
   }
 }
+
 
 
   function startGame() {
