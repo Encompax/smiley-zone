@@ -26,14 +26,6 @@
       });
   }
 
-  function renderLeaderboard() {
-    const table = document.getElementById("leaderboardTable");
-    if (!table) return;
-    table.innerHTML = "";
-
-    // TODO: Migrate leaderboard to Firestore if needed
-  }
-
   function updateTokenDisplay() {
     const tokenEl = document.getElementById("tokenBalance");
     if (tokenEl) tokenEl.textContent = user.tokens || 0;
@@ -77,31 +69,34 @@
     }
   }
 
-  async function loadUserScores(uid) {
-    const scoresRef = db.collection("scores");
-    const snapshot = await scoresRef
-      .where("uid", "==", uid)
-      .where("game", "==", "snake")
-      .orderBy("score", "desc")
-      .limit(5)
-      .get();
+  async function renderUserHighScores() {
+    if (!currentUserUID) return;
 
-    const scoreList = document.getElementById("userScores");
-    if (!scoreList) return;
+    try {
+      const snapshot = await db.collection("scores")
+        .where("uid", "==", currentUserUID)
+        .where("game", "==", "snake")
+        .orderBy("score", "desc")
+        .limit(5)
+        .get();
 
-    scoreList.innerHTML = "";
+      const scoresList = document.getElementById("userHighScores");
+      scoresList.innerHTML = "";
 
-    if (snapshot.empty) {
-      scoreList.innerHTML = "<li>No scores yet.</li>";
-      return;
+      if (snapshot.empty) {
+        scoresList.innerHTML = "<li>No scores yet.</li>";
+        return;
+      }
+
+      snapshot.forEach(doc => {
+        const entry = doc.data();
+        const li = document.createElement("li");
+        li.textContent = `🟢 ${entry.score} pts`;
+        scoresList.appendChild(li);
+      });
+    } catch (err) {
+      console.error("❌ Failed to render user high scores:", err);
     }
-
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      const li = document.createElement("li");
-      li.textContent = `Score: ${data.score}, Date: ${new Date(data.timestamp?.toDate()).toLocaleString()}`;
-      scoreList.appendChild(li);
-    });
   }
 
   // ✅ SPA router-compatible page loader
@@ -112,8 +107,9 @@
 
     if (user.name) document.getElementById("userName").value = user.name;
     if (user.bio) document.getElementById("userBio").value = user.bio;
-    renderLeaderboard();
+
     updateTokenDisplay();
+    renderUserHighScores(); // ✅ Inject the new score list
 
     const saveBtn = document.getElementById("saveUserBtn");
     const earnBtn = document.getElementById("earnTokensBtn");
@@ -122,9 +118,6 @@
     if (saveBtn) saveBtn.onclick = saveUser;
     if (earnBtn) earnBtn.onclick = () => earnTokens(10);
     if (spendBtn) spendBtn.onclick = () => spendTokens(20);
-
-    // 👇 Load personal scores
-    await loadUserScores(currentUserUID);
   };
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -133,7 +126,6 @@
     }
   });
 
-  // ✅ Globally exposed arcade user API
   window.arcadeUser = {
     saveUser,
     earnTokens,
@@ -146,4 +138,3 @@
     }
   };
 })();
-
