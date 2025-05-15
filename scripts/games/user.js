@@ -77,6 +77,33 @@
     }
   }
 
+  async function loadUserScores(uid) {
+    const scoresRef = db.collection("scores");
+    const snapshot = await scoresRef
+      .where("uid", "==", uid)
+      .where("game", "==", "snake")
+      .orderBy("score", "desc")
+      .limit(5)
+      .get();
+
+    const scoreList = document.getElementById("userScores");
+    if (!scoreList) return;
+
+    scoreList.innerHTML = "";
+
+    if (snapshot.empty) {
+      scoreList.innerHTML = "<li>No scores yet.</li>";
+      return;
+    }
+
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      const li = document.createElement("li");
+      li.textContent = `Score: ${data.score}, Date: ${new Date(data.timestamp?.toDate()).toLocaleString()}`;
+      scoreList.appendChild(li);
+    });
+  }
+
   // ✅ SPA router-compatible page loader
   window.initUser = async function () {
     console.log("✅ initUser() called");
@@ -95,6 +122,9 @@
     if (saveBtn) saveBtn.onclick = saveUser;
     if (earnBtn) earnBtn.onclick = () => earnTokens(10);
     if (spendBtn) spendBtn.onclick = () => spendTokens(20);
+
+    // 👇 Load personal scores
+    await loadUserScores(currentUserUID);
   };
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -116,3 +146,4 @@
     }
   };
 })();
+
