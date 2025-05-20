@@ -52,6 +52,17 @@
     return true;
   }
 
+  function loadUserScript() {
+    const script = document.createElement("script");
+    script.src = "scripts/tools/userProfile.js";
+    script.id = "dynamicScript";
+    script.defer = true;
+    script.onload = () => {
+      if (typeof initUser === "function") initUser();
+    };
+    document.body.appendChild(script);
+  }
+
   async function loadGame() {
     const page = window.location.hash.substring(1) || "home";
 
@@ -83,7 +94,7 @@
         const oldScript = document.getElementById("dynamicScript");
         if (oldScript) oldScript.remove();
 
-        // ♟ Load chess dependencies if needed
+        // ♟ Special case: Load chess dependencies
         if (page === "chess") {
           const chessJS = document.createElement("script");
           chessJS.src = "https://cdnjs.cloudflare.com/ajax/libs/chess.js/1.0.0-beta.1/chess.min.js";
@@ -101,7 +112,7 @@
           document.head.appendChild(chessCSS);
         }
 
-        // 🧠 Load corresponding JS logic
+        // 🔁 Inject corresponding game script (if not overridden)
         if (!routeOverrides[page] && page !== "home") {
           const script = document.createElement("script");
           script.src = `scripts/games/${page}.js`;
@@ -112,6 +123,9 @@
             normalizeStartButtons();
           };
           document.body.appendChild(script);
+        } else if (page === "user") {
+          // 🧠 Force reload of user script to re-trigger initUser
+          loadUserScript();
         } else {
           normalizeStartButtons();
         }
@@ -157,3 +171,4 @@
     loadGame();
   });
 })();
+
