@@ -6,8 +6,10 @@
   let currentUserUID = null;
 
   function saveUser() {
-    const name = document.getElementById("userName").value.trim();
-    const bio = document.getElementById("userBio").value.trim();
+    const nameEl = document.getElementById("userName");
+    const bioEl = document.getElementById("userBio");
+    const name = nameEl?.value.trim() || "";
+    const bio = bioEl?.value.trim() || "";
 
     if (!currentUserUID || !name) return alert("❌ Not logged in or name is missing.");
 
@@ -18,7 +20,7 @@
         user.name = name;
         user.bio = bio;
         alert("✅ Profile saved!");
-        updateTokenDisplay();
+        updateUserDisplay(); // update all visible sections
       })
       .catch((error) => {
         console.error("❌ Error saving profile:", error);
@@ -26,9 +28,45 @@
       });
   }
 
+  function updateUserDisplay() {
+    const tokenBalance = user.tokens || 0;
+
+    const nameDisplay = document.getElementById("userNameDisplay");
+    if (nameDisplay) nameDisplay.textContent = user.name || "...";
+
+    const emailDisplay = document.getElementById("userEmailDisplay");
+    if (emailDisplay) emailDisplay.textContent = user.email || "...";
+
+    const nameInput = document.getElementById("userName");
+    if (nameInput) nameInput.value = user.name || "";
+
+    const bioInput = document.getElementById("userBio");
+    if (bioInput) bioInput.value = user.bio || "";
+
+    const tokenEls = [
+      document.getElementById("tokenBalance"),
+      document.getElementById("tokenBalanceDisplay")
+    ];
+    tokenEls.forEach(el => {
+      if (el) el.textContent = tokenBalance;
+    });
+
+    const loginBtn = document.querySelector("a[href='#login']");
+    const signupBtn = document.querySelector("a[href='#signup']");
+    if (loginBtn) loginBtn.textContent = user.name || "My Profile";
+    if (signupBtn) signupBtn.style.display = "none";
+  }
+
   function updateTokenDisplay() {
-    const tokenEl = document.getElementById("tokenBalance");
-    if (tokenEl) tokenEl.textContent = user.tokens || 0;
+    user.tokens = user.tokens || 0;
+
+    const tokenEls = [
+      document.getElementById("tokenBalance"),
+      document.getElementById("tokenBalanceDisplay")
+    ];
+    tokenEls.forEach(el => {
+      if (el) el.textContent = user.tokens;
+    });
   }
 
   function earnTokens(amount) {
@@ -81,6 +119,8 @@
         .get();
 
       const scoresList = document.getElementById("userHighScores");
+      if (!scoresList) return;
+
       scoresList.innerHTML = "";
 
       if (snapshot.empty) {
@@ -99,17 +139,13 @@
     }
   }
 
-  // ✅ SPA router-compatible page loader
+  // ✅ SPA-compatible user initialization
   window.initUser = async function () {
     console.log("✅ initUser() called");
 
     await loadUserData();
-
-    if (user.name) document.getElementById("userName").value = user.name;
-    if (user.bio) document.getElementById("userBio").value = user.bio;
-
-    updateTokenDisplay();
-    renderUserHighScores(); // ✅ Inject the new score list
+    updateUserDisplay();
+    renderUserHighScores();
 
     const saveBtn = document.getElementById("saveUserBtn");
     const earnBtn = document.getElementById("earnTokensBtn");
@@ -135,6 +171,7 @@
     },
     get tokens() {
       return user.tokens || 0;
-    }
+    },
+    createGroup: () => alert("⚙️ Group creation coming soon.") // stub for group creation
   };
 })();

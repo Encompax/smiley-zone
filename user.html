@@ -92,31 +92,6 @@
   <script src="scripts/utils/loadHeader.js"></script>
   <script type="module" src="scripts/tools/userProfile.js"></script>
 <script src="scripts/tools/renderLeaderboard.js"></script>
-<script>
-  window.initUser = async function () {
-    if (!currentUserUID) return;
-    try {
-      const userDoc = await db.collection("users").doc(currentUserUID).get();
-      if (userDoc.exists) {
-        const data = userDoc.data();
-        document.getElementById("userNameDisplay").textContent = data.name || "...";
-        document.getElementById("userEmailDisplay").textContent = data.email || "...";
-        document.getElementById("tokenBalance").textContent = data.tokens || 0;
-        document.getElementById("tokenBalanceDisplay").textContent = data.tokens || 0;
-
-        const loginBtn = document.querySelector("a[href='#login']");
-        const signupBtn = document.querySelector("a[href='#signup']");
-        if (loginBtn) loginBtn.textContent = data.name || "My Profile";
-        if (signupBtn) signupBtn.style.display = "none";
-      }
-    } catch (err) {
-      console.error("❌ Failed to load user profile:", err);
-    }
-
-    // 🔄 Load leaderboard
-    renderLeaderboard();
-  };
-</script>
 
 </body>
 </html>
