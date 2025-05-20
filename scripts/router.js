@@ -7,11 +7,12 @@
     home: "home.html",
     admin: "admin.html",
     user: "user.html",
-    signup: "signup.html", // ✅ added
-    login: "login.html"    // ✅ added
+    signup: "signup.html",
+    login: "login.html"
   };
 
-  let currentPage = ""; // ✅ Track the current page
+  const protectedRoutes = ["user", "yellow", "blue", "green"];
+  let currentPage = "";
 
   function tryInitGame(page) {
     const initFunctionName = `init${page.charAt(0).toUpperCase() + page.slice(1)}`;
@@ -38,14 +39,31 @@
     });
   }
 
-  function loadGame() {
+  async function enforceAuthGuard(page) {
+    if (!protectedRoutes.includes(page)) return true;
+
+    const user = firebase.auth().currentUser;
+    if (!user) {
+      alert("🔒 Please log in or create an account to access this section.");
+      window.location.hash = "#login";
+      return false;
+    }
+
+    return true;
+  }
+
+  async function loadGame() {
     const page = window.location.hash.substring(1) || "home";
 
-    // ✅ Skip reload if already on this page
+    // ⏭️ Skip reload if already on this page
     if (page === currentPage) {
       console.log(`⏭️ Skipping reload of same page: #${page}`);
       return;
     }
+
+    // 🔐 Check auth requirement
+    const accessGranted = await enforceAuthGuard(page);
+    if (!accessGranted) return;
 
     currentPage = page;
     const htmlPath = routeOverrides[page] || `games/${page}.html`;
@@ -65,7 +83,7 @@
         const oldScript = document.getElementById("dynamicScript");
         if (oldScript) oldScript.remove();
 
-        // ♟ Special case for chess dependencies
+        // ♟ Load chess dependencies if needed
         if (page === "chess") {
           const chessJS = document.createElement("script");
           chessJS.src = "https://cdnjs.cloudflare.com/ajax/libs/chess.js/1.0.0-beta.1/chess.min.js";
@@ -83,7 +101,7 @@
           document.head.appendChild(chessCSS);
         }
 
-        // 🧠 Load corresponding JS logic for games
+        // 🧠 Load corresponding JS logic
         if (!routeOverrides[page] && page !== "home") {
           const script = document.createElement("script");
           script.src = `scripts/games/${page}.js`;
@@ -98,7 +116,6 @@
           normalizeStartButtons();
         }
 
-        // 💬 Toggle chat visibility if function exists
         if (typeof routeAwareChatToggle === "function") {
           routeAwareChatToggle();
         }
