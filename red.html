@@ -1,124 +1,34 @@
-<!-- red.html (SPA fragment: Documentation Tool + Firebase + Cloud Export Integration + Metadata Logging) -->
-<script src="scripts/utils/loadHeader.js"></script>
-
-<div class="red-view">
-  <p><a href="#home">🏠 Home</a></p>
-
-  <h2>document creation :)</h2>
-
-  <a href="#fact?color=red">
-    <svg width="100" height="100">
-      <circle cx="50" cy="50" r="45" fill="red" />
-      <circle cx="35" cy="35" r="5" fill="black" />
-      <circle cx="65" cy="35" r="5" fill="black" />
-      <path d="M 30 65 Q 50 80 70 65" stroke="black" stroke-width="5" fill="none" />
-    </svg>
-  </a>
-
-  <p>create documents and pdf files!</p>
-
-  <div class="red-docs">
-    <h2>📝 Create New Document</h2>
-    <input type="text" id="docTitle" placeholder="Document Title" />
-
-    <details open>
-      <summary style="font-weight: bold; font-size: 1.1rem; margin-bottom: 1rem;">✍️ Editor</summary>
-      <div id="editor" contenteditable="true" class="editor"></div>
-    </details>
-
-    <div class="export-controls">
-      <button id="saveDoc">💾 Save</button>
-      <button id="exportPdf">📄 Export PDF</button>
-      <button id="exportTxt">📝 Export TXT</button>
-      <button id="printDoc">🖨️ Print</button>
-      <button id="clearDoc">🧹 Clear</button>
-      <button id="loadDoc">📂 Load Existing</button>
-      <button id="sendToCloud">📤 Send to Cloud</button>
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Document</title>
+</head>
+<body>
+  <div style="max-width: 600px; margin: auto;">
+    <h2>📝 Create a New Document</h2>
+    <input id="docTitle" type="text" placeholder="Document Title" style="width: 100%; margin-bottom: 1rem;"><br>
+    <textarea id="docContent" placeholder="Write your document here..." rows="10" style="width: 100%;"></textarea><br><br>
+    <button id="saveDocBtn">💾 Save to Cloud</button>
   </div>
-</div>
 
-<style>
-  .red-view {
-    background-color: #fff0f0;
-    text-align: center;
-    padding: 2rem;
-  }
-
-  .red-view svg {
-    cursor: pointer;
-    transition: transform 0.3s ease;
-  }
-
-  .red-view svg:hover {
-    transform: scale(1.05);
-  }
-
-  .red-docs {
-    margin-top: 2rem;
-    text-align: left;
-    background: #fff;
-    border-radius: 1rem;
-    padding: 1rem;
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-
-  .red-docs input {
-    width: 100%;
-    padding: 0.5rem;
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 0.5rem;
-  }
-
-  .editor {
-    min-height: 300px;
-    border: 1px solid #ccc;
-    margin: 1rem 0;
-    padding: 1rem;
-    background: #fff;
-    border-radius: 0.5rem;
-    overflow-y: auto;
-  }
-
-  .export-controls {
-    margin-top: 1.5rem;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-  }
-
-  .export-controls button {
-    background-color: #c9302c;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 0.6rem 1.2rem;
-    font-weight: 600;
-    font-size: 0.95rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-    cursor: pointer;
-    transition: background 0.25s ease, transform 0.2s ease;
-  }
-
-  .export-controls button:hover {
-    background-color: #a02621;
-    transform: scale(1.04);
-  }
-
-  .export-controls button:active {
-    transform: scale(0.98);
-  }
-</style>
-
-<!-- Modules -->
-<script type="module" src="scripts/utils/firebase-init.js"></script>
-<script type="module" src="scripts/tools/docEditor.js"></script>
-<script type="module" src="scripts/tools/docExporter.js"></script>
-<script type="module" src="scripts/tools/docListView.js"></script>
-<script type="module" src="scripts/tools/cloudExport.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script>
+    // Initialize Firebase here if not already done globally
+    const firebaseConfig = {
+      apiKey: "AlzaSyC2B6MalwuzSNPbClfvDu3cfGC6vtweeDs",
+    authDomain: "smiley-zone-arcade.firebaseapp.com",
+    databaseURL: "https://smiley-zone-arcade-default-rtdb.firebaseio.com",
+    projectId: "smiley-zone-arcade",
+    storageBucket: "smiley-zone-arcade.appspot.com",
+    messagingSenderId: "638687747467",
+    appId: "1:638687747467:web:b2c96791c7dba0448a38e"
+    };
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+  </script>
+  <script src="scripts/tools/docEditor.js"></script>
+</body>
+</html>

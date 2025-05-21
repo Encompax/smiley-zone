@@ -1,5 +1,5 @@
 (() => {
-  const db = firebase.database(); // Assumes Firebase is globally initialized
+  const db = firebase.database();
   const userId = localStorage.getItem("szaUserId") || generateUserId();
 
   function generateUserId() {
@@ -13,6 +13,7 @@
   const tokenSpan = () => document.getElementById("tokenBalance");
   const groupList = () => document.getElementById("userGroupList");
   const leaderboardTable = () => document.getElementById("leaderboardTable");
+  const documentList = () => document.getElementById("userDocuments");
 
   const arcadeUser = {
     async loadProfile() {
@@ -28,7 +29,9 @@
         } else {
           if (tokenSpan()) tokenSpan().textContent = 0;
         }
+
         arcadeUser.renderLeaderboard();
+        arcadeUser.loadUserDocuments();
       } catch (err) {
         console.error("❌ Failed to load profile:", err);
       }
@@ -130,7 +133,7 @@
           scores.push({ ...childSnap.val(), key: childSnap.key });
         });
 
-        scores.sort((a, b) => b.score - a.score); // descending
+        scores.sort((a, b) => b.score - a.score);
 
         scores.forEach((entry, index) => {
           const row = document.createElement("tr");
@@ -145,16 +148,41 @@
         console.error("❌ Failed to render leaderboard:", err);
         table.innerHTML += "<tr><td colspan='3'>Failed to load.</td></tr>";
       }
+    },
+
+    async loadUserDocuments() {
+      const list = documentList();
+      if (!list) return;
+
+      list.innerHTML = "<li>Loading...</li>";
+
+      try {
+        const snapshot = await db.ref(`users/${userId}/documents`).get();
+        if (!snapshot.exists()) {
+          list.innerHTML = "<li>No documents saved.</li>";
+          return;
+        }
+
+        list.innerHTML = "";
+        snapshot.forEach(docSnap => {
+          const doc = docSnap.val();
+          const li = document.createElement("li");
+          li.textContent = `📄 ${doc.title || "Untitled"}`;
+          list.appendChild(li);
+        });
+      } catch (err) {
+        console.error("❌ Error loading documents:", err);
+        list.innerHTML = "<li>Error loading documents.</li>";
+      }
     }
   };
 
-  // Expose globally for event handlers
   window.arcadeUser = arcadeUser;
 
-  // Auto-load profile on DOM ready
   document.addEventListener("DOMContentLoaded", () => {
     if (document.getElementById("userName")) {
       arcadeUser.loadProfile();
     }
   });
 })();
+
